@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="ja" data-version="both">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>基本システム・仕様まとめ｜クッキーラン情報サイト</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" type="image/png" href="../assets/img/favicon.svg">
+<link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9890627047838156" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header__row">
+    <button class="menu-toggle" aria-label="メニューを開く" aria-expanded="false" aria-controls="site-sidebar">
+      <span></span>
+    </button>
+    <a class="site-brand" href="../index.html">
+      クッキーラン情報サイト
+      <small>Kakao / Classic 情報まとめ</small>
+    </a>
+    <div class="version-switch" role="group" aria-label="表示するバージョンの切り替え">
+      <button type="button" data-version-btn="kakao" aria-pressed="false">カカオ版</button>
+      <button type="button" data-version-btn="classic" aria-pressed="false">クラシック版</button>
+      <button type="button" data-version-btn="both" aria-pressed="true">両バージョン</button>
+    </div>
+  </div>
+</header>
+
+<div class="sidebar-backdrop"></div>
+
+<div class="layout">
+
+  <nav class="sidebar" id="site-sidebar" aria-label="サイト内カテゴリ">
+    <button class="sidebar-close" aria-label="メニューを閉じる">&times;</button>
+
+    <div class="sidebar-category is-open">
+      <button class="category-toggle" aria-expanded="true">
+        <span>ゲームシステム</span><span class="chevron"></span>
+      </button>
+      <ul class="category-pages">
+
+        <li><a href="basics.html" class="is-current" aria-current="page">基本システム・仕様まとめ</a></li>
+
+        <li><a href="blessing.html">宝物の祝福（大成功）システム</a></li>
+
+        <li><a href="differences.html">カカオ版・クラシック版の違い一覧</a></li>
+
+        <li><a href="glossary.html">用語集</a></li>
+
+      </ul>
+    </div>
+
+    <div class="sidebar-category">
+      <button class="category-toggle" aria-expanded="false">
+        <span>初心者ガイド</span><span class="chevron"></span>
+      </button>
+      <ul class="category-pages">
+
+        <li><a href="../beginner/roadmap.html">最初にやること（初心者ロードマップ）</a></li>
+
+        <li><a href="../beginner/reroll.html">リセマラの基準</a></li>
+
+        <li><a href="../beginner/friend-heart.html">フレンド・ハートの集め方</a></li>
+
+        <li><a href="../beginner/crystal-usage.html">序盤のクリスタルの使い道</a></li>
+
+        <li><a href="../beginner/invite-event.html">招待イベントの進め方</a></li>
+
+        <li><a href="../beginner/payment-kakao.html">課金方法（カカオ版）</a></li>
+
+        <li><a href="../beginner/kakao-troubleshooting.html">カカオ版のよくあるトラブル対応</a></li>
+
+      </ul>
+    </div>
+
+    <div class="sidebar-category">
+      <button class="category-toggle" aria-expanded="false">
+        <span>育成・攻略ガイド</span><span class="chevron"></span>
+      </button>
+      <ul class="category-pages">
+
+        <li><a href="../guide/coin-farming.html">コイン稼ぎ攻略</a></li>
+
+        <li><a href="../guide/score-attack.html">スコアタ攻略</a></li>
+
+        <li><a href="../guide/treasure-management.html">宝物の取捨選択・育成優先度</a></li>
+
+        <li><a href="../guide/materials.html">育成素材・アイテムガイド</a></li>
+
+        <li><a href="../guide/advanced.html">上級者向けテクニック</a></li>
+
+      </ul>
+    </div>
+
+    <div class="sidebar-category">
+      <button class="category-toggle" aria-expanded="false">
+        <span>ゲームモード・ステージ攻略</span><span class="chevron"></span>
+      </button>
+      <ul class="category-pages">
+
+        <li><a href="../modes/frozen-wave.html">フローズンウェーブの塔</a></li>
+
+        <li><a href="../modes/coin-island.html">コイン島</a></li>
+
+        <li><a href="../modes/party-run.html">パーティーラン（オンライン対戦）</a></li>
+
+        <li><a href="../modes/episodes.html">エピソード別攻略（EP1〜EP7）</a></li>
+
+        <li><a href="../modes/others.html">その他のモード</a></li>
+
+      </ul>
+    </div>
+
+    <div class="sidebar-category">
+      <button class="category-toggle" aria-expanded="false">
+        <span>図鑑・一覧</span><span class="chevron"></span>
+      </button>
+      <ul class="category-pages">
+
+        <li><a href="../cookies/useful.html">有用クッキー</a></li>
+
+        <li><a href="../pets/useful.html">有用ペット</a></li>
+
+        <li><a href="../treasures/useful.html">有用宝物</a></li>
+
+      </ul>
+    </div>
+
+    <div class="sidebar-category">
+      <button class="category-toggle" aria-expanded="false">
+        <span>イベント・アップデート情報</span><span class="chevron"></span>
+      </button>
+      <ul class="category-pages">
+
+        <li><a href="../events/coupons.html">クーポンコード一覧</a></li>
+
+        <li><a href="../events/history-kakao.html">カカオ版アップデート履歴</a></li>
+
+        <li><a href="../events/history-classic.html">クラシック版アップデート履歴</a></li>
+
+      </ul>
+    </div>
+
+    <div class="sidebar-category">
+      <button class="category-toggle" aria-expanded="false">
+        <span>その他</span><span class="chevron"></span>
+      </button>
+      <ul class="category-pages">
+
+        <li><a href="../faq/index.html">FAQ</a></li>
+
+        <li><a href="../links/external.html">外部リンク・コミュニティ情報</a></li>
+
+      </ul>
+    </div>
+
+  </nav>
+
+  <main class="main">
+    <div class="content">
+
+      <p class="breadcrumb">
+
+
+        <a href="../index.html">トップ</a>
+
+
+        <span class="sep">/</span>
+
+        <a href="../index.html#cat-system">ゲームシステム</a>
+
+
+        <span class="sep">/</span>
+
+        <span class="current">基本システム・仕様まとめ</span>
+
+
+      </p>
+
+
+      <h1>基本システム・仕様まとめ</h1>
+
+
+      <dl class="page-meta">
+
+        <div><dt>カテゴリ</dt><dd>ゲームシステム</dd></div>
+
+        <div><dt>対象バージョン</dt><dd>混在（項目ごとに記載）</dd></div>
+
+        <div><dt>情報の性質</dt><dd>混在（項目ごとに記載）</dd></div>
+
+        <div><dt>参照元</dt><dd>統合知識ベース 2章全体</dd></div>
+
+      </dl>
+
+
+
+      <details class="page-toc" open>
+        <summary>このページの目次（全18項目）</summary>
+        <ol>
+
+          <li><a href="#section-1">コインの上限</a></li>
+
+          <li><a href="#section-2">ステータス上昇効果の計算方式（乗算）</a></li>
+
+          <li><a href="#section-3">宝物ボックス（保有枠）の拡張</a></li>
+
+          <li><a href="#section-4">クリスタル系宝物の排出確率</a></li>
+
+          <li><a href="#section-5">エピソード解放条件</a></li>
+
+          <li><a href="#section-6">経験値・レベル関連</a></li>
+
+          <li><a href="#section-7">放置ラン時のコイン獲得と通信エラー（上限問題）</a></li>
+
+          <li><a href="#section-8">巨大化時のコイン→銀貨/金貨変換の仕様</a></li>
+
+          <li><a href="#section-9">スライドの当たり判定・スライド固定</a></li>
+
+          <li><a href="#section-10">バグ：ボーナスタイム終了後のスコア無限増加／ボーナス突入時の一時停止テクニック</a></li>
+
+          <li><a href="#section-11">フローズンウェーブ・コイン島での所持効果無効仕様</a></li>
+
+          <li><a href="#section-12">期間限定所持効果宝物の記念品化</a></li>
+
+          <li><a href="#section-13">下位卵・ギフトボックスの排出プールの違い</a></li>
+
+          <li><a href="#section-14">ランク表記の違い（SS／S+）</a></li>
+
+          <li><a href="#section-15">宝物のお気に入り設定</a></li>
+
+          <li><a href="#section-16">タイトル・バージョン間の違い（カカオ版／クラシック版／LINE版／オーブンブレイク／India版）</a></li>
+
+          <li><a href="#section-17">複数端末ログインの仕様</a></li>
+
+          <li><a href="#section-18">神経衰弱（bot対策ミニゲーム）</a></li>
+
+        </ol>
+      </details>
+
+
+      <p class="lead">ゲームの基本仕様を集約したページです。他ページから頻繁に参照される原ページとして機能します。</p>
+<h2 id="section-1">コインの上限</h2>
+<div class="section-meta"><span class="meta-chip v-common">対象バージョン：共通</span><span class="meta-chip">情報の性質：確定情報（変遷自体）</span></div>
+
+<p>かつての表示上限は999,999,999（内部では約21億）でした。その後内部上限は「約922京」まで拡張されたとの情報があります。この変遷は両版共通の仕様です。</p>
+<p>最新の正確な内部上限値は不明ですが、実用上大きな支障はありません。なお、これとは別に「コインロック」と呼ばれる、放置プレイ時の1回あたりの取得上限がエピソードごとに異なる形で存在します（具体的数値は不明。詳細は下記「放置ラン時のコイン獲得と通信エラー」を参照）。</p>
+<h2 id="section-2">ステータス上昇効果の計算方式（乗算）</h2>
+<div class="section-meta"><span class="meta-chip v-common">対象バージョン：共通</span><span class="meta-chip">情報の性質：確定情報</span></div>
+
+<p>移動速度、体力減少速度低下などの上昇系ステータスは加算ではなく乗算で計算されます。例：+10%の効果を2つ付けると1.1×1.1=1.21で21%増加します（誤解しやすいポイント）。乗算のため、複数の宝物に分散するより1種類に極振りした方が効果が大きくなります。</p>
+<h2 id="section-3">宝物ボックス（保有枠）の拡張</h2>
+<div class="section-meta"><span class="meta-chip v-common">対象バージョン：共通</span><span class="meta-chip">情報の性質：確定情報（拡張手段自体・上限引き上げの事実）</span></div>
+
+<p>クリスタルでの拡張、リーグメダルでの拡張券購入、不要な宝物の抽出（分解）による枠確保、という手段があります。</p>
+<p>過去にはクリスタルでの拡張は2,500個分までが上限という情報がありましたが、その後上限値は引き上げられていることが確認されています。ただし具体的な数値は不明です（現在は正確な数値まで把握しなくても実用上問題ありません）。</p>
+<h2 id="section-4">クリスタル系宝物の排出確率</h2>
+<div class="section-meta"><span class="meta-chip v-kakao-only">対象バージョン：カカオ版のみ確認</span><span class="meta-chip">情報の性質：古い可能性がある情報（2024年7月時点）</span></div>
+
+<p>2024年7月時点でカカオ版コミュニティが独自集計した数値は以下の通りです。</p>
+<ul>
+<li>【最高級】サファイア・貝殻・宝石・ジュエリー：各0.08%</li>
+<li>【最高級】時計・スプーン・リング：各0.11%</li>
+<li>【最高級】イヤリング：0.18%</li>
+<li>【最高級】剣：0.57%（最高級合計1.4%）</li>
+<li>【高級】イヤリング：0.77%</li>
+<li>リスショップのクリスタル宝物：0.8%</li>
+</ul>
+<p>排出確率は現在ゲーム内表示から直接確認できます。上記の数値はあくまで参考情報とし、正確な現在値は各自ゲーム内表示で確認することが望ましいです。</p>
+<h2 id="section-5">エピソード解放条件</h2>
+<div class="section-meta"><span class="meta-chip v-common">対象バージョン：共通（仕組み自体）</span><span class="meta-chip">情報の性質：確定情報（仕組み自体）／TBD（具体的な必要数の対応関係）</span></div>
+
+<p>各エピソードは、直前エピソードの「エピソード業績」達成数に応じて解放されます（共通実績は除く）。🔒アイコンをタップすると個別の解放条件が表示されます。</p>
+<p>カカオ版で共有された具体例（要検証・スクリーンショット翻訳経由のため数字の対応関係が不確か）：エピソード1業績40個達成／60個達成、エピソード2業績30個達成、エピソード3業績50個達成、氷波の塔で氷星5個以上獲得、等。</p>
+<p><strong>【TBD】</strong> 各エピソードの正式な解放条件一覧（必要業績数の対応表）は今後別途まとめる予定です。それまでは上記の具体例を参考情報として扱ってください。</p>
+<h2 id="section-6">経験値・レベル関連</h2>
+<div class="section-meta"><span class="meta-chip v-common">対象バージョン：共通</span><span class="meta-chip">情報の性質：確定情報</span></div>
+
+<p>経験値テーブル自体は両版共通です。レベルごとの必要経験値は、<a href="https://yuicookie.github.io/xp/" target="_blank" rel="noopener noreferrer">経験値計算ツール</a>が正確な数値を提供しており、これを正として扱えます（個別の手計算による食い違いは同ツールの数値を参照すれば解消します）。</p>
+<div class="v-block v-classic">
+<p class="v-label">クラシック版</p>
+<p>レベルの節目（49→50、59→60等）で必要経験値が急に増えます。「70→71」の方が「69→70」より必要経験値が少ない可能性があるとの情報があり、経験値計算ツールおよび<a href="https://m.dcinside.com/board/cookierun/966250" target="_blank" rel="noopener noreferrer">外部情報源</a>で裏付けが取れています。</p>
+</div>
+<div class="v-block v-kakao">
+<p class="v-label">カカオ版</p>
+<p>レベル上限は長らく100でしたが、2026/03/31（13周年アップデート）で110に拡張されました。2026/04/17にレベル110までの経験値も経験値計算ツールに反映されています。</p>
+</div>
+<h2 id="section-7">放置ラン時のコイン獲得と通信エラー（上限問題）</h2>
+<div class="section-meta"><span class="meta-chip v-mixed">対象バージョン：現象・原因＝共通／数値＝版ごとに異なる</span><span class="meta-chip">情報の性質：確定情報</span></div>
+
+<p>放置コイン稼ぎ中に一定額を超えると「通信エラー（connection lost）」が発生し結果が反映されなくなる現象は、エピソードごとに上限値が異なるために生じる現象であり、両版で共通の仕様（バージョン差ではなくエピソード差）です。ジャンプ操作を入れて放置判定から外れることでエラーを回避できるという対処法も共通です。</p>
+<div class="v-block v-kakao">
+<p class="v-label">カカオ版</p>
+<p>過去に「35,000コイン以上」で通信エラーになるという報告がありました（2025年時点の情報）。<strong>現在は上限値が異なっており、この数値は古い情報として扱ってください。</strong></p>
+</div>
+<div class="v-block v-classic">
+<p class="v-label">クラシック版</p>
+<p>EP1で炭酸ドリンク→クラウン等の編成で放置し「64,000コイン近く」稼いだ時点で発生した例があります。ジャンプなどの操作を8回入れると放置判定から外れ、エラーが解消され正常反映されます。EP6は同程度のコインでも正常反映されます。EP1の放置上限の目安はおおよそ6万コイン前後と考えられます。</p>
+</div>
+<p><strong>情報不足</strong>：エピソードごとに上限値が異なること自体は確認されていますが、EP1以外の各エピソードの正確な上限値は依然として不明であり、具体的な対応表は作成できていません。</p>
+<h2 id="section-8">巨大化時のコイン→銀貨/金貨変換の仕様</h2>
+<div class="section-meta"><span class="meta-chip v-common">対象バージョン：共通</span><span class="meta-chip">情報の性質：確定情報（宝物説明文で確認可能）／経験則（体感値部分）</span></div>
+
+<p>巨大化中にコインを高額な硬貨（銀貨→金貨）に変換する宝物（通称「コイン財布」）が存在します。「1回の巨大化」ごとに変換できる量には上限があるとされ、変換量の上限については宝物自体の説明文（ゲーム内表示）で確認可能です。</p>
+<div class="v-block v-kakao">
+<p class="v-label">カカオ版</p>
+<p>「1回の巨大化」＝「巨大化してから小さくなるまでの1サイクル」と考えられています。巨大化中に別手段でさらに巨大化しても、通常状態を挟まなければ「1回の巨大化」として扱われ上限までしか変換されない、との仮説検証がありました（フローズン89階での検証手順が提案されたのみで、確定結果は記録されていません）。</p>
+</div>
+<div class="v-block v-classic">
+<p class="v-label">クラシック版</p>
+<p>巨大化時に銀貨を金貨に変換する宝物は2種類存在します。併用すると合計100%を超える範囲で全て金貨変換されますが、変換量には制限があります。財布を進化させて磁力をつけるとコイン回収効率がアップします。財布9・クリップ9の組み合わせで巨大化時の速度が体感約18%上昇します。財布が無い場合はバナナカップ・バナナの皮で代用可能です。</p>
+</div>
+<p>コイン財布についての詳細（現在の最適構成など）は<a href="../treasures/useful.html#coin-wallet">有用宝物</a>ページを参照してください。</p>
+<h2 id="section-9">スライドの当たり判定・スライド固定</h2>
+<div class="section-meta"><span class="meta-chip v-mixed">対象バージョン：混在</span><span class="meta-chip">情報の性質：確定情報（仕様変更・バグ）</span></div>
+
+<p>スライド中は当たり判定がクッキーの後方にずれる仕様があります（EP5の3ステージ、EP2最終ステージ2周目等）。逆手に取ると通常2本指ジャンプが必要なコインを取得できることもあります。</p>
+<div class="v-block v-kakao">
+<p class="v-label">カカオ版</p>
+<p>以前は「スライドボタンを押しながら一時停止ボタン」でスライド固定ができましたが、アップデートで一時停止時に解除されるよう変更されました。別の同時押し方法で代替可能との情報もあります（機種依存）。</p>
+</div>
+<p><strong>6本指以上同時押しによるスライド固定バグ（両版共通・iOS限定）</strong>：画面を6本指以上で同時押しすると永続的にスライドしっぱなしになるバグがあります。カカオ版・クラシック版で共通に発生し、iOS版のみで確認されています（Android版では発生しません）。</p>
+<p>適用範囲について：当たり判定の仕様自体はカカオ版で確認されたもので、クラシック版側は未確認です（単に話題に出ていないだけの可能性があります）。6本指バグは両版共通・iOS限定です。</p>
+<h2 id="section-10">バグ：ボーナスタイム終了後のスコア無限増加／ボーナス突入時の一時停止テクニック</h2>
+<div class="section-meta"><span class="meta-chip v-kakao-only">対象バージョン：カカオ版限定・修正済み</span><span class="meta-chip">情報の性質：確定情報</span></div>
+
+<p>過去に「ボーナスタイム終了後、無限にスコアが稼げる」不具合があり、悪用によりアカウント停止になった事例がありました。また、ボーナスが入る瞬間に光の演出が出たタイミングで一時停止しすぐ解除すると約1秒分距離が伸びるグリッチが動画で共有されたことがあります。</p>
+<p>このバグはカカオ版限定・修正済みです。クラシック版がリリースされる前にカカオ版側で発生・修正済みのバグであるため、クラシック版では発生していません（ユーザー確認済み）。</p>
+<h2 id="section-11">フローズンウェーブ・コイン島での所持効果無効仕様</h2>
+<div class="section-meta"><span class="meta-chip v-common">対象バージョン：共通</span><span class="meta-chip">情報の性質：確定情報</span></div>
+
+<p>フローズンウェーブ（塔）およびコイン島では、ステージに関わらず「所持効果」が一切発動しない仕様です。ON/OFF切り替えボタンも存在しません。</p>
+<p>フローズンウェーブでは「バトンタッチ（リレー）」自体ができないため、「バトンタッチ時体力増加」系の宝物効果は完全に無意味です（表記が「relay」となっている宝物が該当）。「衝突ダメージ増加」表記が2種類ありますが同じ効果です（表記揺れ）。</p>
+<h2 id="section-12">期間限定所持効果宝物の記念品化</h2>
+<div class="section-meta"><span class="meta-chip v-common">対象バージョン：共通</span><span class="meta-chip">情報の性質：確定情報</span></div>
+
+<p>期間限定で「所持効果」を持つ宝物は、期間終了後もボックスにはずっと残りますが、効果は発動しなくなります（記念品化）。捨てても良いですが、基本的に二度と入手できなくなります。</p>
+<h2 id="section-13">下位卵・ギフトボックスの排出プールの違い</h2>
+<div class="section-meta"><span class="meta-chip v-common">対象バージョン：共通</span><span class="meta-chip">情報の性質：確定情報</span></div>
+
+<p>下位タマゴ（下位卵／ギフトポイントの卵）は、所持しているLv8ペットも排出対象に含まれます。被った場合は1000コインに変換されます（1点狙いの場合は確率が低くなります）。一方、ギフトボックス側はC〜Aランクペットが排出されますが、Lv8になったペットは排出対象から除外されるため、粘れば必ず出ます。ギフトポイントのBOXから出る紫の卵は「Aランクまで」しか出ず、8体引けばそのランク帯はMAXになります。</p>
+<p><strong>確率表示の解釈</strong>：ゲーム内で確認できる排出確率の表示自体は、保有状況によって変動するものではありません。ただし、既に所持しておりレベルマックス（Lv8）になっているペットは排出プールから除外されるため、結果として「体感の当選確率が保有状況によって変わっているように見える」という現象が起きます。「アカウント画面で確率が保有状況に応じて変わって見える」という報告と「表示確率がデフォルトのまま変わらない」という報告は、この仕組みを指して両者とも部分的に正しかったと整理できます。</p>
+<h2 id="section-14">ランク表記の違い（SS／S+）</h2>
+<div class="section-meta"><span class="meta-chip v-common">対象バージョン：共通（表記のみ相違）</span><span class="meta-chip">情報の性質：確定情報（呼称の違い）</span></div>
+
+<p>カカオ版の「SSランク」はクラシック版では「S＋（S+）ランク」と表記されます。理由は不明ですが表記だけが変わったもので、同一ランクを指すと確認されています。この表記差は宝物のランクだけでなく、クッキーのランク（SSクッキー）や素材（SS素材）についても同様に適用されます。</p>
+<h2 id="section-15">宝物のお気に入り設定</h2>
+<div class="section-meta"><span class="meta-chip v-common">対象バージョン：共通</span><span class="meta-chip">情報の性質：確定情報</span></div>
+
+<p>宝物を「お気に入り（⭐マーク）」に設定すると、誤って捨てたり売ったりできなくなります。クリスタル所持効果付き宝物（POWER +）やクッキー・ペットのレベル8報酬POWER+宝物は優先してお気に入り推奨です。</p>
+<h2 id="section-16">タイトル・バージョン間の違い（カカオ版／クラシック版／LINE版／オーブンブレイク／India版）</h2>
+<div class="section-meta"><span class="meta-chip v-common">対象バージョン：共通</span><span class="meta-chip">情報の性質：確定情報（リリース事実、データ引き継ぎ不可）＋推測（今後のアプデ同期方針等は未確定）</span></div>
+
+<p>LINE版クッキーランは過去にサービス終了済みです。オーブンブレイク（オブレ）は別タイトルとして現役です。CookieRun Indiaは2024/12/11リリースで、カカオ/LINEとほぼ同じシステムですがキャラクター種類がやや多く、誤BANが起きやすく海外サポートが受けられないためBAN解除は困難との報告があります。</p>
+<p>クラシック版（グローバル版）は2026/06/24〜25頃リリースされました。カカオ版とほぼ同時期にリリースされ、リーグ戦のクッキー構成はほぼ完全に一致しています。<strong>カカオ版とクラシック版はアカウントデータの引き継ぎ・連携ができません</strong>（確定・両版で確認済み）。日本からのダウンロードはクラシック版の方が容易です（カカオ版は日本からは探しにくい）。源流のゲーム（原作、2013年頃発祥）とクラシック版は仕様がほぼ同じであるため、リリース直後から詳しいプレイヤーが多いです。</p>
+<h2 id="section-17">複数端末ログインの仕様</h2>
+<div class="section-meta"><span class="meta-chip v-mixed">対象バージョン：基本仕様＝共通／操作要件＝版ごとに異なる</span><span class="meta-chip">情報の性質：確定情報</span></div>
+
+<p>1アカウントにつき2端末までログイン可能で、リザルト（プレイ結果）が処理されるのも2端末までという基本仕様は両版共通です。3端末以上でログインしてもクラッシュはしませんが結果が反映されません。</p>
+<div class="v-block v-kakao">
+<p class="v-label">カカオ版</p>
+<p>2端末同時ログインで放置周回する場合、ゲームスタートのタイミングを1秒ほどずらす必要があります（同時開始はエラーの原因になります）。</p>
+</div>
+<div class="v-block v-classic">
+<p class="v-label">クラシック版</p>
+<p>同時スタートでもエラーは発生しません。ただし、片方が「connection lost（通信エラー）」になり垢BANを危惧する報告があります。リザルト処理時にブーストアイテムの所持数が不足しているとエラーになることがあります（例：体力強化を使う場合、事前に2個以上購入しておく必要があります）。所持数を「0」にして処理することも可能です（エラーになりません）。イベント報酬でブーストアイテムを受け取る際は所持数変化に注意してください。</p>
+</div>
+<p><strong>この開始タイミング要件の差は、内部実装の違いによる恒久的な仕様差であり、今後のアップデートで解消される見込みはないとユーザー確認済みです。</strong> 一時的な不具合ではありません。</p>
+<h2 id="section-18">神経衰弱（bot対策ミニゲーム）</h2>
+<div class="section-meta"><span class="meta-chip v-common">対象バージョン：共通（出現自体）</span><span class="meta-chip">情報の性質：確定情報（出現自体）＋推測（回避条件の詳細）</span></div>
+
+<p>ステージ上で似通った操作（放置・単調な繰り返し）を続けると、リザルト画面またはプレイ中に「神経衰弱」（絵合わせ）ミニゲームが強制的に出現する仕様です。</p>
+<div class="v-block v-kakao">
+<p class="v-label">カカオ版</p>
+<p>明確な回避法は無いとされます。出現条件について「タップ位置・間隔の規則性が重視されている」との考察（未検証）があります。タップの間隔・座標をランダム化すると出にくくなるとの報告もあります。</p>
+</div>
+<div class="v-block v-classic">
+<p class="v-label">クラシック版</p>
+<p>放置しすぎると発生します。「連続放置と判定される間隔が徐々に狭くなる」との情報があります。ジャンプ操作を8回程度入れると放置判定から外れ回避できるとの報告があります（EP1の通信エラー回避と同一の仕組みとみられます）。</p>
+</div>
+<hr />
+<p><strong>関連ページ</strong>：<a href="differences.html">カカオ版・クラシック版の違い一覧</a>、<a href="../guide/coin-farming.html">コイン稼ぎ攻略</a>、<a href="../treasures/useful.html">有用宝物</a></p>
+
+    </div>
+  </main>
+</div>
+
+<footer class="site-footer">
+  <p>
+    <span>非公式のファンサイトです。</span>
+    <span class="sep">/</span>
+    <a href="../privacy.html">プライバシーポリシー</a>
+    <span class="sep">/</span>
+    <a href="../contact.html">お問い合わせ</a>
+  </p>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

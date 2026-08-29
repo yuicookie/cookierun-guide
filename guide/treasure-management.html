@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ja" data-version="both">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>宝物の取捨選択・育成優先度｜クッキーラン情報サイト</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" type="image/png" href="../assets/img/favicon.svg">
+<link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9890627047838156" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header__row">
+    <button class="menu-toggle" aria-label="メニューを開く" aria-expanded="false" aria-controls="site-sidebar">
+      <span></span>
+    </button>
+    <a class="site-brand" href="../index.html">
+      クッキーラン情報サイト
+      <small>Kakao / Classic 情報まとめ</small>
+    </a>
+    <div class="version-switch" role="group" aria-label="表示するバージョンの切り替え">
+      <button type="button" data-version-btn="kakao" aria-pressed="false">カカオ版</button>
+      <button type="button" data-version-btn="classic" aria-pressed="false">クラシック版</button>
+      <button type="button" data-version-btn="both" aria-pressed="true">両バージョン</button>
+    </div>
+  </div>
+</header>
+
+<div class="sidebar-backdrop"></div>
+
+<div class="layout">
+
+  <nav class="sidebar" id="site-sidebar" aria-label="サイト内カテゴリ">
+    <button class="sidebar-close" aria-label="メニューを閉じる">&times;</button>
+
+    <div class="sidebar-category">
+      <button class="category-toggle" aria-expanded="false">
+        <span>ゲームシステム</span><span class="chevron"></span>
+      </button>
+      <ul class="category-pages">
+
+        <li><a href="../system/basics.html">基本システム・仕様まとめ</a></li>
+
+        <li><a href="../system/blessing.html">宝物の祝福（大成功）システム</a></li>
+
+        <li><a href="../system/differences.html">カカオ版・クラシック版の違い一覧</a></li>
+
+        <li><a href="../system/glossary.html">用語集</a></li>
+
+      </ul>
+    </div>
+
+    <div class="sidebar-category">
+      <button class="category-toggle" aria-expanded="false">
+        <span>初心者ガイド</span><span class="chevron"></span>
+      </button>
+      <ul class="category-pages">
+
+        <li><a href="../beginner/roadmap.html">最初にやること（初心者ロードマップ）</a></li>
+
+        <li><a href="../beginner/reroll.html">リセマラの基準</a></li>
+
+        <li><a href="../beginner/friend-heart.html">フレンド・ハートの集め方</a></li>
+
+        <li><a href="../beginner/crystal-usage.html">序盤のクリスタルの使い道</a></li>
+
+        <li><a href="../beginner/invite-event.html">招待イベントの進め方</a></li>
+
+        <li><a href="../beginner/payment-kakao.html">課金方法（カカオ版）</a></li>
+
+        <li><a href="../beginner/kakao-troubleshooting.html">カカオ版のよくあるトラブル対応</a></li>
+
+      </ul>
+    </div>
+
+    <div class="sidebar-category is-open">
+      <button class="category-toggle" aria-expanded="true">
+        <span>育成・攻略ガイド</span><span class="chevron"></span>
+      </button>
+      <ul class="category-pages">
+
+        <li><a href="coin-farming.html">コイン稼ぎ攻略</a></li>
+
+        <li><a href="score-attack.html">スコアタ攻略</a></li>
+
+        <li><a href="treasure-management.html" class="is-current" aria-current="page">宝物の取捨選択・育成優先度</a></li>
+
+        <li><a href="materials.html">育成素材・アイテムガイド</a></li>
+
+        <li><a href="advanced.html">上級者向けテクニック</a></li>
+
+      </ul>
+    </div>
+
+    <div class="sidebar-category">
+      <button class="category-toggle" aria-expanded="false">
+        <span>ゲームモード・ステージ攻略</span><span class="chevron"></span>
+      </button>
+      <ul class="category-pages">
+
+        <li><a href="../modes/frozen-wave.html">フローズンウェーブの塔</a></li>
+
+        <li><a href="../modes/coin-island.html">コイン島</a></li>
+
+        <li><a href="../modes/party-run.html">パーティーラン（オンライン対戦）</a></li>
+
+        <li><a href="../modes/episodes.html">エピソード別攻略（EP1〜EP7）</a></li>
+
+        <li><a href="../modes/others.html">その他のモード</a></li>
+
+      </ul>
+    </div>
+
+    <div class="sidebar-category">
+      <button class="category-toggle" aria-expanded="false">
+        <span>図鑑・一覧</span><span class="chevron"></span>
+      </button>
+      <ul class="category-pages">
+
+        <li><a href="../cookies/useful.html">有用クッキー</a></li>
+
+        <li><a href="../pets/useful.html">有用ペット</a></li>
+
+        <li><a href="../treasures/useful.html">有用宝物</a></li>
+
+      </ul>
+    </div>
+
+    <div class="sidebar-category">
+      <button class="category-toggle" aria-expanded="false">
+        <span>イベント・アップデート情報</span><span class="chevron"></span>
+      </button>
+      <ul class="category-pages">
+
+        <li><a href="../events/coupons.html">クーポンコード一覧</a></li>
+
+        <li><a href="../events/history-kakao.html">カカオ版アップデート履歴</a></li>
+
+        <li><a href="../events/history-classic.html">クラシック版アップデート履歴</a></li>
+
+      </ul>
+    </div>
+
+    <div class="sidebar-category">
+      <button class="category-toggle" aria-expanded="false">
+        <span>その他</span><span class="chevron"></span>
+      </button>
+      <ul class="category-pages">
+
+        <li><a href="../faq/index.html">FAQ</a></li>
+
+        <li><a href="../links/external.html">外部リンク・コミュニティ情報</a></li>
+
+      </ul>
+    </div>
+
+  </nav>
+
+  <main class="main">
+    <div class="content">
+
+      <p class="breadcrumb">
+
+
+        <a href="../index.html">トップ</a>
+
+
+        <span class="sep">/</span>
+
+        <a href="../index.html#cat-guide">育成・攻略ガイド</a>
+
+
+        <span class="sep">/</span>
+
+        <span class="current">宝物の取捨選択・育成優先度</span>
+
+
+      </p>
+
+
+      <h1>宝物の取捨選択・育成優先度</h1>
+
+
+      <dl class="page-meta">
+
+        <div><dt>カテゴリ</dt><dd>育成・攻略ガイド</dd></div>
+
+        <div><dt>対象バージョン</dt><dd>混在</dd></div>
+
+        <div><dt>情報の性質</dt><dd>経験則</dd></div>
+
+        <div><dt>参照元</dt><dd>統合知識ベース 8章、10章Q4・Q8、12章「バナナ哺乳瓶」</dd></div>
+
+      </dl>
+
+
+
+      <details class="page-toc" open>
+        <summary>このページの目次（全3項目）</summary>
+        <ol>
+
+          <li><a href="#section-1">宝物の取捨選択の判断基準</a></li>
+
+          <li><a href="#section-2">祝福の優先順位</a></li>
+
+          <li><a href="#section-3">クッキー解放のための宝物合成戦略</a></li>
+
+        </ol>
+      </details>
+
+
+      <h2 id="section-1">宝物の取捨選択の判断基準</h2>
+<div class="section-meta"><span class="meta-chip v-classic-only">対象バージョン：クラシック版のみ確認</span><span class="meta-chip">情報の性質：経験則</span></div>
+
+<p class="lead">コイン/経験値/復活/磁力系のガチャ宝物は上位版があるため基本捨てて良いとされます（<strong>バナナ哺乳瓶を除く：唯一の例外扱い</strong>）。クッキー専用宝物はそのクッキーを使わないなら捨てるのが基本です。この基準は時期・環境によって変わりうるため、最新の環境情報と合わせて判断することが望ましいです。</p>
+<p>カカオ版側の同種の一般論は知識ベース内に記載がなく、確認できていません。</p>
+<h2 id="section-2">祝福の優先順位</h2>
+<p>祝福（大成功）の数値仕様や優先順位の詳細は<a href="../system/blessing.html">宝物の祝福システム</a>ページを参照してください。</p>
+<h2 id="section-3">クッキー解放のための宝物合成戦略</h2>
+<div class="section-meta"><span class="meta-chip v-classic-only">対象バージョン：クラシック版のみ確認（あくまで2026/8/1時点の環境に基づく情報であり、時期依存性が高い）</span><span class="meta-chip">情報の性質：経験則（上級者向けの手法として提示）</span></div>
+
+<p>クッキー解放条件に「宝物合成（進化）」が必要な場合があります。目的のクッキーを解放するまでは、合成素材になるS級以下の宝物は全て残しておくのが理想的です（上級者向けの考え方）。目的達成後にまとめて抽出すると神秘のかけら集めにも向いています。ただし素材集めに時間がかかる点、不要な宝物を保管するためのボックス拡張が必要な点がデメリットです。解放条件が厳しいクッキーはクリスタル購入も選択肢です。A級でも進化させるとS級になるものがあります。</p>
+<hr />
+<p><strong>関連ページ</strong>：<a href="../system/blessing.html">宝物の祝福システム</a>、<a href="../treasures/useful.html">有用宝物</a>、<a href="../faq/index.html#q4">FAQ Q4</a>、<a href="../faq/index.html#q8">FAQ Q8</a></p>
+
+    </div>
+  </main>
+</div>
+
+<footer class="site-footer">
+  <p>
+    <span>非公式のファンサイトです。</span>
+    <span class="sep">/</span>
+    <a href="../privacy.html">プライバシーポリシー</a>
+    <span class="sep">/</span>
+    <a href="../contact.html">お問い合わせ</a>
+  </p>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>
