@@ -4,24 +4,25 @@
    ========================================================================== */
 
 :root {
-  /* --- カラートークン --- */
-  --bg: #F7F3EA;
+  /* --- カラートークン（クッキー菓子っぽい、あたたかくかわいい配色） --- */
+  --bg: #FFF6E9;           /* バニラクリーム */
   --surface: #FFFFFF;
-  --surface-alt: #EFE7D6;
-  --border: #E1D6C0;
+  --surface-alt: #FBEAD2;  /* キャラメル寄りのベージュ */
+  --border: #F0DDBF;
 
-  --text: #2B2118;
-  --text-muted: #6E5D48;
-  --text-faint: #8B7B64;
+  --text: #4A3226;         /* チョコレートブラウン */
+  --text-muted: #8A6A50;
+  --text-faint: #B49A82;
 
-  --accent: #5B3E8E;       /* サイト共通アクセント（リンク・現在地・フォーカス系） */
-  --accent-soft: #EEE6F8;
-  --accent-dark: #43306A;
+  --accent: #E8637F;       /* いちご/ラズベリーピンク（サイト共通アクセント） */
+  --accent-soft: #FDE7EC;
+  --accent-dark: #C94764;
+  --accent-visited: #B98A98; /* クリック済みリンクの色（くすんだローズ） */
 
-  --kakao: #C6841F;        /* カカオ版タグカラー */
-  --kakao-soft: #FBF0DA;
-  --classic: #2C7A83;      /* クラシック版タグカラー */
-  --classic-soft: #E3F0F1;
+  --kakao: #D98A2E;        /* カカオ版タグカラー（キャラメルゴールド） */
+  --kakao-soft: #FCEED2;
+  --classic: #2F9AA0;      /* クラシック版タグカラー（ミントティール） */
+  --classic-soft: #DFF4F2;
 
   --focus: #2C7FBF;
 
@@ -34,8 +35,9 @@
   --sidebar-w: 272px;
   --content-max: 760px;
 
-  --radius-s: 6px;
-  --radius-m: 10px;
+  --radius-s: 8px;
+  --radius-m: 16px;
+  --shadow-card: 0 3px 12px rgba(74, 50, 38, .08);
 }
 
 /* ---------- リセット / 基本設定 ---------- */
@@ -44,9 +46,11 @@
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
+  overflow-x: hidden;
   margin: 0;
   background: var(--bg);
   color: var(--text);
@@ -60,9 +64,14 @@ img { max-width: 100%; display: block; }
 
 a {
   color: var(--accent);
+  text-decoration: underline;
   text-underline-offset: 3px;
 }
 a:hover { text-decoration-thickness: 2px; }
+
+/* クリック済みのリンクは色を変える（本文中のリンクのみ対象。
+   サイドメニュー・フッター等はそれぞれ専用の色ルールがあるため対象外） */
+.content a:visited { color: var(--accent-visited); }
 
 button { font: inherit; }
 
@@ -212,7 +221,7 @@ button { font: inherit; }
   padding: 32px 24px 80px;
 }
 
-.content { max-width: var(--content-max); }
+.content { max-width: var(--content-max); overflow-wrap: anywhere; }
 
 /* ---------- サイドメニュー：カテゴリ（アコーディオン） ---------- */
 .sidebar-category { margin-bottom: 4px; }
@@ -267,13 +276,13 @@ button { font: inherit; }
   text-decoration: none;
   line-height: 1.5;
 }
-.category-pages a:hover { background: var(--surface-alt); color: var(--text); }
+.category-pages a:hover,
 .category-pages a.is-current {
   background: var(--accent-soft);
   color: var(--accent-dark);
-  font-weight: 700;
   box-shadow: inset 3px 0 0 var(--accent);
 }
+.category-pages a.is-current { font-weight: 700; }
 
 /* ---------- スマートフォン：ドロワー化 ---------- */
 .sidebar-backdrop { display: none; }
@@ -417,6 +426,7 @@ button { font: inherit; }
   border-radius: var(--radius-m);
   padding: 14px 16px;
   margin: 0 0 28px;
+  box-shadow: var(--shadow-card);
 }
 .page-meta dt { font-size: .6875rem; color: var(--text-faint); margin: 0 0 3px; }
 .page-meta dd { font-size: .8125rem; margin: 0; font-weight: 700; color: var(--text); }
@@ -494,6 +504,7 @@ html[data-version="classic"] .v-block.v-kakao   { display: none; }
   border-radius: var(--radius-m);
   background: var(--surface);
   margin: 0 0 28px;
+  box-shadow: var(--shadow-card);
 }
 .page-toc summary {
   cursor: pointer;
@@ -537,6 +548,7 @@ html[data-version="classic"] .v-block.v-kakao   { display: none; }
   margin: 0 0 20px 14px;
   border: 1px solid var(--border);
   border-radius: var(--radius-s);
+  background: var(--surface);
 }
 .content table { border-collapse: collapse; width: 100%; font-size: .875rem; }
 .content th, .content td {
@@ -544,8 +556,16 @@ html[data-version="classic"] .v-block.v-kakao   { display: none; }
   border-bottom: 1px solid var(--border);
   text-align: left;
   white-space: nowrap;
+  color: var(--text);
 }
-.content thead th { background: var(--surface-alt); font-family: var(--font-display); }
+.content thead th {
+  background: var(--accent-soft);
+  color: var(--accent-dark);
+  font-family: var(--font-display);
+}
+.content th a, .content td a { color: var(--accent); }
+.content th a:visited, .content td a:visited { color: var(--accent-visited); }
+.content tbody tr { background: var(--surface); }
 .content tr:last-child td { border-bottom: 0; }
 
 /* ==========================================================================
@@ -567,50 +587,119 @@ html[data-version="classic"] .v-block.v-kakao   { display: none; }
   color: var(--text-faint);
   font-size: .75rem;
 }
+.site-footer .footer-line {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+.site-footer .footer-line__group {
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.site-footer .footer-line a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.site-footer .footer-line a:hover {
+  color: var(--accent-dark);
+  text-decoration-thickness: 2px;
+}
+.site-footer .footer-line .sep {
+  color: var(--border);
+}
 
 /* ==========================================================================
-   トップページ専用コンポーネント
-   （トップページのMarkdownから生成される想定の部品。共通CSSに含めてよい）
+   装飾ブロック（::: hero ... ::: から生成）
+   トップページの「はじめての方はこちら」のような、目立たせたい案内に使う。
    ========================================================================== */
-.hero-card {
-  background: var(--accent);
+.hero-box {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
   color: #fff;
   border-radius: var(--radius-m);
-  padding: 22px 24px;
+  padding: 24px 26px;
   margin: 0 0 32px;
+  box-shadow: var(--shadow-card);
 }
-.hero-card .hero-eyebrow {
+.hero-box::before {
+  /* 丸い装飾（クッキーのモチーフ的な、ゆるい円のアクセント） */
+  content: "";
+  position: absolute;
+  top: -36px;
+  right: -36px;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .14);
+}
+.content .hero-box h2 {
+  position: relative;
   margin: 0 0 8px;
+  padding: 0;
+  border: 0;
   font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 1.05rem;
+  font-size: 1.2rem;
+  color: #fff;
 }
-.hero-card p { color: rgba(255,255,255,.9); margin: 0 0 14px; }
-.hero-card a.cta {
-  display: inline-block;
+.content .hero-box p {
+  position: relative;
+  color: rgba(255, 255, 255, .92);
+  margin: 0 0 6px;
+}
+.content .hero-box strong { color: #fff; }
+.content .hero-box a {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
   background: #fff;
   color: var(--accent-dark);
   font-weight: 700;
   padding: 10px 20px;
   border-radius: 999px;
   text-decoration: none;
-  font-size: .9375rem;
 }
-.hero-card a.cta:hover { background: var(--accent-soft); }
+.content .hero-box a:hover { background: var(--accent-soft); }
+.content .hero-box a:visited { color: var(--accent-dark); }
+.content .hero-box a[href^="http"]::after { border-color: var(--accent-dark); }
 
-.category-grid {
+/* ==========================================================================
+   リンクカード（連続する h3+ul をビルドツールが自動でグループ化したもの）
+   カテゴリ一覧のような「リンクの列挙」を、事務的な一覧ではなくカード風に見せる。
+   ========================================================================== */
+.link-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 14px;
-  margin: 0 0 8px;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 16px;
+  margin: 0 0 28px;
 }
-.category-grid .category-card {
+.link-group {
   border: 1px solid var(--border);
   background: var(--surface);
   border-radius: var(--radius-m);
-  padding: 16px 18px;
+  padding: 18px 20px;
+  box-shadow: var(--shadow-card);
+  transition: transform .15s ease, box-shadow .15s ease;
 }
-.category-grid .category-card h3 { margin: 0 0 10px; }
-.category-grid .category-card ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
-.category-grid .category-card a { font-size: .8125rem; color: var(--text-muted); text-decoration: none; }
-.category-grid .category-card a:hover { color: var(--accent); text-decoration: underline; }
+.link-group:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(74, 50, 38, .13);
+}
+.link-group h3 { margin: 0 0 12px; }
+.link-group ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
+.link-group li { margin: 0; }
+.link-group a { font-size: .8125rem; color: var(--accent); text-decoration: underline; }
+.link-group a:hover { color: var(--accent-dark); }
+.link-group a:visited { color: var(--accent-visited); }
+
+@media (prefers-reduced-motion: reduce) {
+  .link-group:hover { transform: none; }
+}
