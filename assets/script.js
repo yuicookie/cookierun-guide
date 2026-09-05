@@ -8,6 +8,33 @@
   var VERSION_KEY = "cr_version_pref"; // localStorageに保存するキー
   var root = document.documentElement;
 
+  /* ---------- ヘッダー実高さの反映（sticky位置の基準をズレさせない） ----------
+     ヘッダーはウィンドウ幅次第で折り返して2行になることがあるため、
+     固定値ではなく実測値を --header-h に書き込む。
+     これによりサイドメニューのstickyオフセット・見出しのスクロールマージンも追従する。 */
+  function syncHeaderHeight() {
+    var header = document.querySelector(".site-header");
+    if (!header) return;
+    var h = Math.ceil(header.getBoundingClientRect().height);
+    // 異常値（レイアウト崩れ等でビューポートを超えるような値）は反映しない安全策
+    if (h > 0 && h < 400) {
+      root.style.setProperty("--header-h", h + "px");
+    }
+  }
+
+  function initHeaderHeightSync() {
+    syncHeaderHeight();
+    window.addEventListener("resize", syncHeaderHeight);
+    window.addEventListener("orientationchange", syncHeaderHeight);
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(syncHeaderHeight);
+    }
+    var header = document.querySelector(".site-header");
+    if (header && "ResizeObserver" in window) {
+      new ResizeObserver(syncHeaderHeight).observe(header);
+    }
+  }
+
   /* ---------- ゲーム表示切り替え ---------- */
   function applyVersion(v) {
     root.setAttribute("data-version", v);
@@ -84,6 +111,7 @@
   }
 
   document.addEventListener("DOMContentLoaded", function () {
+    initHeaderHeightSync();
     initVersionSwitch();
     initSidebarAccordion();
     initMobileMenu();
