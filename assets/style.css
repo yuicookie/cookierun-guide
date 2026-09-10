@@ -689,3 +689,168 @@ html[data-version="classic"] .v-block.v-kakao   { display: none; }
 @media (prefers-reduced-motion: reduce) {
   .link-group:hover { transform: none; }
 }
+
+/* ==========================================================================
+   AIチャットウィジェット
+   ========================================================================== */
+.cr-chat-toggle {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 250;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.95em;
+  cursor: pointer;
+  box-shadow: var(--shadow-card);
+  transition: transform .15s ease, background .15s ease;
+}
+.cr-chat-toggle:hover { background: var(--accent-dark); transform: translateY(-2px); }
+.cr-chat-toggle__icon { font-size: 1.2em; }
+
+.cr-chat-panel {
+  position: fixed;
+  z-index: 260;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  box-shadow: 0 8px 30px rgba(74, 50, 38, .25);
+}
+.cr-chat-panel[hidden] { display: none; }
+
+/* PC: 画面右側に固定幅のパネルとして開く */
+@media (min-width: 900px) {
+  .cr-chat-panel {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 380px;
+    max-width: 90vw;
+    border-left: 1px solid var(--border);
+  }
+}
+
+/* スマホ: 画面いっぱいに開く */
+@media (max-width: 899px) {
+  .cr-chat-panel {
+    inset: 0;
+    width: auto;
+  }
+  /* パネルが全画面表示になっている間は、右下の起動ボタンは隠す */
+  .cr-chat-panel:not([hidden]) ~ .cr-chat-toggle {
+    display: none;
+  }
+}
+
+.cr-chat-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-alt);
+}
+.cr-chat-panel__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--text);
+}
+.cr-chat-panel__close {
+  border: none;
+  background: transparent;
+  font-size: 1.5em;
+  line-height: 1;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px 8px;
+}
+.cr-chat-panel__close:hover { color: var(--text); }
+
+.cr-chat-panel__messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cr-chat-msg {
+  margin: 0;
+  max-width: 85%;
+  padding: 10px 14px;
+  border-radius: var(--radius-m);
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.cr-chat-msg--user {
+  align-self: flex-end;
+  background: var(--accent);
+  color: #fff;
+  border-bottom-right-radius: 4px;
+}
+.cr-chat-msg--bot {
+  align-self: flex-start;
+  background: var(--surface-alt);
+  color: var(--text);
+  border-bottom-left-radius: 4px;
+}
+.cr-chat-msg--thinking {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.cr-chat-msg--error {
+  align-self: center;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.9em;
+  text-align: center;
+}
+
+.cr-chat-panel__form {
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+}
+.cr-chat-panel__input {
+  flex: 1;
+  resize: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-s);
+  padding: 10px 12px;
+  font-family: var(--font-body);
+  font-size: 0.95em;
+  max-height: 120px;
+}
+.cr-chat-panel__input:focus { outline: 3px solid var(--focus); }
+.cr-chat-panel__send {
+  border: none;
+  border-radius: var(--radius-s);
+  padding: 0 18px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+.cr-chat-panel__send:hover { background: var(--accent-dark); }
+.cr-chat-panel__send:disabled { background: var(--text-faint); cursor: not-allowed; }
+
+.cr-chat-panel__disclaimer {
+  margin: 0;
+  padding: 8px 16px 12px;
+  font-size: 0.75em;
+  color: var(--text-faint);
+  text-align: center;
+}
