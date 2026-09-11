@@ -724,9 +724,13 @@ html[data-version="classic"] .v-block.v-kakao   { display: none; }
   background: var(--surface);
   box-shadow: 0 8px 30px rgba(74, 50, 38, .25);
   /* スマホでソフトキーボードが開いた際、JS側(chat-widget.js)がvisualViewportの
-     高さに合わせてこのheightを直接書き換える。それまでの初期値としてもvhではなく
-     100%を指定し、アドレスバー等の可変UIに巻き込まれにくくしている。 */
+     高さ・スクロール位置に合わせてheight/transformを直接書き換える。それまでの
+     初期値としてもvhではなく100%を指定し、アドレスバー等の可変UIに巻き込まれにくく
+     している。transformはキーボード表示時のレイアウトビューポートのスクロール分だけ
+     パネルを追従させるためのもの（通常時は空文字でtranslateYなし）。 */
   height: 100%;
+  transform: translateY(0);
+  transition: transform .12s ease-out;
 }
 .cr-chat-panel[hidden] { display: none; }
 

@@ -140,6 +140,10 @@
       panel.hidden = true;
       launcher.setAttribute("aria-expanded", "false");
       document.body.style.overflow = "";
+      // キーボード追従用に付与したインラインスタイルを次回オープン時のために
+      // クリアしておく（付けたままだと次回開いたときに古い位置がちらつく）。
+      panel.style.transform = "";
+      panel.style.height = "";
     }
 
     launcher.addEventListener("click", function () {
@@ -154,14 +158,24 @@
       if (e.key === "Escape" && !panel.hidden) closePanel();
     });
 
-    // スマホでソフトキーボードが開いた際、visualViewportのサイズ変化に合わせて
-    // パネルの高さを追従させる。これをしないと、キーボード表示時にヘッダー部分が
-    // 画面外に押し出されてしまう端末がある（アドレスバー等の可変UIとの兼ね合いのため）。
+    // スマホでソフトキーボードが開いた際、visualViewportのサイズ・スクロール位置の
+    // 変化に合わせてパネルの位置と高さを追従させる。
+    //
+    // 高さだけを visualViewport.height に合わせても、iOS Safari等では
+    // キーボード表示時にレイアウトビューポート自体が上にスクロールされることがあり、
+    // position:fixed の要素はそのスクロール分だけ画面上部にズレて見えてしまう
+    // （＝「チャット画面がかなり上の方に行ってしまう」現象）。
+    // これを防ぐため、offsetTop（スクロールされた量）分だけ transform で
+    // パネルを押し下げて、常に画面内の正しい位置に留まるようにする。
     if (window.visualViewport) {
-      window.visualViewport.addEventListener("resize", function () {
+      var syncViewport = function () {
         if (panel.hidden) return;
-        panel.style.height = window.visualViewport.height + "px";
-      });
+        var vv = window.visualViewport;
+        panel.style.height = vv.height + "px";
+        panel.style.transform = vv.offsetTop ? "translateY(" + vv.offsetTop + "px)" : "";
+      };
+      window.visualViewport.addEventListener("resize", syncViewport);
+      window.visualViewport.addEventListener("scroll", syncViewport);
     }
 
     // Ctrl+Enter（Macの場合はCmd+Enterも）で送信、Enter単体は普通に改行する。
@@ -174,7 +188,9 @@
 
     function setSendingState(sending) {
       isSending = sending;
-      input.disabled = sending;
+      // 入力欄(textarea)自体は無効化しない。返信を待っている間も次のメッセージを
+      // 打ち始められるようにするため。二重送信の防止は isSending フラグと
+      // 送信ボタンの disabled 属性側で行う（下のsubmitハンドラ冒頭のガードを参照）。
       if (sendBtn) sendBtn.disabled = sending;
     }
 
@@ -199,7 +215,7 @@
           clearInterval(retryCountdownTimer);
           retryCountdownTimer = null;
           setSendingState(false);
-          if (sendBtn) sendBtn.textContent = "送信する（Ctrl+Enterで送信）";
+          if (sendBtn) sendBtn.textContent = "送信";
           input.focus();
           return;
         }
