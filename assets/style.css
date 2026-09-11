@@ -712,6 +712,11 @@ html[data-version="classic"] .v-block.v-kakao   { display: none; }
   cursor: pointer;
   box-shadow: var(--shadow-card);
   transition: transform .15s ease, background .15s ease;
+  /* 長押しで画像保存・コピーメニューが出るのを抑える（JS側のcontextmenu/
+     dragstart抑止と合わせて対応。iOS Safari向けに-webkit-touch-calloutが必要）。 */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 .cr-chat-toggle:hover { background: var(--accent-dark); transform: translateY(-2px); }
 .cr-chat-toggle__icon { font-size: 1.2em; }
@@ -731,9 +736,12 @@ html[data-version="classic"] .v-block.v-kakao   { display: none; }
   height: 100%;
   transform: translateY(0);
   transition: transform .12s ease-out;
-  /* パネルのどこをスワイプしても背後のページへスクロールが伝播しないようにする
-     基本ライン。.cr-chat-panel__messages側の指定と合わせて二重に防止している。 */
-  overscroll-behavior: contain;
+  /* 長押しでの画像保存・コピーメニュー、テキスト選択を抑制する（JS側の
+     contextmenu/dragstart抑止と合わせて対応）。入力欄(textarea)だけは
+     通常の編集操作が必要なので下で個別に解除する。 */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 .cr-chat-panel[hidden] { display: none; }
 
@@ -774,11 +782,6 @@ html[data-version="classic"] .v-block.v-kakao   { display: none; }
   /* ヘッダー・フォームは常に画面内に固定表示し、伸び縮みしない
      （中央の.cr-chat-panel__messagesだけがスクロール・伸縮する） */
   flex-shrink: 0;
-  /* この領域自体はスクロールする中身を持たないため、ここでの縦スワイプは
-     背後のページへのスクロールとして伝わってしまう（＝ヘッダーをスワイプすると
-     背後のサイトが動く現象）。touch-actionで縦方向のパンジェスチャーそのものを
-     無効化し、伝播を防ぐ。 */
-  touch-action: none;
 }
 .cr-chat-panel__title {
   margin: 0;
@@ -802,7 +805,6 @@ html[data-version="classic"] .v-block.v-kakao   { display: none; }
   min-height: 0; /* flexアイテムがはみ出さず正しく内部スクロールするために必要 */
   overflow-y: auto;
   overscroll-behavior: contain; /* メッセージ欄の端まで達しても背後のページへスクロールが伝播しないようにする */
-  touch-action: pan-y;
   padding: 16px;
   display: flex;
   flex-direction: column;
@@ -872,10 +874,6 @@ html[data-version="classic"] .v-block.v-kakao   { display: none; }
   border-top: 1px solid var(--border);
   background: var(--surface);
   flex-shrink: 0;
-  /* フォームの余白部分（textarea・ボタン以外）をスワイプした時に背後のページが
-     動いてしまうのを防ぐ。textarea自体は下でoverscroll-behaviorとtouch-actionを
-     別途指定し、複数行入力時の内部スクロールだけは許可する。 */
-  touch-action: none;
 }
 .cr-chat-panel__input {
   flex: 1;
@@ -886,10 +884,11 @@ html[data-version="classic"] .v-block.v-kakao   { display: none; }
   font-family: var(--font-body);
   font-size: 0.95em;
   max-height: 120px;
-  /* 複数行になった場合の縦スクロールは許可しつつ（pan-y）、末端まで
-     スクロールした時に背後のページへスクロールが伝播しないようにする。 */
-  touch-action: pan-y;
-  overscroll-behavior: contain;
+  /* 親(.cr-chat-panel)のuser-select:none / touch-calloutを入力欄だけ解除する。
+     テキストの選択・コピー・貼り付けは通常の入力操作として必要なため。 */
+  -webkit-touch-callout: default;
+  -webkit-user-select: text;
+  user-select: text;
 }
 .cr-chat-panel__input:focus { outline: 3px solid var(--focus); }
 .cr-chat-panel__send {

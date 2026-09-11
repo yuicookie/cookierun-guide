@@ -240,25 +240,9 @@
   </p>
 </footer>
 
-<!-- AIチャットウィジェット（chat-widget.js が制御。全ページ共通で表示） -->
-<button type="button" id="cr-chat-toggle" class="cr-chat-toggle" aria-expanded="false" aria-controls="cr-chat-panel">
-  <span class="cr-chat-toggle__icon" aria-hidden="true">💬</span>
-  <span class="cr-chat-toggle__label">チャット</span>
-</button>
-
-<div id="cr-chat-panel" class="cr-chat-panel" role="dialog" aria-modal="true" aria-labelledby="cr-chat-title" hidden>
-  <div class="cr-chat-panel__header">
-    <p id="cr-chat-title" class="cr-chat-panel__title">クッキーラン情報Bot</p>
-    <button type="button" id="cr-chat-close" class="cr-chat-panel__close" aria-label="閉じる">&times;</button>
-  </div>
-  <div id="cr-chat-messages" class="cr-chat-panel__messages" aria-live="polite"></div>
-  <form id="cr-chat-form" class="cr-chat-panel__form">
-    <textarea id="cr-chat-input" class="cr-chat-panel__input" rows="1" maxlength="500" placeholder="質問を入力（Ctrl+Enterで送信）" aria-label="メッセージを入力"></textarea>
-    <button type="submit" id="cr-chat-send" class="cr-chat-panel__send">送信</button>
-  </form>
-  <p class="cr-chat-panel__disclaimer">AIが自動生成した回答です。内容の正確性は保証されません。</p>
-</div>
-
+<!-- AIチャットウィジェット：ボタン・パネルのHTMLはchat-widget.jsが自動生成する。
+     このscriptタグ2行を各ページの</body>直前に置くだけでよい（ページごとの
+     手動HTMLコピーは不要）。パスは各ページの階層に合わせて調整すること。 -->
 <script src="assets/script.js"></script>
 <script src="assets/chat-widget.js"></script>
 </body>

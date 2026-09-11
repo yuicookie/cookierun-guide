@@ -19,6 +19,32 @@
   var HISTORY_KEY = "cr_chat_history"; // sessionStorageに保存する画面表示用の会話ログのキー
   var MAX_MESSAGE_LENGTH = 500; // サーバー側の上限と合わせる
 
+  /* ---------- このスクリプト自身のパスから "assets/" までの基準パスを割り出す ----------
+     ページによって index.html 直下（assets/…）だったり、1階層下のフォルダ
+     （system/basics.html から見ると ../assets/…）だったりして相対位置が違うため、
+     画像パスなどを固定の "assets/img/…" 決め打ちで書くと階層が違うページで
+     404になってしまう。<script src="…/assets/chat-widget.js"> の実際の src から
+     "assets/" の手前までを取り出し、それを基準パスとして使う。 */
+  function getAssetsBasePath() {
+    var scriptEl =
+      document.currentScript ||
+      (function () {
+        // 古いブラウザ用フォールバック：ファイル名で自分自身のscriptタグを探す
+        var scripts = document.getElementsByTagName("script");
+        for (var i = scripts.length - 1; i >= 0; i--) {
+          if (/chat-widget\.js(\?|$)/.test(scripts[i].src)) return scripts[i];
+        }
+        return null;
+      })();
+    if (scriptEl && scriptEl.src) {
+      // 例: ".../system/assets/chat-widget.js" -> ".../system/assets/"
+      return scriptEl.src.replace(/[^/]*$/, "");
+    }
+    // 万一取得できない場合は従来通りの相対パス（トップページ想定）にフォールバック
+    return "assets/";
+  }
+  var ASSETS_BASE = getAssetsBasePath(); // 例: "https://example.com/assets/" や "../assets/"
+
   /* ---------- 匿名ID（このタブ用のランダムなID）の取得・発行 ---------- */
   function getOrCreateAnonymousId() {
     var id = null;
@@ -63,8 +89,54 @@
     }
   }
 
+  /* ---------- チャットウィジェットのHTMLを動的に生成してbody末尾に挿入する ----------
+     以前はindex.htmlにボタン・パネルのHTMLを直接書いていたが、それだと他の
+     ページにも同じHTMLを手作業でコピーしないと表示されない（＝別ページに
+     移動するとアイコンが消える不具合の原因）。<script src="…/chat-widget.js">を
+     読み込んでさえいれば、このスクリプトが自分でHTMLを組み立てて挿入するように
+     し、各HTMLファイル側の対応をscriptタグ2行だけで済むようにする。
+     すでに手動でHTMLが置かれているページ（旧index.html等）でも二重に
+     生成しないよう、既存の#cr-chat-toggleがあればそれをそのまま使う。 */
+  function buildChatWidgetDom() {
+    if (document.getElementById("cr-chat-toggle")) return; // 既にある場合は何もしない
+
+    var launcher = document.createElement("button");
+    launcher.type = "button";
+    launcher.id = "cr-chat-toggle";
+    launcher.className = "cr-chat-toggle";
+    launcher.setAttribute("aria-expanded", "false");
+    launcher.setAttribute("aria-controls", "cr-chat-panel");
+    launcher.innerHTML =
+      '<span class="cr-chat-toggle__icon" aria-hidden="true">💬</span>' +
+      '<span class="cr-chat-toggle__label">チャット</span>';
+
+    var panel = document.createElement("div");
+    panel.id = "cr-chat-panel";
+    panel.className = "cr-chat-panel";
+    panel.setAttribute("role", "dialog");
+    panel.setAttribute("aria-modal", "true");
+    panel.setAttribute("aria-labelledby", "cr-chat-title");
+    panel.hidden = true;
+    panel.innerHTML =
+      '<div class="cr-chat-panel__header">' +
+      '<p id="cr-chat-title" class="cr-chat-panel__title">クッキーラン情報Bot</p>' +
+      '<button type="button" id="cr-chat-close" class="cr-chat-panel__close" aria-label="閉じる">&times;</button>' +
+      "</div>" +
+      '<div id="cr-chat-messages" class="cr-chat-panel__messages" aria-live="polite"></div>' +
+      '<form id="cr-chat-form" class="cr-chat-panel__form">' +
+      '<textarea id="cr-chat-input" class="cr-chat-panel__input" rows="1" maxlength="500" placeholder="質問を入力（Ctrl+Enterで送信）" aria-label="メッセージを入力"></textarea>' +
+      '<button type="submit" id="cr-chat-send" class="cr-chat-panel__send">送信</button>' +
+      "</form>" +
+      '<p class="cr-chat-panel__disclaimer">AIが自動生成した回答です。内容の正確性は保証されません。</p>';
+
+    document.body.appendChild(launcher);
+    document.body.appendChild(panel);
+  }
+
   /* ---------- チャットウィジェット本体 ---------- */
   function initChatWidget() {
+    buildChatWidgetDom();
+
     var launcher = document.getElementById("cr-chat-toggle");
     var panel = document.getElementById("cr-chat-panel");
     var closeBtn = document.getElementById("cr-chat-close");
@@ -72,12 +144,50 @@
     var input = document.getElementById("cr-chat-input");
     var sendBtn = document.getElementById("cr-chat-send");
     var messagesEl = document.getElementById("cr-chat-messages");
+    var headerEl = panel ? panel.querySelector(".cr-chat-panel__header") : null;
+    var disclaimerEl = panel ? panel.querySelector(".cr-chat-panel__disclaimer") : null;
     if (!launcher || !panel || !form || !input || !messagesEl) return;
 
     var anonymousId = getOrCreateAnonymousId();
     var displayHistory = loadDisplayHistory();
     var isSending = false;
     var retryCountdownTimer = null;
+
+    // 長押しでの画像保存・コピーメニュー表示を禁止する。
+    // - contextmenu: 長押し（またはPCでの右クリック）で出るメニュー（「画像を保存」等）を止める
+    // - dragstart: 画像などをドラッグして保存できてしまうのを止める
+    // 対象はチャットのランチャーボタンとパネル全体（アイコン画像・吹き出しのテキスト等）。
+    // ただしtextarea（入力欄）はコピー＆ペーストなど通常の編集操作が必要なため対象外にする。
+    [launcher, panel].forEach(function (el) {
+      if (!el) return;
+      el.addEventListener("contextmenu", function (e) {
+        if (e.target === input) return;
+        e.preventDefault();
+      });
+      el.addEventListener("dragstart", function (e) {
+        if (e.target === input) return;
+        e.preventDefault();
+      });
+    });
+
+    // CSSのtouch-action/overscroll-behaviorだけでは、iOS Safariでスクロール
+    // 中身を持たない要素（ヘッダー・フォームの余白・免責文言）上のスワイプが
+    // 背後のページのスクロール／バウンスとして伝わってしまうことがある。
+    // これらの要素上のtouchmoveを直接preventDefaultして確実に止める。
+    // （メッセージ一覧とtextareaは中でスクロールさせたいので対象に含めない）
+    [headerEl, form, disclaimerEl].forEach(function (el) {
+      if (!el) return;
+      el.addEventListener(
+        "touchmove",
+        function (e) {
+          // textarea（複数行の場合は中でスクロールさせたい）自身、または
+          // 送信ボタン上でのタッチはここで止めない。
+          if (e.target === input || e.target === sendBtn) return;
+          e.preventDefault();
+        },
+        { passive: false }
+      );
+    });
 
     /**
      * 1件のメッセージをDOMに追加する。
@@ -92,7 +202,7 @@
       if (role === "bot") {
         var icon = document.createElement("img");
         icon.className = "cr-chat-avatar";
-        icon.src = "assets/img/brave-cookie.png";
+        icon.src = ASSETS_BASE + "img/brave-cookie.png";
         icon.alt = "勇敢なクッキー";
         wrap.appendChild(icon);
       }
@@ -116,9 +226,11 @@
 
     function restoreDisplayHistory() {
       if (displayHistory.length === 0) {
-        // 初回だけ、ウィジェットの案内メッセージを表示する（保存はしない。
-        // 毎回同じ案内文をログに残す必要はないため）
-        appendMessage("bot", "ボクの名前は勇敢なクッキーだよ！クッキーランについて気になることを聞いてね！", false);
+        // 初回の案内メッセージ。ページ再読み込み後もチャット履歴の先頭に
+        // 表示され続けてほしいため、persist=trueで保存対象にする
+        // （以前はfalseにしていたため、送信後にリロードすると保存済みの
+        // やり取りだけが復元されて案内メッセージが消えてしまっていた）。
+        appendMessage("bot", "ボクの名前は勇敢なクッキーだよ！クッキーランについて気になることを聞いてね！", true);
         return;
       }
       displayHistory.forEach(function (turn) {
@@ -126,12 +238,20 @@
       });
     }
 
+    var savedScrollY = 0;
+
     function openPanel() {
       panel.hidden = false;
       launcher.setAttribute("aria-expanded", "true");
-      // 背景（ページ本体）のスクロールを止める。チャット内のスクロールとページ全体の
-      // スクロールが同時に反応してしまう（チャットをスクロールしたつもりが背後の記事も
-      // スクロールしてしまう）現象を防ぐための定番の対処法。
+      // 背景（ページ本体）のスクロールを止める。
+      // body { overflow: hidden } だけではiOS Safariで背景がバウンス／スクロール
+      // してしまうことがあるため、現在のスクロール位置を記憶した上でbody自体を
+      // position: fixed にして完全に固定する（定番のスクロールロック手法）。
+      savedScrollY = window.scrollY || window.pageYOffset || 0;
+      document.body.style.position = "fixed";
+      document.body.style.top = "-" + savedScrollY + "px";
+      document.body.style.left = "0";
+      document.body.style.right = "0";
       document.body.style.overflow = "hidden";
       input.focus();
     }
@@ -139,7 +259,13 @@
     function closePanel() {
       panel.hidden = true;
       launcher.setAttribute("aria-expanded", "false");
+      // 背景の固定を解除し、元のスクロール位置に戻す。
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.left = "";
+      document.body.style.right = "";
       document.body.style.overflow = "";
+      window.scrollTo(0, savedScrollY);
       // キーボード追従用に付与したインラインスタイルを次回オープン時のために
       // クリアしておく（付けたままだと次回開いたときに古い位置がちらつく）。
       panel.style.transform = "";
