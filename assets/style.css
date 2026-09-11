@@ -731,6 +731,9 @@ html[data-version="classic"] .v-block.v-kakao   { display: none; }
   height: 100%;
   transform: translateY(0);
   transition: transform .12s ease-out;
+  /* パネルのどこをスワイプしても背後のページへスクロールが伝播しないようにする
+     基本ライン。.cr-chat-panel__messages側の指定と合わせて二重に防止している。 */
+  overscroll-behavior: contain;
 }
 .cr-chat-panel[hidden] { display: none; }
 
@@ -771,6 +774,11 @@ html[data-version="classic"] .v-block.v-kakao   { display: none; }
   /* ヘッダー・フォームは常に画面内に固定表示し、伸び縮みしない
      （中央の.cr-chat-panel__messagesだけがスクロール・伸縮する） */
   flex-shrink: 0;
+  /* この領域自体はスクロールする中身を持たないため、ここでの縦スワイプは
+     背後のページへのスクロールとして伝わってしまう（＝ヘッダーをスワイプすると
+     背後のサイトが動く現象）。touch-actionで縦方向のパンジェスチャーそのものを
+     無効化し、伝播を防ぐ。 */
+  touch-action: none;
 }
 .cr-chat-panel__title {
   margin: 0;
@@ -794,6 +802,7 @@ html[data-version="classic"] .v-block.v-kakao   { display: none; }
   min-height: 0; /* flexアイテムがはみ出さず正しく内部スクロールするために必要 */
   overflow-y: auto;
   overscroll-behavior: contain; /* メッセージ欄の端まで達しても背後のページへスクロールが伝播しないようにする */
+  touch-action: pan-y;
   padding: 16px;
   display: flex;
   flex-direction: column;
@@ -863,6 +872,10 @@ html[data-version="classic"] .v-block.v-kakao   { display: none; }
   border-top: 1px solid var(--border);
   background: var(--surface);
   flex-shrink: 0;
+  /* フォームの余白部分（textarea・ボタン以外）をスワイプした時に背後のページが
+     動いてしまうのを防ぐ。textarea自体は下でoverscroll-behaviorとtouch-actionを
+     別途指定し、複数行入力時の内部スクロールだけは許可する。 */
+  touch-action: none;
 }
 .cr-chat-panel__input {
   flex: 1;
@@ -873,6 +886,10 @@ html[data-version="classic"] .v-block.v-kakao   { display: none; }
   font-family: var(--font-body);
   font-size: 0.95em;
   max-height: 120px;
+  /* 複数行になった場合の縦スクロールは許可しつつ（pan-y）、末端まで
+     スクロールした時に背後のページへスクロールが伝播しないようにする。 */
+  touch-action: pan-y;
+  overscroll-behavior: contain;
 }
 .cr-chat-panel__input:focus { outline: 3px solid var(--focus); }
 .cr-chat-panel__send {
