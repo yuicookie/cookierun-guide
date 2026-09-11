@@ -4,27 +4,28 @@
 
    バックエンドはCloudflare Workers上のエンドポイント（/api/web-chat）。
    PC版は画面右側にパネルとして開き、スマホ版は画面いっぱいに開く（CSS側で切り替え）。
-   会話履歴はサーバー側にも保存されるが、これはあくまでAIが文脈を踏まえた回答をする
-   ための仕組みで、匿名ID（このブラウザだけが持つランダムなID）に紐づく。
-   個人を特定する情報ではないが、詳細はプライバシーポリシーページを参照。
+
+   会話の状態（画面表示・匿名ID）はどちらも sessionStorage に保存している。
+   sessionStorageはタブ・ウィンドウを閉じると自動的に消えるため、
+   「サイトを開いている間（別ページに移動しても）は会話が続き、閉じたら完全にリセットされる」
+   という挙動になる（localStorageのように次回訪問時まで残ることはない）。
    ========================================================================== */
 (function () {
   "use strict";
 
-  // ここをCloudflare Workersの実際のURLに合わせて確認・変更してください。
-  // LINE Botと同じWorkerに /api/web-chat エンドポイントを追加している構成を想定。
   var CHAT_API_ENDPOINT = "https://line-gemini-bot.wizardcookie.workers.dev/api/web-chat";
 
-  var ANON_ID_KEY = "cr_chat_anon_id"; // localStorageに保存する匿名IDのキー
+  var ANON_ID_KEY = "cr_chat_anon_id"; // sessionStorageに保存する匿名IDのキー
+  var HISTORY_KEY = "cr_chat_history"; // sessionStorageに保存する画面表示用の会話ログのキー
   var MAX_MESSAGE_LENGTH = 500; // サーバー側の上限と合わせる
 
-  /* ---------- 匿名ID（このブラウザ用のランダムなID）の取得・発行 ---------- */
+  /* ---------- 匿名ID（このタブ用のランダムなID）の取得・発行 ---------- */
   function getOrCreateAnonymousId() {
     var id = null;
     try {
-      id = localStorage.getItem(ANON_ID_KEY);
+      id = sessionStorage.getItem(ANON_ID_KEY);
     } catch (e) {
-      /* プライベートブラウジング等でlocalStorageが使えない場合は毎回新規発行になる */
+      /* プライベートブラウジング等でsessionStorageが使えない場合は毎回新規発行になる */
     }
     if (id) return id;
 
@@ -35,11 +36,31 @@
       id = "anon-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2);
     }
     try {
-      localStorage.setItem(ANON_ID_KEY, id);
+      sessionStorage.setItem(ANON_ID_KEY, id);
     } catch (e) {
       /* 保存できなくても、この回だけは発行したIDでそのまま動作を継続する */
     }
     return id;
+  }
+
+  /* ---------- 画面表示用の会話ログ（sessionStorageへの保存・復元） ---------- */
+  function loadDisplayHistory() {
+    try {
+      var raw = sessionStorage.getItem(HISTORY_KEY);
+      if (!raw) return [];
+      var parsed = JSON.parse(raw);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function saveDisplayHistory(history) {
+    try {
+      sessionStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+    } catch (e) {
+      /* 保存に失敗しても、画面上の会話自体は継続できるので無視する */
+    }
   }
 
   /* ---------- チャットウィジェット本体 ---------- */
@@ -49,31 +70,70 @@
     var closeBtn = document.getElementById("cr-chat-close");
     var form = document.getElementById("cr-chat-form");
     var input = document.getElementById("cr-chat-input");
+    var sendBtn = document.getElementById("cr-chat-send");
     var messagesEl = document.getElementById("cr-chat-messages");
     if (!launcher || !panel || !form || !input || !messagesEl) return;
 
     var anonymousId = getOrCreateAnonymousId();
+    var displayHistory = loadDisplayHistory();
     var isSending = false;
+    var retryCountdownTimer = null;
 
-    function appendMessage(role, text) {
-      var el = document.createElement("p");
-      el.className =
+    /**
+     * 1件のメッセージをDOMに追加する。
+     * role: "user" | "bot" | "error"
+     * persist: sessionStorageに保存する対象にするか（「考え中…」等の一時表示はfalseにする）
+     */
+    function appendMessage(role, text, persist) {
+      var wrap = document.createElement("div");
+      wrap.className =
+        "cr-chat-row " + (role === "user" ? "cr-chat-row--user" : "cr-chat-row--bot");
+
+      if (role === "bot") {
+        var icon = document.createElement("img");
+        icon.className = "cr-chat-avatar";
+        icon.src = "assets/img/brave-cookie.png";
+        icon.alt = "勇敢なクッキー";
+        wrap.appendChild(icon);
+      }
+
+      var bubble = document.createElement("p");
+      bubble.className =
         "cr-chat-msg " +
         (role === "user" ? "cr-chat-msg--user" : role === "error" ? "cr-chat-msg--error" : "cr-chat-msg--bot");
-      el.textContent = text;
-      messagesEl.appendChild(el);
+      bubble.textContent = text;
+      wrap.appendChild(bubble);
+
+      messagesEl.appendChild(wrap);
       messagesEl.scrollTop = messagesEl.scrollHeight;
+
+      if (persist) {
+        displayHistory.push({ role: role, text: text });
+        saveDisplayHistory(displayHistory);
+      }
+      return wrap;
+    }
+
+    function restoreDisplayHistory() {
+      if (displayHistory.length === 0) {
+        // 初回だけ、ウィジェットの案内メッセージを表示する（保存はしない。
+        // 毎回同じ案内文をログに残す必要はないため）
+        appendMessage("bot", "ボクの名前は勇敢なクッキーだよ！クッキーランについて気になることを聞いてね！", false);
+        return;
+      }
+      displayHistory.forEach(function (turn) {
+        appendMessage(turn.role, turn.text, false);
+      });
     }
 
     function openPanel() {
       panel.hidden = false;
       launcher.setAttribute("aria-expanded", "true");
+      // 背景（ページ本体）のスクロールを止める。チャット内のスクロールとページ全体の
+      // スクロールが同時に反応してしまう（チャットをスクロールしたつもりが背後の記事も
+      // スクロールしてしまう）現象を防ぐための定番の対処法。
       document.body.style.overflow = "hidden";
       input.focus();
-      if (messagesEl.childElementCount === 0) {
-        // 初回だけ、ウィジェットの案内メッセージを表示する（サーバーには送らない）
-        appendMessage("bot", "こんにちは！クッキーランについて気になることを聞いてね。");
-      }
     }
 
     function closePanel() {
@@ -94,13 +154,58 @@
       if (e.key === "Escape" && !panel.hidden) closePanel();
     });
 
-    // Enterで送信、Shift+Enterで改行（一般的なチャットUIの挙動に合わせる）
+    // スマホでソフトキーボードが開いた際、visualViewportのサイズ変化に合わせて
+    // パネルの高さを追従させる。これをしないと、キーボード表示時にヘッダー部分が
+    // 画面外に押し出されてしまう端末がある（アドレスバー等の可変UIとの兼ね合いのため）。
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener("resize", function () {
+        if (panel.hidden) return;
+        panel.style.height = window.visualViewport.height + "px";
+      });
+    }
+
+    // Ctrl+Enter（Macの場合はCmd+Enterも）で送信、Enter単体は普通に改行する。
     input.addEventListener("keydown", function (e) {
-      if (e.key === "Enter" && !e.shiftKey) {
+      if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
         e.preventDefault();
         form.requestSubmit();
       }
     });
+
+    function setSendingState(sending) {
+      isSending = sending;
+      input.disabled = sending;
+      if (sendBtn) sendBtn.disabled = sending;
+    }
+
+    /** レート制限（429）時、送信ボタンに「あと◯秒」のカウントダウンを表示する */
+    function startRetryCountdown(seconds, errorRowEl) {
+      if (retryCountdownTimer) {
+        clearInterval(retryCountdownTimer);
+      }
+      var remaining = Math.max(1, Math.round(seconds));
+      setSendingState(true);
+
+      function render() {
+        if (sendBtn) {
+          sendBtn.textContent = "あと" + remaining + "秒待ってね";
+        }
+      }
+      render();
+
+      retryCountdownTimer = setInterval(function () {
+        remaining -= 1;
+        if (remaining <= 0) {
+          clearInterval(retryCountdownTimer);
+          retryCountdownTimer = null;
+          setSendingState(false);
+          if (sendBtn) sendBtn.textContent = "送信する（Ctrl+Enterで送信）";
+          input.focus();
+          return;
+        }
+        render();
+      }, 1000);
+    }
 
     form.addEventListener("submit", function (e) {
       e.preventDefault();
@@ -109,20 +214,16 @@
       var text = input.value.trim();
       if (!text) return;
       if (text.length > MAX_MESSAGE_LENGTH) {
-        appendMessage("error", "メッセージが長すぎます（" + MAX_MESSAGE_LENGTH + "文字以内にしてください）。");
+        appendMessage("error", "メッセージが長すぎます（" + MAX_MESSAGE_LENGTH + "文字以内にしてください）。", false);
         return;
       }
 
-      appendMessage("user", text);
+      appendMessage("user", text, true);
       input.value = "";
-      isSending = true;
-      input.disabled = true;
+      setSendingState(true);
 
-      var thinkingEl = document.createElement("p");
-      thinkingEl.className = "cr-chat-msg cr-chat-msg--bot cr-chat-msg--thinking";
-      thinkingEl.textContent = "考え中…";
-      messagesEl.appendChild(thinkingEl);
-      messagesEl.scrollTop = messagesEl.scrollHeight;
+      var thinkingRow = appendMessage("bot", "考え中…", false);
+      thinkingRow.classList.add("cr-chat-row--thinking");
 
       fetch(CHAT_API_ENDPOINT, {
         method: "POST",
@@ -135,26 +236,39 @@
           });
         })
         .then(function (result) {
-          thinkingEl.remove();
+          thinkingRow.remove();
           if (result.ok && result.data && result.data.reply) {
-            appendMessage("bot", result.data.reply);
+            appendMessage("bot", result.data.reply, true);
+            setSendingState(false);
+          } else if (result.status === 429 && result.data) {
+            // アクセス集中によるレート制限。「しばらくお待ちください」だけだと
+            // どれくらい待てばいいか分からず問い合わせにつながりやすいため、
+            // 具体的な残り秒数をボタンの表示でカウントダウンする。
+            appendMessage("error", result.data.error || "アクセスが集中しています。", false);
+            var retryAfter = result.data.retryAfterSeconds || 60;
+            startRetryCountdown(retryAfter);
+            return; // setSendingState(false) はカウントダウン終了時に行われる
           } else {
             var message =
               (result.data && result.data.error) ||
               "エラーが発生しました。しばらくしてから再度お試しください。";
-            appendMessage("error", message);
+            appendMessage("error", message, false);
+            setSendingState(false);
           }
         })
         .catch(function () {
-          thinkingEl.remove();
-          appendMessage("error", "通信に失敗しました。ネットワーク状態を確認してもう一度お試しください。");
+          thinkingRow.remove();
+          appendMessage("error", "通信に失敗しました。ネットワーク状態を確認してもう一度お試しください。", false);
+          setSendingState(false);
         })
         .finally(function () {
-          isSending = false;
-          input.disabled = false;
-          input.focus();
+          if (!retryCountdownTimer) {
+            input.focus();
+          }
         });
     });
+
+    restoreDisplayHistory();
   }
 
   document.addEventListener("DOMContentLoaded", function () {
