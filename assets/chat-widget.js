@@ -19,12 +19,7 @@
   var HISTORY_KEY = "cr_chat_history"; // sessionStorageに保存する画面表示用の会話ログのキー
   var MAX_MESSAGE_LENGTH = 500; // サーバー側の上限と合わせる
 
-  /* ---------- このスクリプト自身のパスから "assets/" までの基準パスを割り出す ----------
-     ページによって index.html 直下（assets/…）だったり、1階層下のフォルダ
-     （system/basics.html から見ると ../assets/…）だったりして相対位置が違うため、
-     画像パスなどを固定の "assets/img/…" 決め打ちで書くと階層が違うページで
-     404になってしまう。<script src="…/assets/chat-widget.js"> の実際の src から
-     "assets/" の手前までを取り出し、それを基準パスとして使う。 */
+  /* ---------- このスクリプト自身のパスから "assets/" までの基準パスを割り出す ---------- */
   function getAssetsBasePath() {
     var scriptEl =
       document.currentScript ||
@@ -89,14 +84,7 @@
     }
   }
 
-  /* ---------- チャットウィジェットのHTMLを動的に生成してbody末尾に挿入する ----------
-     以前はindex.htmlにボタン・パネルのHTMLを直接書いていたが、それだと他の
-     ページにも同じHTMLを手作業でコピーしないと表示されない（＝別ページに
-     移動するとアイコンが消える不具合の原因）。<script src="…/chat-widget.js">を
-     読み込んでさえいれば、このスクリプトが自分でHTMLを組み立てて挿入するように
-     し、各HTMLファイル側の対応をscriptタグ2行だけで済むようにする。
-     すでに手動でHTMLが置かれているページ（旧index.html等）でも二重に
-     生成しないよう、既存の#cr-chat-toggleがあればそれをそのまま使う。 */
+  /* ---------- チャットウィジェットのHTMLを動的に生成してbody末尾に挿入する ---------- */
   function buildChatWidgetDom() {
     if (document.getElementById("cr-chat-toggle")) return; // 既にある場合は何もしない
 
@@ -154,10 +142,6 @@
     var retryCountdownTimer = null;
 
     // 長押しでの画像保存・コピーメニュー表示を禁止する。
-    // - contextmenu: 長押し（またはPCでの右クリック）で出るメニュー（「画像を保存」等）を止める
-    // - dragstart: 画像などをドラッグして保存できてしまうのを止める
-    // 対象はチャットのランチャーボタンとパネル全体（アイコン画像・吹き出しのテキスト等）。
-    // ただしtextarea（入力欄）はコピー＆ペーストなど通常の編集操作が必要なため対象外にする。
     [launcher, panel].forEach(function (el) {
       if (!el) return;
       el.addEventListener("contextmenu", function (e) {
@@ -225,14 +209,8 @@
     }
 
     function restoreDisplayHistory() {
-      if (displayHistory.length === 0) {
-        // 初回の案内メッセージ。ページ再読み込み後もチャット履歴の先頭に
-        // 表示され続けてほしいため、persist=trueで保存対象にする
-        // （以前はfalseにしていたため、送信後にリロードすると保存済みの
-        // やり取りだけが復元されて案内メッセージが消えてしまっていた）。
-        appendMessage("bot", "ボクの名前は勇敢なクッキーだよ！クッキーランについて気になることを聞いてね！", true);
-        return;
-      }
+      // 案内メッセージは常に画面の一番上に表示するが、sessionStorageには保存しない（persist=false）。
+      appendMessage("bot", "ボクの名前は勇敢なクッキーだよ！クッキーランについて気になることを聞いてね！", false);
       displayHistory.forEach(function (turn) {
         appendMessage(turn.role, turn.text, false);
       });
@@ -244,9 +222,6 @@
       panel.hidden = false;
       launcher.setAttribute("aria-expanded", "true");
       // 背景（ページ本体）のスクロールを止める。
-      // body { overflow: hidden } だけではiOS Safariで背景がバウンス／スクロール
-      // してしまうことがあるため、現在のスクロール位置を記憶した上でbody自体を
-      // position: fixed にして完全に固定する（定番のスクロールロック手法）。
       savedScrollY = window.scrollY || window.pageYOffset || 0;
       document.body.style.position = "fixed";
       document.body.style.top = "-" + savedScrollY + "px";
@@ -286,13 +261,6 @@
 
     // スマホでソフトキーボードが開いた際、visualViewportのサイズ・スクロール位置の
     // 変化に合わせてパネルの位置と高さを追従させる。
-    //
-    // 高さだけを visualViewport.height に合わせても、iOS Safari等では
-    // キーボード表示時にレイアウトビューポート自体が上にスクロールされることがあり、
-    // position:fixed の要素はそのスクロール分だけ画面上部にズレて見えてしまう
-    // （＝「チャット画面がかなり上の方に行ってしまう」現象）。
-    // これを防ぐため、offsetTop（スクロールされた量）分だけ transform で
-    // パネルを押し下げて、常に画面内の正しい位置に留まるようにする。
     if (window.visualViewport) {
       var syncViewport = function () {
         if (panel.hidden) return;
