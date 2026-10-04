@@ -9,6 +9,22 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/style.css">
+<script>
+/* バージョン切り替えの初期値を、CSS適用・body描画より前に確定させる。
+   ボタンの選択色もCSS側でhtml[data-version]を基準に決めているため
+   （script.js参照）、ここでdata-version属性さえ早期に設定すれば、
+   ヘッダーのボタンが一瞬「両バージョン」に見えるちらつきを防げる。 */
+(function () {
+  try {
+    var v = localStorage.getItem("cr_version_pref");
+    if (v === "kakao" || v === "classic" || v === "both") {
+      document.documentElement.setAttribute("data-version", v);
+    }
+  } catch (e) {
+    /* プライベートブラウジング等でlocalStorageが使えない場合は既定値(both)のまま */
+  }
+})();
+</script>
 <link rel="icon" type="image/png" href="../assets/img/favicon.svg">
 <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9890627047838156" crossorigin="anonymous"></script>
@@ -72,7 +88,7 @@
 
         <li><a href="../beginner/invite-event.html">招待イベントの進め方</a></li>
 
-        <li><a href="../beginner/payment-kakao.html">課金方法（カカオ版）</a></li>
+        <li><a href="../beginner/payment.html">課金方法</a></li>
 
         <li><a href="../beginner/kakao-troubleshooting.html">カカオ版のよくあるトラブル対応</a></li>
 
@@ -112,7 +128,7 @@
 
         <li><a href="../modes/party-run.html">パーティーラン（オンライン対戦）</a></li>
 
-        <li><a href="../modes/episodes.html">エピソード別攻略（EP1〜EP7）</a></li>
+        <li><a href="../modes/episodes.html">エピソード別攻略（Ep1〜Ep7）</a></li>
 
         <li><a href="../modes/others.html">その他のモード</a></li>
 
@@ -195,9 +211,9 @@
 
           <li><a href="#section-1">現在の主流とバナナ味／ポテトサラダ味の使い分け</a></li>
 
-          <li><a href="#section-2">理論値コンビ構成（クラシック版）</a></li>
+          <li><a href="#section-2">ガチャなし理論値コンビ構成</a></li>
 
-          <li><a href="#section-3">エピソード別コイン効率（EP1 vs EP2）</a></li>
+          <li><a href="#section-3">エピソード別コイン効率（Ep1 vs Ep2）</a></li>
 
           <li><a href="#section-4">通信エラーへの注意</a></li>
 
@@ -207,30 +223,26 @@
 
       <p class="lead">初心者が最も知りたい「コイン稼ぎ」をまとめたページです。</p>
 <h2 id="section-1">現在の主流とバナナ味／ポテトサラダ味の使い分け</h2>
-<div class="section-meta"><span class="meta-chip v-common">対象バージョン：共通</span><span class="meta-chip">情報の性質：確定情報（実測データ・アップデート内容）＋経験則（環境評価）</span></div>
+<div class="section-meta"><span class="meta-chip">情報の性質：確定情報（実測データ・アップデート内容）＋経験則（環境評価）</span></div>
 
-<p>バナナ味クッキーは1回のプレイで稼げる量は多いですが、現在の主流はポテトサラダ味クッキーによるコイン稼ぎ（時間対効果で優位）という評価に両版とも収束しています。「ハート効率」が良いのがバナナ、「時間効率」が良いのがポテトサラダという住み分けです。</p>
+<p>バナナ味クッキーは1回のプレイで稼げる量は多いですが、現在の主流はポテトサラダ味クッキーによるコイン稼ぎです。「ハート効率」が良いのがバナナ、「時間効率」が良いのがポテトサラダという住み分けです。</p>
 <div class="v-block v-kakao">
 <p class="v-label">カカオ版</p>
 <p>2024年6月時点の手動コイン稼ぎ実測比較：バナナ味＋パンダ＋ビタビタ×2（未祝福）＋短剣（未祝福）→7分05秒／125,857コイン。バナナ味＋パンダ＋羽（未祝福）＋バナナ×2（未祝福）→4分47秒／96,857コイン（時間効率は良いがノーミス前提）。</p>
 </div>
-<div class="v-block v-classic">
-<p class="v-label">クラシック版</p>
-<p>2026/07/16の強化後：1プレイあたり46万〜50万近くコインを稼げるようになりました（強化前は天井が約40万程度）。</p>
-</div>
 <p>クッキーの詳しい性能・育成については<a href="../cookies/useful-cookies.html">有用クッキー</a>ページを参照してください。</p>
-<h2 id="section-2">理論値コンビ構成（クラシック版）</h2>
-<div class="section-meta"><span class="meta-chip v-classic-only">対象バージョン：クラシック版のみ確認</span><span class="meta-chip">情報の性質：経験則</span></div>
+<h2 id="section-2">ガチャなし理論値コンビ構成</h2>
+<div class="section-meta"><span class="meta-chip">情報の性質：経験則</span></div>
 
-<p>バナナ味クッキーLv8報酬の進化宝物＋ポテサラ味クッキーのLv8報酬＋ポテサラペットのLv8報酬、の3つを揃えると、巨大化時の金貨変換効果が高まりコイン稼ぎが大幅に強化されます（宝物ガチャ不要）。</p>
-<h2 id="section-3">エピソード別コイン効率（EP1 vs EP2）</h2>
-<div class="section-meta"><span class="meta-chip v-classic-only">対象バージョン：クラシック版のみ確認</span><span class="meta-chip">情報の性質：確定情報</span></div>
+<p>バナナ味クッキーLv8報酬の進化宝物＋ポテトサラダ味クッキーのLv8報酬＋ダサラパンのLv8報酬、の3つを揃えるとコイン稼ぎが大幅に強化されます。</p>
+<h2 id="section-3">エピソード別コイン効率（Ep1 vs Ep2）</h2>
+<div class="section-meta"><span class="meta-chip">情報の性質：経験則</span></div>
 
-<p>EP1は回復用の小ポーションの出現数がEP2より多いため、「一度に多く稼ぐ」用途にはEP1が向いています。コイン2倍ブーストのコスト効率を考えるとEP1で多く稼いだ方がいいという意見もこの点と整合します。</p>
-<p>EP2はクッキーの移動速度が速いため、プレイ時間あたりの効率（回転効率）で見るとEP2が優位です。</p>
-<p>すなわち「一度に多く稼ぐならEP1（小ポーションが多い）」「時間効率を重視するならEP2（移動速度が速い）」という住み分けであり、単純な優劣ではなく目的によって使い分けるべきです。詳細は<a href="../modes/episodes.html">エピソード別攻略</a>を参照してください。</p>
+<p>Ep1は回復用の小ポーションの出現数がEp2より多いため、「一度に多く稼ぐ」用途にはEp1が向いています。コイン2倍ブーストのコスト効率を考えるとEp1で多く稼いだ方がいいという意見もあります。</p>
+<p>Ep2はクッキーの移動速度が速いため、プレイ時間あたりの効率（回転効率）で見るとEp2が優位です。</p>
+<p>すなわち「一度に多く稼ぐならEp1（小ポーションが多い）」「時間効率を重視するならEp2（移動速度が速い）」という住み分けであり、単純な優劣ではなく目的によって使い分けるべきです。詳細は<a href="../modes/episodes.html">エピソード別攻略</a>を参照してください。</p>
 <h2 id="section-4">通信エラーへの注意</h2>
-<p>放置コイン稼ぎには通信エラー（コイン取得上限）の注意点があります。詳細は<a href="../system/basics.html#放置ラン時のコイン獲得と通信エラー上限問題">基本システム・仕様まとめ</a>を参照してください。</p>
+<p>放置コイン稼ぎには通信エラー（コイン取得上限）の注意点があります。詳細は<a href="../system/basics.html#coin-error-limit">基本システム・仕様まとめ</a>を参照してください。</p>
 <hr />
 <p><strong>関連ページ</strong>：<a href="../cookies/useful-cookies.html">有用クッキー（バナナ、ポテトサラダ）</a>、<a href="../treasures/useful-treasures.html">有用宝物（コイン財布）</a>、<a href="../pets/useful-pets.html">有用ペット</a>、<a href="../modes/episodes.html">エピソード別攻略</a>、<a href="xp-farming.html">経験値稼ぎ攻略</a>、<a href="../faq/faq-list.html#q3">FAQ Q3</a></p>
 

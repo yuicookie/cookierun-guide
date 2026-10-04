@@ -9,6 +9,22 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/style.css">
+<script>
+/* バージョン切り替えの初期値を、CSS適用・body描画より前に確定させる。
+   ボタンの選択色もCSS側でhtml[data-version]を基準に決めているため
+   （script.js参照）、ここでdata-version属性さえ早期に設定すれば、
+   ヘッダーのボタンが一瞬「両バージョン」に見えるちらつきを防げる。 */
+(function () {
+  try {
+    var v = localStorage.getItem("cr_version_pref");
+    if (v === "kakao" || v === "classic" || v === "both") {
+      document.documentElement.setAttribute("data-version", v);
+    }
+  } catch (e) {
+    /* プライベートブラウジング等でlocalStorageが使えない場合は既定値(both)のまま */
+  }
+})();
+</script>
 <link rel="icon" type="image/png" href="../assets/img/favicon.svg">
 <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9890627047838156" crossorigin="anonymous"></script>
@@ -72,7 +88,7 @@
 
         <li><a href="../beginner/invite-event.html">招待イベントの進め方</a></li>
 
-        <li><a href="../beginner/payment-kakao.html">課金方法（カカオ版）</a></li>
+        <li><a href="../beginner/payment.html">課金方法</a></li>
 
         <li><a href="../beginner/kakao-troubleshooting.html">カカオ版のよくあるトラブル対応</a></li>
 
@@ -112,7 +128,7 @@
 
         <li><a href="../modes/party-run.html">パーティーラン（オンライン対戦）</a></li>
 
-        <li><a href="../modes/episodes.html">エピソード別攻略（EP1〜EP7）</a></li>
+        <li><a href="../modes/episodes.html">エピソード別攻略（Ep1〜Ep7）</a></li>
 
         <li><a href="../modes/others.html">その他のモード</a></li>
 
@@ -190,7 +206,7 @@
 
 
       <details class="page-toc" open>
-        <summary>このページの目次（全6項目）</summary>
+        <summary>このページの目次（全11項目）</summary>
         <ol>
 
           <li><a href="#section-1">経験値テーブルの確認方法</a></li>
@@ -205,13 +221,23 @@
 
           <li><a href="#section-6">宝物の取捨選択における経験値系ガチャ宝物の扱い</a></li>
 
+          <li><a href="#section-7">経験値稼ぎ向けの具体的な編成（妖精のコンビ）</a></li>
+
+          <li><a href="#section-8">ランダムブーストの選び方（体力減少速度低下 vs スピード上昇）</a></li>
+
+          <li><a href="#section-9">経験値と走行時間の関係</a></li>
+
+          <li><a href="#section-10">手動プレイの限界と放置コンビの推奨</a></li>
+
+          <li><a href="#section-11">コイン稼ぎと同時に経験値も稼げる宝物（オルゴール）</a></li>
+
         </ol>
       </details>
 
 
       <p class="lead">レベル上げを効率的に進めるための情報をまとめたページです。</p>
 <h2 id="section-1">経験値テーブルの確認方法</h2>
-<div class="section-meta"><span class="meta-chip v-common">対象バージョン：共通</span><span class="meta-chip">情報の性質：確定情報</span></div>
+<div class="section-meta"><span class="meta-chip">情報の性質：確定情報</span></div>
 
 <p>経験値テーブル自体は両版共通です。レベルごとの必要経験値は、<a href="https://yuicookie.github.io/xp/" target="_blank" rel="noopener noreferrer">経験値計算ツール</a>が正確な数値を提供しており、これを正として扱えます。</p>
 <div class="v-block v-classic">
@@ -223,7 +249,7 @@
 <p>レベル上限は長らく100でしたが、2026/03/31（13周年アップデート）で110に拡張されました。2026/04/17にレベル110までの経験値も経験値計算ツールに反映されています。</p>
 </div>
 <h2 id="section-2">経験値ステージの活用</h2>
-<div class="section-meta"><span class="meta-chip v-common">対象バージョン：両方確認</span><span class="meta-chip">情報の性質：経験則（体験ベース）</span></div>
+<div class="section-meta"><span class="meta-chip">情報の性質：経験則（体験ベース）</span></div>
 
 <p>招待イベント達成のためのレベル上げ手段としても、「経験値ステージ」を周回するのが効率的とされています。</p>
 <div class="v-block v-kakao">
@@ -251,7 +277,28 @@
 <div class="section-meta"><span class="meta-chip v-classic-only">対象バージョン：クラシック版のみ確認</span><span class="meta-chip">情報の性質：経験則</span></div>
 
 <p>コイン/経験値/復活/磁力系のガチャ宝物は上位版があるため基本捨てて良いとされます（バナナ哺乳瓶を除く）。詳細は<a href="treasure-management.html">宝物の取捨選択・育成優先度</a>を参照してください。</p>
-<hr />
+<h2 id="section-7">経験値稼ぎ向けの具体的な編成（妖精のコンビ）</h2>
+<div class="section-meta"><span class="meta-chip v-classic-only">対象バージョン：クラシック版のみ確認</span><span class="meta-chip">情報の性質：経験則（複数回にわたり同様の推奨あり）</span></div>
+
+<p>レベル上げの定番編成として、「妖精味クッキーのコンビ＋陽気なクッキー（GingerBright）をバトンにする＋XP関連の宝物」の組み合わせが繰り返し推奨されています。周回エピソードはエピソード1が推奨されます。妖精のベストコンビペットを持っていない場合でも、陽気なクッキーだけである程度は稼げるとの意見があります。</p>
+<h2 id="section-8">ランダムブーストの選び方（体力減少速度低下 vs スピード上昇）</h2>
+<div class="section-meta"><span class="meta-chip v-classic-only">対象バージョン：クラシック版のみ確認</span><span class="meta-chip">情報の性質：経験則（意見の対立→結論あり）</span></div>
+
+<p>経験値稼ぎ時のランダムブーストとして「体力の低下速度低下」と「スピード上昇」のどちらが良いか意見が分かれましたが、獲得経験値量は走っている時間（生存時間）に比例するため、<strong>体力減少速度低下を選ぶのがおすすめ</strong>という結論で一致しています。</p>
+<h2 id="section-9">経験値と走行時間の関係</h2>
+<div class="section-meta"><span class="meta-chip v-classic-only">対象バージョン：クラシック版のみ確認</span><span class="meta-chip">情報の性質：経験則</span></div>
+
+<p>経験値稼ぎに特化した専用ペット（XP増加能力を持つペット）は存在せず、単純に長く走れれば走れるほど多くの経験値が得られる、という仕組みだと認識されています。</p>
+<h2 id="section-10">手動プレイの限界と放置コンビの推奨</h2>
+<div class="section-meta"><span class="meta-chip v-classic-only">対象バージョン：クラシック版のみ確認</span><span class="meta-chip">情報の性質：経験則（長期プレイヤーの実感）</span></div>
+
+<p>手動でのレベル上げには限界があるとされ、LINE版時代に5年間プレイしてもレベル100に届かなかったという体験談があります。ゲームを楽しみながら放置コンビを整え、環境が整ったら放置で経験値を稼ぐ方が精神衛生上良いという意見が有力です。</p>
+<p>放置コンビの代表例として、バナナ味クッキー＋エッグバニー（ふわふわエッグバニー）のコンビが挙げられます。常時無敵時間で穴対策が不要な上、巨大化もするためボックス取得率も高く、全エピソードで使える万能編成です（弱点は時間あたりのコイン効率の低さ）。エッグバニーは招待イベントの周回で確実に入手できるとされています。</p>
+<p>1回のプレイで得られる経験値量の目安は多くて2万程度とされています（<a href="https://yuicookie.github.io/xp/" target="_blank" rel="noopener noreferrer">経験値計算ツール</a>のテーブルとも概ね整合）。</p>
+<h2 id="section-11">コイン稼ぎと同時に経験値も稼げる宝物（オルゴール）</h2>
+<div class="section-meta"><span class="meta-chip v-classic-only">対象バージョン：クラシック版のみ確認</span><span class="meta-chip">情報の性質：経験則</span></div>
+
+<h2>「オルゴール」という宝物には、コイン150枚獲得ごとに経験値1が加算される効果があるとされています。ポテトサラダ味クッキーやバナナ味クッキーといった主力コイン稼ぎクッキーとの相性が良く、コイン稼ぎをしながら経験値も稼げる点で有能です。詳細は<a href="../treasures/useful-treasures.html">有用宝物（オルゴール）</a>を参照してください。</h2>
 <p><strong>関連ページ</strong>：<a href="materials.html">育成素材・アイテムガイド</a>、<a href="../treasures/useful-treasures.html">有用宝物（オレンジの宝物）</a>、<a href="treasure-management.html">宝物の取捨選択・育成優先度</a>、<a href="../system/differences.html">カカオ版・クラシック版の違い一覧</a>、<a href="../beginner/invite-event.html">招待イベントの進め方</a></p>
 
     </div>

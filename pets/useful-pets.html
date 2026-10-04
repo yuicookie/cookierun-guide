@@ -9,6 +9,22 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/style.css">
+<script>
+/* バージョン切り替えの初期値を、CSS適用・body描画より前に確定させる。
+   ボタンの選択色もCSS側でhtml[data-version]を基準に決めているため
+   （script.js参照）、ここでdata-version属性さえ早期に設定すれば、
+   ヘッダーのボタンが一瞬「両バージョン」に見えるちらつきを防げる。 */
+(function () {
+  try {
+    var v = localStorage.getItem("cr_version_pref");
+    if (v === "kakao" || v === "classic" || v === "both") {
+      document.documentElement.setAttribute("data-version", v);
+    }
+  } catch (e) {
+    /* プライベートブラウジング等でlocalStorageが使えない場合は既定値(both)のまま */
+  }
+})();
+</script>
 <link rel="icon" type="image/png" href="../assets/img/favicon.svg">
 <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9890627047838156" crossorigin="anonymous"></script>
@@ -72,7 +88,7 @@
 
         <li><a href="../beginner/invite-event.html">招待イベントの進め方</a></li>
 
-        <li><a href="../beginner/payment-kakao.html">課金方法（カカオ版）</a></li>
+        <li><a href="../beginner/payment.html">課金方法</a></li>
 
         <li><a href="../beginner/kakao-troubleshooting.html">カカオ版のよくあるトラブル対応</a></li>
 
@@ -112,7 +128,7 @@
 
         <li><a href="../modes/party-run.html">パーティーラン（オンライン対戦）</a></li>
 
-        <li><a href="../modes/episodes.html">エピソード別攻略（EP1〜EP7）</a></li>
+        <li><a href="../modes/episodes.html">エピソード別攻略（Ep1〜Ep7）</a></li>
 
         <li><a href="../modes/others.html">その他のモード</a></li>
 
@@ -190,7 +206,7 @@
 
 
       <details class="page-toc" open>
-        <summary>このページの目次（全10項目）</summary>
+        <summary>このページの目次（全15項目）</summary>
         <ol>
 
           <li><a href="#section-1">コイン天秤</a></li>
@@ -209,9 +225,19 @@
 
           <li><a href="#section-8">ペットレベル8達成報酬（レベマ報酬）</a></li>
 
-          <li><a href="#section-9">紫の卵／下位卵から出るペット</a></li>
+          <li><a href="#section-9">紫の卵／ペットの卵から出るペット</a></li>
 
           <li><a href="#section-10">ダンベル（ペット）</a></li>
+
+          <li><a href="#section-11">エッグバニー（ふわふわエッグバニー）</a></li>
+
+          <li><a href="#section-12">限定ペットの入手方法についての注意</a></li>
+
+          <li><a href="#section-13">期間限定ペットの優先度（キツネビー玉 vs 風ちゃん）</a></li>
+
+          <li><a href="#section-14">入手困難な既存ペットの例（Eの豆ペット）</a></li>
+
+          <li><a href="#section-15">図鑑上のペットは全て入手可能</a></li>
 
         </ol>
       </details>
@@ -244,7 +270,7 @@
 </div>
 <p>使用場面：序盤の最優先入手対象です。コイン稼ぎの理論値コンビ構築にも使われます。</p>
 <h2 id="section-4">サバナナライオン</h2>
-<div class="section-meta"><span class="meta-chip v-common">対象バージョン：両方確認</span><span class="meta-chip">情報の性質：確定情報</span></div>
+<div class="section-meta"><span class="meta-chip">情報の性質：確定情報</span></div>
 
 <p>所持しているとバナナ味クッキーがコインで購入可能になります。使用場面：コイン稼ぎ編成の一部。</p>
 <h2 id="section-5">キウイ鳥（ペット）</h2>
@@ -255,10 +281,10 @@
 <div class="section-meta"><span class="meta-chip v-classic-only">対象バージョン：クラシック版のみ確認</span><span class="meta-chip">情報の性質：経験則</span></div>
 
 <p>箱回収に特化したペットとして紹介されます。Cランクペットですが箱に関しては便利です。画面の大部分を吸える磁力（広範囲磁力）と遠くまで届くクッキーが必要なため、序盤では難易度が高いです。</p>
-<p>使用場面：EP6箱周回（攻略手順の中核ペット）、EP3箱周回でも使用されます（「チーズドロップのペットを使わないと箱取れなかった」との報告）。</p>
+<p>使用場面：Ep6箱周回（攻略手順の中核ペット）、Ep3箱周回でも使用されます（「チーズドロップのペットを使わないと箱取れなかった」との報告）。</p>
 <p>注意点：磁力とチーズドロップの組み合わせは強いですが、広範囲磁力自体の敷居が高いです。ミニ磁石×3で足りる場合が多いですが、エピソードによっては箱周辺のジェリー位置や羽ジェリーの位置次第で100%ではありません。</p>
 <h2 id="section-7">ペットコンプ（コンプリート）の効率的な進め方</h2>
-<div class="section-meta"><span class="meta-chip v-common">対象バージョン：両方確認</span><span class="meta-chip">情報の性質：確定情報</span></div>
+<div class="section-meta"><span class="meta-chip">情報の性質：確定情報</span></div>
 
 <p>ペットガチャは持っているペットを全てレベルmax（レベル8）にしてから引かないと被ってしまいます。レベマ状態のペットは重複して出ない仕様のため、「1体出す→コインでレベマにする→また引く」を繰り返すことで最小クリスタル消費でコンプリートできます。</p>
 <h2 id="section-8">ペットレベル8達成報酬（レベマ報酬）</h2>
@@ -273,7 +299,7 @@
 </ul>
 </div>
 <p>補足：カカオ版のペット日本語名は非公式な通称の場合があります。クラシック版では英語名で呼ばれることが多いため、これらの通称との対応関係は未確認です。ただし「レベル8達成でアイテムが貰える」「Lv8報酬が排出対象から除外される」という仕組み自体はゲームシステムが共通のため両版共通です。</p>
-<h2 id="section-9">紫の卵／下位卵から出るペット</h2>
+<h2 id="section-9">紫の卵／ペットの卵から出るペット</h2>
 <div class="section-meta"><span class="meta-chip v-classic-only">対象バージョン：両版共通の仕組み（言及はクラシック版のトーク内が中心）</span><span class="meta-chip">情報の性質：確定情報</span></div>
 
 <p>ギフトポイントBOXの紫の卵はAランクまでのペットしか出ません。8体引けばそのランク帯はMAXとなります（詳細は<a href="../system/basics.html">基本システム・仕様まとめ</a>参照）。</p>
@@ -281,7 +307,26 @@
 <div class="section-meta"><span class="meta-chip v-common">対象バージョン：両方確認（この排出条件は現在も同じ）</span><span class="meta-chip">情報の性質：確定情報</span></div>
 
 <p>ギフトポイントの卵からは出ず、クリスタル卵の方でも「10クリスタル」の引きからしか出ません。必須級のペットではないため、クリスタルが余った時に引けばよいです。</p>
-<hr />
+<h2 id="section-11">エッグバニー（ふわふわエッグバニー）</h2>
+<div class="section-meta"><span class="meta-chip v-classic-only">対象バージョン：クラシック版のみ確認</span><span class="meta-chip">情報の性質：経験則</span></div>
+
+<p>バナナ味クッキーとのコンビで放置周回の定番とされるペットです。このコンビはずっと無敵時間で走れるため穴対策が不要な上、巨大化もするためボックス取得率が高く、全エピソードで使える万能編成です（弱点は時間あたりのコイン獲得数の低さ）。招待イベントの周回で確実に入手できるとされています。詳細は<a href="../guide/advanced.html">上級者向けテクニック</a>を参照してください。</p>
+<h2 id="section-12">限定ペットの入手方法についての注意</h2>
+<div class="section-meta"><span class="meta-chip v-classic-only">対象バージョン：クラシック版のみ確認</span><span class="meta-chip">情報の性質：確定情報</span></div>
+
+<p>期間限定で販売されるペットは、通常のペットガチャからは排出されません。購入でのみ入手可能なので注意してください。</p>
+<h2 id="section-13">期間限定ペットの優先度（キツネビー玉 vs 風ちゃん）</h2>
+<div class="section-meta"><span class="meta-chip v-classic-only">対象バージョン：クラシック版のみ確認</span><span class="meta-chip">情報の性質：経験則</span></div>
+
+<p>期間限定ペットを両方購入できない場合の判断基準として、キツネビー玉は汎用性が高く便利、風ちゃん（Windy）は唯一無二の能力を持つ、という住み分けが紹介されています。汎用性重視ならキツネビー玉、唯一無二の性能を重視するなら風ちゃんが目安になります。なお、通常ガチャに入っているペット（ダサラパン等）はいずれ引けるため、期間限定ペットの方を優先して購入するという意見が複数あります。</p>
+<h2 id="section-14">入手困難な既存ペットの例（Eの豆ペット）</h2>
+<div class="section-meta"><span class="meta-chip v-classic-only">対象バージョン：クラシック版のみ確認</span><span class="meta-chip">情報の性質：経験則</span></div>
+
+<p>実装済みペットの中で最も入手しづらいとされる例として「Eの豆ペット」が挙げられています。原作（源流のゲーム）では2015年4月にリリースされ、2025年4月に復刻されるまで10年間復刻がなかったとされています。クラシック版のペット図鑑にも存在しますが、コンプリート目的なら販売時に確実に購入しておくことが推奨されます。</p>
+<h2 id="section-15">図鑑上のペットは全て入手可能</h2>
+<div class="section-meta"><span class="meta-chip v-classic-only">対象バージョン：クラシック版のみ確認</span><span class="meta-chip">情報の性質：確定情報</span></div>
+
+<h2>ペット図鑑に掲載されているペットは全て実装済みであり、何らかの手段で入手可能です（実装されているのに販売実績が一切ないペットは無いとされています）。</h2>
 <p><strong>関連ページ</strong>：<a href="../cookies/useful-cookies.html">有用クッキー（バナナ味・ポテトサラダ味）</a>、<a href="../system/basics.html">基本システム・仕様まとめ</a></p>
 
     </div>

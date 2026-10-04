@@ -9,6 +9,22 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/style.css">
+<script>
+/* バージョン切り替えの初期値を、CSS適用・body描画より前に確定させる。
+   ボタンの選択色もCSS側でhtml[data-version]を基準に決めているため
+   （script.js参照）、ここでdata-version属性さえ早期に設定すれば、
+   ヘッダーのボタンが一瞬「両バージョン」に見えるちらつきを防げる。 */
+(function () {
+  try {
+    var v = localStorage.getItem("cr_version_pref");
+    if (v === "kakao" || v === "classic" || v === "both") {
+      document.documentElement.setAttribute("data-version", v);
+    }
+  } catch (e) {
+    /* プライベートブラウジング等でlocalStorageが使えない場合は既定値(both)のまま */
+  }
+})();
+</script>
 <link rel="icon" type="image/png" href="../assets/img/favicon.svg">
 <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9890627047838156" crossorigin="anonymous"></script>
@@ -72,7 +88,7 @@
 
         <li><a href="../beginner/invite-event.html">招待イベントの進め方</a></li>
 
-        <li><a href="../beginner/payment-kakao.html">課金方法（カカオ版）</a></li>
+        <li><a href="../beginner/payment.html">課金方法</a></li>
 
         <li><a href="../beginner/kakao-troubleshooting.html">カカオ版のよくあるトラブル対応</a></li>
 
@@ -112,7 +128,7 @@
 
         <li><a href="../modes/party-run.html">パーティーラン（オンライン対戦）</a></li>
 
-        <li><a href="../modes/episodes.html">エピソード別攻略（EP1〜EP7）</a></li>
+        <li><a href="../modes/episodes.html">エピソード別攻略（Ep1〜Ep7）</a></li>
 
         <li><a href="../modes/others.html">その他のモード</a></li>
 
@@ -190,18 +206,16 @@
 
 
       <details class="page-toc" open>
-        <summary>このページの目次（全5項目）</summary>
+        <summary>このページの目次（全4項目）</summary>
         <ol>
 
           <li><a href="#section-1">祝福（大成功）の基本メカニズム</a></li>
 
           <li><a href="#section-2">神秘のかけらによる確定付与ルート</a></li>
 
-          <li><a href="#section-3">用語補足：進化と合成</a></li>
+          <li><a href="#section-3">用語補足：合成と進化</a></li>
 
-          <li><a href="#section-4">高級進化（クリスタル99個消費）との関係</a></li>
-
-          <li><a href="#section-5">祝福の優先順位（版別の一例）</a></li>
+          <li><a href="#section-4">祝福すべき宝物</a></li>
 
         </ol>
       </details>
@@ -209,32 +223,22 @@
 
       <p class="lead">「祝福」の仕組みをまとめた独立ページです。</p>
 <h2 id="section-1">祝福（大成功）の基本メカニズム</h2>
-<div class="section-meta"><span class="meta-chip v-common">対象バージョン：共通</span><span class="meta-chip">情報の性質：確定情報</span></div>
+<div class="section-meta"><span class="meta-chip">情報の性質：確定情報</span></div>
 
-<p>通常合成（進化）の際にクリスタルを使用すると、確率で祝福（大成功）状態になることがあります。祝福成功率は<strong>初期値30%で、失敗するごとに+10%上昇し、上限は80%</strong>です。成功すると初期値（30%）にリセットされます。この数値はカカオ版・クラシック版で完全に共通の確定仕様です。</p>
+<p>合成（進化）の際にクリスタルを使用すると、確率で祝福（大成功）状態になることがあります。祝福成功率は<strong>初期値30%で、失敗するごとに+10%上昇し、上限は80%</strong>です。成功すると初期値（30%）にリセットされます。</p>
 <h2 id="section-2">神秘のかけらによる確定付与ルート</h2>
-<div class="section-meta"><span class="meta-chip v-common">対象バージョン：共通</span><span class="meta-chip">情報の性質：確定情報</span></div>
+<div class="section-meta"><span class="meta-chip">情報の性質：確定情報</span></div>
 
-<p>「神秘のかけら」1,000個＋クリスタル100個を使うことで、通常合成された宝物に確定で祝福を付与できます（祝福ボタンからのコストは高いですが確定で大成功にできます）。神秘のかけらは進化した宝物を抽出する、またはメダルショップで購入することで入手できます。</p>
-<h2 id="section-3">用語補足：進化と合成</h2>
-<div class="section-meta"><span class="meta-chip v-common">対象バージョン：共通</span><span class="meta-chip">情報の性質：確定情報</span></div>
+<p>「神秘のかけら」1,000個＋クリスタル100個を使うことで、通常合成された宝物に確定で祝福を付与できます（祝福ボタンからのコストは高いですが確定で大成功にできます）。神秘のかけらは進化した宝物を抽出する、またはメダルショップで購入することで入手できます。
+ただし価格が高いためメダルショップでの交換は非推奨。</p>
+<h2 id="section-3">用語補足：合成と進化</h2>
+<div class="section-meta"><span class="meta-chip">情報の性質：確定情報</span></div>
 
-<p>「進化」と「合成」は同義語として扱ってよいとされています（クラシック版で明示的に補足あり）。祝福は「強化」ではなく「進化（プレミアムアップグレード）」時に付与される点に注意してください（誤解して90クリスタルを無駄にした体験談があります）。</p>
-<h2 id="section-4">高級進化（クリスタル99個消費）との関係</h2>
-<div class="section-meta"><span class="meta-chip v-common">対象バージョン：共通</span><span class="meta-chip">情報の性質：確定情報</span></div>
+<p>「合成」と「進化」は同義語として扱って良いです。祝福は「強化」ではなく「合成」時に付与される点に注意してください。</p>
+<h2 id="section-4">祝福すべき宝物</h2>
+<div class="section-meta"><span class="meta-chip">情報の性質：経験則</span></div>
 
-<p>クリスタルを使用した高級合成（高級進化）を行った際も、稀に祝福が付与され、祝福を受けた合成宝物になります。これは上記の基本メカニズム（初期30%・失敗毎+10%・上限80%・成功でリセット）と共通の仕様であることが確認されています。</p>
-<h2 id="section-5">祝福の優先順位（版別の一例）</h2>
-<div class="section-meta"><span class="meta-chip v-mixed">対象バージョン：混在</span><span class="meta-chip">情報の性質：経験則</span></div>
-
-<div class="v-block v-kakao">
-<p class="v-label">カカオ版</p>
-<p>ビタビタドリンクが最優先という意見でほぼ一致しています。</p>
-</div>
-<div class="v-block v-classic">
-<p class="v-label">クラシック版</p>
-<p>「コイン財布→オルゴール」の順で祝福を付けたという個人のやり方の共有があります。</p>
-</div>
+<p>クラウン／コイン財布／キノコランプ／オルゴールが強力かつ祝福の恩恵を得られやすい宝物です。</p>
 <hr />
 <p><strong>関連ページ</strong>：<a href="basics.html">基本システム・仕様まとめ</a>、<a href="../guide/treasure-management.html">宝物の取捨選択・育成優先度</a>、<a href="../treasures/useful-treasures.html">有用宝物</a>、<a href="../faq/faq-list.html#q7">FAQ Q7</a>、<a href="glossary.html">用語集</a></p>
 

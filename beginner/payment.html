@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ja" data-version="both">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>課金方法｜クッキーラン情報サイト</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<script>
+/* バージョン切り替えの初期値を、CSS適用・body描画より前に確定させる。
+   ボタンの選択色もCSS側でhtml[data-version]を基準に決めているため
+   （script.js参照）、ここでdata-version属性さえ早期に設定すれば、
+   ヘッダーのボタンが一瞬「両バージョン」に見えるちらつきを防げる。 */
+(function () {
+  try {
+    var v = localStorage.getItem("cr_version_pref");
+    if (v === "kakao" || v === "classic" || v === "both") {
+      document.documentElement.setAttribute("data-version", v);
+    }
+  } catch (e) {
+    /* プライベートブラウジング等でlocalStorageが使えない場合は既定値(both)のまま */
+  }
+})();
+</script>
+<link rel="icon" type="image/png" href="../assets/img/favicon.svg">
+<link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9890627047838156" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header__row">
+    <button class="menu-toggle" aria-label="メニューを開く" aria-expanded="false" aria-controls="site-sidebar">
+      <span></span>
+    </button>
+    <a class="site-brand" href="../index.html">
+      クッキーラン情報サイト
+      <small>Kakao / Classic 情報まとめ</small>
+    </a>
+    <div class="version-switch" role="group" aria-label="表示するバージョンの切り替え">
+      <button type="button" data-version-btn="kakao" aria-pressed="false">カカオ版</button>
+      <button type="button" data-version-btn="classic" aria-pressed="false">クラシック版</button>
+      <button type="button" data-version-btn="both" aria-pressed="true">両バージョン</button>
+    </div>
+  </div>
+</header>
+
+<div class="sidebar-backdrop"></div>
+
+<div class="layout">
+
+  <nav class="sidebar" id="site-sidebar" aria-label="サイト内カテゴリ">
+    <button class="sidebar-close" aria-label="メニューを閉じる">&times;</button>
+
+    <div class="sidebar-category">
+      <button class="category-toggle" aria-expanded="false">
+        <span>ゲームシステム</span><span class="chevron"></span>
+      </button>
+      <ul class="category-pages">
+
+        <li><a href="../system/basics.html">基本システム・仕様まとめ</a></li>
+
+        <li><a href="../system/blessing.html">宝物の祝福（大成功）システム</a></li>
+
+        <li><a href="../system/differences.html">カカオ版・クラシック版の違い一覧</a></li>
+
+        <li><a href="../system/glossary.html">用語集</a></li>
+
+      </ul>
+    </div>
+
+    <div class="sidebar-category is-open">
+      <button class="category-toggle" aria-expanded="true">
+        <span>初心者ガイド</span><span class="chevron"></span>
+      </button>
+      <ul class="category-pages">
+
+        <li><a href="roadmap.html">最初にやること（初心者ロードマップ）</a></li>
+
+        <li><a href="reroll.html">リセマラの基準</a></li>
+
+        <li><a href="friend-heart.html">フレンド・ハートの集め方</a></li>
+
+        <li><a href="crystal-usage.html">序盤のクリスタルの使い道</a></li>
+
+        <li><a href="invite-event.html">招待イベントの進め方</a></li>
+
+        <li><a href="payment.html" class="is-current" aria-current="page">課金方法</a></li>
+
+        <li><a href="kakao-troubleshooting.html">カカオ版のよくあるトラブル対応</a></li>
+
+      </ul>
+    </div>
+
+    <div class="sidebar-category">
+      <button class="category-toggle" aria-expanded="false">
+        <span>育成・攻略ガイド</span><span class="chevron"></span>
+      </button>
+      <ul class="category-pages">
+
+        <li><a href="../guide/coin-farming.html">コイン稼ぎ攻略</a></li>
+
+        <li><a href="../guide/xp-farming.html">経験値稼ぎ攻略</a></li>
+
+        <li><a href="../guide/score-attack.html">スコアタ攻略</a></li>
+
+        <li><a href="../guide/treasure-management.html">宝物の取捨選択・育成優先度</a></li>
+
+        <li><a href="../guide/materials.html">育成素材・アイテムガイド</a></li>
+
+        <li><a href="../guide/advanced.html">上級者向けテクニック</a></li>
+
+      </ul>
+    </div>
+
+    <div class="sidebar-category">
+      <button class="category-toggle" aria-expanded="false">
+        <span>ゲームモード・ステージ攻略</span><span class="chevron"></span>
+      </button>
+      <ul class="category-pages">
+
+        <li><a href="../modes/frozen-wave.html">フローズンウェーブの塔</a></li>
+
+        <li><a href="../modes/coin-island.html">コイン島</a></li>
+
+        <li><a href="../modes/party-run.html">パーティーラン（オンライン対戦）</a></li>
+
+        <li><a href="../modes/episodes.html">エピソード別攻略（Ep1〜Ep7）</a></li>
+
+        <li><a href="../modes/others.html">その他のモード</a></li>
+
+      </ul>
+    </div>
+
+    <div class="sidebar-category">
+      <button class="category-toggle" aria-expanded="false">
+        <span>図鑑・一覧</span><span class="chevron"></span>
+      </button>
+      <ul class="category-pages">
+
+        <li><a href="../cookies/useful-cookies.html">有用クッキー</a></li>
+
+        <li><a href="../pets/useful-pets.html">有用ペット</a></li>
+
+        <li><a href="../treasures/useful-treasures.html">有用宝物</a></li>
+
+      </ul>
+    </div>
+
+    <div class="sidebar-category">
+      <button class="category-toggle" aria-expanded="false">
+        <span>イベント・アップデート情報</span><span class="chevron"></span>
+      </button>
+      <ul class="category-pages">
+
+        <li><a href="../events/coupons.html">クーポンコード一覧</a></li>
+
+        <li><a href="../events/history-kakao.html">カカオ版アップデート履歴</a></li>
+
+        <li><a href="../events/history-classic.html">クラシック版アップデート履歴</a></li>
+
+      </ul>
+    </div>
+
+    <div class="sidebar-category">
+      <button class="category-toggle" aria-expanded="false">
+        <span>その他</span><span class="chevron"></span>
+      </button>
+      <ul class="category-pages">
+
+        <li><a href="../faq/faq-list.html">FAQ</a></li>
+
+        <li><a href="../links/external.html">外部リンク・コミュニティ情報</a></li>
+
+      </ul>
+    </div>
+
+  </nav>
+
+  <main class="main">
+    <div class="content">
+
+      <p class="breadcrumb">
+
+
+        <a href="../index.html">トップ</a>
+
+
+        <span class="sep">/</span>
+
+        <a href="../index.html#cat-beginner">初心者ガイド</a>
+
+
+        <span class="sep">/</span>
+
+        <span class="current">課金方法</span>
+
+
+      </p>
+
+
+      <h1>課金方法</h1>
+
+
+      <details class="page-toc" open>
+        <summary>このページの目次（全3項目）</summary>
+        <ol>
+
+          <li><a href="#section-1">iOS</a></li>
+
+          <li><a href="#section-2">Android</a></li>
+
+          <li><a href="#section-3">課金する場合のおすすめの使い道</a></li>
+
+        </ol>
+      </details>
+
+
+      <div class="v-block v-kakao">
+<p class="v-label">カカオ版</p>
+<p class="lead"><strong>カカオ版は地域制限があるため、以下のような回避策が必要です。</strong></p>
+<h2 id="section-1">iOS</h2>
+<p>日本のApple IDでは韓国限定商品を購入できないため、韓国のApple IDを新規作成する必要があります（iCloudに先にサインインしてから韓国ID作成するとスムーズという報告があります）。iOSではPayPay課金も可能です（韓国Apple IDでサインイン→国を日本に変更→PayPay登録→ストアで課金）。</p>
+<h2 id="section-2">Android</h2>
+<p>クレジットカードでの課金は可能です。Google関連（Google Playコード等）はサブアカウント作成がほぼ必須で難易度が高いです。PayPay等その他の方法については、試した／成功したという報告自体がなく、実績不明です。</p>
+</div>
+<div class="v-block v-classic">
+<p class="v-label">クラシック版</p>
+<p>クラシック版は日本国内で正式にリリースされているため地域制限を回避する必要がなく、通常の課金手段（各ストアのクレジットカード決済等）でそのまま課金できます。</p>
+</div>
+<h2 id="section-3">課金する場合のおすすめの使い道</h2>
+<div class="section-meta"><span class="meta-chip">情報の性質：経験則</span></div>
+
+<p>課金できる環境であれば、エピソード追加時や周年記念に販売される宝物付きパックや、パーティーランパスの購入がおすすめとされています。これらは期間限定ですが、毎日ログインする前提であれば効果を発揮しやすいです。</p>
+<p>また、週1回・1日限定で購入できるバフパッケージも用意されており、課金すればレベル上げをさらに楽に進められます。</p>
+<hr />
+<p><strong>関連ページ</strong>：<a href="../system/differences.html">カカオ版・クラシック版の違い一覧</a></p>
+
+    </div>
+  </main>
+</div>
+
+<footer class="site-footer">
+  <p class="footer-line">
+    <span class="footer-line__group">非公式のファンサイトです。 <span class="sep">/</span></span>
+    <span class="footer-line__group">
+      <a href="../privacy.html">プライバシーポリシー</a>
+      <span class="sep">/</span>
+      <a href="../contact.html">お問い合わせ</a>
+    </span>
+  </p>
+</footer>
+
+<!-- AIチャットウィジェット：ボタン・パネルのHTMLはchat-widget.jsが自動生成する。 -->
+
+<script src="../assets/script.js"></script>
+<script src="../assets/chat-widget.js"></script>
+</body>
+</html>

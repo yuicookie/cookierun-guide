@@ -240,7 +240,10 @@
       document.body.style.left = "";
       document.body.style.right = "";
       document.body.style.overflow = "";
-      window.scrollTo(0, savedScrollY);
+      // html { scroll-behavior: smooth } の影響で通常のscrollToだと
+      // 「一瞬ページ最上部が見えてから元の位置へゆっくり戻る」ように見えて
+      // しまうため、ここだけは behavior: "instant" で即座に位置を戻す。
+      window.scrollTo({ top: savedScrollY, left: 0, behavior: "instant" });
       // キーボード追従用に付与したインラインスタイルを次回オープン時のために
       // クリアしておく（付けたままだと次回開いたときに古い位置がちらつく）。
       panel.style.transform = "";

@@ -9,6 +9,22 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/style.css">
+<script>
+/* バージョン切り替えの初期値を、CSS適用・body描画より前に確定させる。
+   ボタンの選択色もCSS側でhtml[data-version]を基準に決めているため
+   （script.js参照）、ここでdata-version属性さえ早期に設定すれば、
+   ヘッダーのボタンが一瞬「両バージョン」に見えるちらつきを防げる。 */
+(function () {
+  try {
+    var v = localStorage.getItem("cr_version_pref");
+    if (v === "kakao" || v === "classic" || v === "both") {
+      document.documentElement.setAttribute("data-version", v);
+    }
+  } catch (e) {
+    /* プライベートブラウジング等でlocalStorageが使えない場合は既定値(both)のまま */
+  }
+})();
+</script>
 <link rel="icon" type="image/png" href="../assets/img/favicon.svg">
 <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9890627047838156" crossorigin="anonymous"></script>
@@ -72,7 +88,7 @@
 
         <li><a href="../beginner/invite-event.html">招待イベントの進め方</a></li>
 
-        <li><a href="../beginner/payment-kakao.html">課金方法（カカオ版）</a></li>
+        <li><a href="../beginner/payment.html">課金方法</a></li>
 
         <li><a href="../beginner/kakao-troubleshooting.html">カカオ版のよくあるトラブル対応</a></li>
 
@@ -112,7 +128,7 @@
 
         <li><a href="../modes/party-run.html">パーティーラン（オンライン対戦）</a></li>
 
-        <li><a href="../modes/episodes.html">エピソード別攻略（EP1〜EP7）</a></li>
+        <li><a href="../modes/episodes.html">エピソード別攻略（Ep1〜Ep7）</a></li>
 
         <li><a href="../modes/others.html">その他のモード</a></li>
 
@@ -189,14 +205,40 @@
       <h1>上級者向けテクニック</h1>
 
 
+      <details class="page-toc" open>
+        <summary>このページの目次（全4項目）</summary>
+        <ol>
+
+          <li><a href="#section-1">放置による箱周回の一般論</a></li>
+
+          <li><a href="#section-2">招待カウント稼ぎの詳細手順</a></li>
+
+          <li><a href="#section-3">「騎乗（ライディング）」判定コンビの一覧と注意点</a></li>
+
+          <li><a href="#section-4">万能型の放置コンビ（バナナ味クッキー＋エッグバニー）</a></li>
+
+        </ol>
+      </details>
+
 
       <p class="lead">初心者ガイドに含めない専門的内容をまとめています。</p>
 <h2 id="section-1">放置による箱周回の一般論</h2>
-<div class="section-meta"><span class="meta-chip v-classic-only">対象バージョン：クラシック版のみ確認（考え方自体は両版共通の可能性が高い）</span><span class="meta-chip">情報の性質：経験則</span></div>
+<div class="section-meta"><span class="meta-chip">情報の性質：経験則</span></div>
 
 <p>放置で箱を取る方法は基本的に「巨大化」と「救出の浮き上がり」しかありません。エピソードごとにいくつかテンプレ編成がありますが、自分の環境（所持クッキー・ペット・宝物）に合わせて調整する必要があります。序盤はいろんな宝物を組み合わせて地道に調整するしかありません。</p>
 <h2 id="section-2">招待カウント稼ぎの詳細手順</h2>
 <p>詳細な手順は<a href="../beginner/invite-event.html">招待イベントの進め方</a>ページを参照してください。</p>
+<h2 id="section-3">「騎乗（ライディング）」判定コンビの一覧と注意点</h2>
+<div class="section-meta"><span class="meta-chip">情報の性質：経験則（コミュニティ内でも見解が割れ、結論に注意が必要）</span></div>
+
+<p>一部のコンビボーナスは「騎乗中」のクッキーを対象としますが、対象となるかどうかは直感的でない場合があります。</p>
+<p><strong>騎乗（ライディング）判定になるとされるクッキー例</strong>：マンゴーもち米味、チョコピスタチオ味、キンパ（チュンムキムパプ）味、ポテトサラダ味、苺ショートケーキ味、ダイナサワー味、あずき味、ナツメ味、ハッカ飴味、ココア味、ジャングル戦士味、粉雪味。</p>
+<p><strong>騎乗判定の対象外とされるクッキー例</strong>：キウイ味、ソーダ味、ライム味、キュウリプリン味、ロールケーキ味。</p>
+<p><strong>注意（見解の対立あり）</strong>：ロールケーキ味クッキーの「ロードローラー」能力について、ゲーム内の説明文には「ライディングスキル扱い（counts as a riding skill）」と明記されているとの指摘がある一方、コミュニティでの検証・議論の結果としては最終的に「召喚獣（サモン）」判定であるという結論に至った経緯があります。勇者味クッキーのダッシュ中の状態も同様に「召喚獣」判定とされ、マンゴー系のバトンと組み合わせると相性が良いとされています。この分類は今後のアップデートで変わる可能性もあるため、確定情報としてではなく参考情報として扱ってください。</p>
+<h2 id="section-4">万能型の放置コンビ（バナナ味クッキー＋エッグバニー）</h2>
+<div class="section-meta"><span class="meta-chip">情報の性質：経験則</span></div>
+
+<p>放置周回の定番コンビは、バナナ味クッキー＋エッグバニー（ふわふわエッグバニー）の組み合わせです。ずっと無敵時間で走れるため穴対策が不要な上、巨大化もするためボックス取得率が高く、全エピソードで通用する汎用性の高さが強みです。弱点は時間あたりのコイン獲得数が弱いことです。エッグバニーは招待イベントの周回で確実に入手できます。</p>
 <hr />
 <p>このページで扱いきれない詳細な攻略は、外部攻略サイトも参照してください。</p>
 <p><strong>関連ページ</strong>：<a href="coin-farming.html">コイン稼ぎ攻略</a>、<a href="../links/external.html">外部リンク・コミュニティ情報</a></p>

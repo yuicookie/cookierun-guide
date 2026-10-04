@@ -9,6 +9,22 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/style.css">
+<script>
+/* バージョン切り替えの初期値を、CSS適用・body描画より前に確定させる。
+   ボタンの選択色もCSS側でhtml[data-version]を基準に決めているため
+   （script.js参照）、ここでdata-version属性さえ早期に設定すれば、
+   ヘッダーのボタンが一瞬「両バージョン」に見えるちらつきを防げる。 */
+(function () {
+  try {
+    var v = localStorage.getItem("cr_version_pref");
+    if (v === "kakao" || v === "classic" || v === "both") {
+      document.documentElement.setAttribute("data-version", v);
+    }
+  } catch (e) {
+    /* プライベートブラウジング等でlocalStorageが使えない場合は既定値(both)のまま */
+  }
+})();
+</script>
 <link rel="icon" type="image/png" href="../assets/img/favicon.svg">
 <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9890627047838156" crossorigin="anonymous"></script>
@@ -72,7 +88,7 @@
 
         <li><a href="../beginner/invite-event.html">招待イベントの進め方</a></li>
 
-        <li><a href="../beginner/payment-kakao.html">課金方法（カカオ版）</a></li>
+        <li><a href="../beginner/payment.html">課金方法</a></li>
 
         <li><a href="../beginner/kakao-troubleshooting.html">カカオ版のよくあるトラブル対応</a></li>
 
@@ -112,7 +128,7 @@
 
         <li><a href="../modes/party-run.html">パーティーラン（オンライン対戦）</a></li>
 
-        <li><a href="../modes/episodes.html">エピソード別攻略（EP1〜EP7）</a></li>
+        <li><a href="../modes/episodes.html">エピソード別攻略（Ep1〜Ep7）</a></li>
 
         <li><a href="../modes/others.html">その他のモード</a></li>
 
@@ -190,7 +206,7 @@
 
 
       <details class="page-toc" open>
-        <summary>このページの目次（全4項目）</summary>
+        <summary>このページの目次（全5項目）</summary>
         <ol>
 
           <li><a href="#section-1">共通で使われる／両版に対応する用語</a></li>
@@ -199,7 +215,9 @@
 
           <li><a href="#section-3">クラシック版固有の用語</a></li>
 
-          <li><a href="#section-4">追加候補（本文中で頻出するが単独の用語説明はない語）</a></li>
+          <li><a href="#section-4">クッキー名称対応表</a></li>
+
+          <li><a href="#section-5">ペット名称対応表</a></li>
 
         </ol>
       </details>
@@ -208,39 +226,1236 @@
       <p class="lead">分からない用語を単独で調べられるようにまとめたページです。</p>
 <h2 id="section-1">共通で使われる／両版に対応する用語</h2>
 <ul>
-<li><strong>祝福</strong>：宝物の合成（進化）における特殊な成功状態（大成功）。初期30%・失敗毎+10%・上限80%・成功でリセットという確率メカニズムが両版共通と確認済み。→ <a href="blessing.html">宝物の祝福システム</a></li>
-<li><strong>進化／合成</strong>：同義語として扱ってよい（クラシック版で明示的に補足）。→ <a href="blessing.html">宝物の祝福システム</a></li>
-<li><strong>神経衰弱</strong>：bot対策として出現する絵合わせ（ペア探し）ミニゲーム。両版共通。→ <a href="basics.html">基本システム・仕様まとめ</a></li>
-<li><strong>放置ラン（放置周回）</strong>：ジャンプ・スライド等の操作を行わず自動的にコイン・アイテムを回収するプレイスタイル。→ <a href="../guide/coin-farming.html">コイン稼ぎ攻略</a></li>
-<li><strong>スコアタ（スコアアタック）</strong>：最高スコアを狙うプレイスタイル。→ <a href="../guide/score-attack.html">スコアタ攻略</a></li>
-<li><strong>財布（コイン財布）</strong>：巨大化中にコインを高額硬貨へ変換する宝物の通称。両版共通。→ <a href="../treasures/useful-treasures.html#coin-wallet">有用宝物</a></li>
-<li><strong>神秘のかけら</strong>：祝福を後から確定付与するための素材。両版共通。→ <a href="blessing.html">宝物の祝福システム</a></li>
-<li><strong>魔法の粉／マジックパウダー</strong>：宝物を分解して得られる素材。呼称は版により異なるが同一の仕組み。→ <a href="../guide/materials.html">育成素材・アイテムガイド</a></li>
-<li><strong>メダル</strong>：メダルショップで宝物ボックス拡張券・神秘のかけら等と交換できるポイント。→ <a href="../guide/materials.html">育成素材・アイテムガイド</a></li>
-<li><strong>コインロック</strong>：短時間で大量のコインを獲得すると発生する制限。両版で概念として語られるが、実際の誤BANリスクとしてはクラシック版固有。→ <a href="basics.html">基本システム・仕様まとめ</a></li>
+<li><strong>祝福</strong>：宝物の合成における特殊な成功状態（大成功）のこと。祝福を受けた宝物は効果が上がる。→ <a href="blessing.html">宝物の祝福システム</a></li>
+<li><strong>合成／進化</strong>：材料を使用して宝物をアップグレードすること。同義語として扱ってよい。→ <a href="blessing.html">宝物の祝福システム</a></li>
+<li><strong>神経衰弱</strong>：bot対策として出現する絵合わせ（ミニゲーム）のこと。→ <a href="basics.html">基本システム・仕様まとめ</a></li>
+<li><strong>放置ラン（放置周回）</strong>：ジャンプ・スライド等の操作を行わず自動的にコイン・アイテムを回収するプレイスタイルのこと。→ <a href="../guide/coin-farming.html">コイン稼ぎ攻略</a></li>
+<li><strong>スコアタ（スコアアタック）</strong>：スコアを狙うプレイスタイルのこと。→ <a href="../guide/score-attack.html">スコアタ攻略</a></li>
+<li><strong>神秘のかけら</strong>：祝福を後から確定付与するための素材。→ <a href="blessing.html">宝物の祝福システム</a></li>
+<li><strong>魔法の粉／マジックパウダー</strong>：宝物を抽出して得られる素材。合成に使用する材料を生成するために使用する。→ <a href="../guide/materials.html">育成素材・アイテムガイド</a></li>
+<li><strong>メダル</strong>：メダルショップで宝物ボックス拡張券・神秘のかけら等と交換できるポイント。毎週のリーグ・クッキーランキング報酬で獲得する。→ <a href="../guide/materials.html">育成素材・アイテムガイド</a></li>
+<li><strong>コインロック</strong>：大量のコインを獲得すると報酬が無効になる現象。誤BANリスクとしてはクラシック版で報告あり。→ <a href="basics.html">基本システム・仕様まとめ</a></li>
 <li><strong>誤BAN</strong>：不正でないにもかかわらずアカウントが制限される事象を指す俗称。→ <a href="basics.html">基本システム・仕様まとめ</a></li>
 <li><strong>SS／S＋ランク</strong>：同一ランクを指すが、カカオ版は「SS」、クラシック版は「S＋」と表記される。→ <a href="basics.html">基本システム・仕様まとめ</a></li>
+<li><strong>クラシック版／グローバル版</strong>：2026年6月25日にリリースされた国際版クッキーラン。→ <a href="basics.html">基本システム・仕様まとめ</a></li>
+<li><strong>オブレ（オーブンブレイク）</strong>：別タイトルのクッキーランシリーズ。→ <a href="basics.html">基本システム・仕様まとめ</a></li>
+<li><strong>LINE版</strong>：かつて日本で配信されていたクッキーラン。2018年6月5日にサービス終了した。→ <a href="basics.html">基本システム・仕様まとめ</a></li>
+<li><strong>リザルト処理</strong>：ゲーム結果を確定させる処理。2端末同時プレイ時などにブーストアイテムの所持数不足でエラーになることがある。→ <a href="../guide/materials.html">育成素材・アイテムガイド</a></li>
+<li><strong>サブ垢（サブ端末）</strong>：メインアカウントとは別に作成するアカウント／使用する別の端末。リセマラや招待カウント稼ぎに利用される。→ <a href="../beginner/invite-event.html">招待イベントの進め方</a></li>
+<li><strong>経験値パーティー</strong>：所持効果を利用した高効率な経験値稼ぎ編成。→ <a href="../guide/treasure-management.html">宝物の取捨選択・育成優先度</a></li>
+<li><strong>所持効果</strong>：所持しているとステージ上で能力を発動するクッキーの特殊効果。</li>
+<li><strong>業績</strong>：各エピソードに存在するミッション。</li>
+<li><strong>ミスボ（ミステリーボックス）</strong>：ステージ上に生成されるボックス。材料や宝石などが入手できる。</li>
+<li><strong>ベストコンビ</strong>：特定のクッキーとペットの組み合わせのこと。</li>
+<li><strong>コンビボーナス</strong>：ベストコンビの追加効果のこと。バトンのクッキーにも適用される。</li>
 </ul>
 <h2 id="section-2">カカオ版固有の用語</h2>
 <ul>
 <li><strong>カカとも</strong>：カカオトーク上の友達（フレンド）。→ <a href="../beginner/friend-heart.html">フレンド・ハートの集め方</a></li>
 <li><strong>461エラー</strong>：カカともを短時間で追加しすぎた際に、ハート送受信でブロックされるエラー。→ <a href="../beginner/kakao-troubleshooting.html">カカオ版のよくあるトラブル対応</a></li>
 <li><strong>トーク安心パス</strong>：カカオトークの利用制限機能。オープンチャット参加が一時的に制限されることがある。→ <a href="../beginner/kakao-troubleshooting.html">カカオ版のよくあるトラブル対応</a></li>
-<li><strong>リス／リスショップ</strong>：期間限定の高額クリスタル消費型ガチャショップ。→ <a href="../modes/others.html">その他のモード</a></li>
-<li><strong>クラシック版／グローバル版</strong>（カカオ版側からの呼称）：2026年6月にリリースされた国際版クッキーラン。→ <a href="basics.html">基本システム・仕様まとめ</a></li>
-<li><strong>オブレ（オーブンブレイク）</strong>：別タイトルのクッキーランシリーズ。→ <a href="basics.html">基本システム・仕様まとめ</a></li>
-<li><strong>LINE版</strong>：かつて日本で配信されていたクッキーラン（サービス終了済み）。→ <a href="basics.html">基本システム・仕様まとめ</a></li>
 </ul>
 <h2 id="section-3">クラシック版固有の用語</h2>
 <ul>
-<li><strong>表記揺れ</strong>：同じ効果の宝物が異なる文言（例：「衝突ダメージ増加」の2表記）で表示されている状態を指す。→ <a href="basics.html">基本システム・仕様まとめ</a></li>
-<li><strong>リザルト処理</strong>：2端末同時プレイ時などにゲーム結果を確定させる処理。ブーストアイテムの所持数不足でエラーになることがある。→ <a href="../guide/materials.html">育成素材・アイテムガイド</a></li>
-<li><strong>サブ垢（サブ端末）</strong>：メインアカウントとは別に作成するアカウント／使用する別の端末。リセマラや招待カウント稼ぎに利用される。→ <a href="../beginner/invite-event.html">招待イベントの進め方</a></li>
-<li><strong>経験値パーティー</strong>：新しい所持効果を利用した高効率な経験値稼ぎ編成（誤BANリスクに注意）。→ <a href="../guide/treasure-management.html">宝物の取捨選択・育成優先度</a></li>
+<li><strong>キャビネット</strong>：宝物ボックスのこと。</li>
+<li><strong>マジックパウダー</strong>：魔法の粉のこと。</li>
 </ul>
-<h2 id="section-4">追加候補（本文中で頻出するが単独の用語説明はない語）</h2>
-<p>所持効果、巨大化、復活体力、エピソード業績、ミステリーボックス、ベストコンビ（ボーナス）</p>
-<p>※ いずれも知識ベース本文中で言及される範囲でのみ掲載しており、新規定義は追加していません。</p>
+<h2 id="section-4">クッキー名称対応表</h2>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>No.</th>
+<th>日本語名</th>
+<th>英語名</th>
+<th>韓国語名</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>勇敢なクッキー君</td>
+<td>GingerBrave</td>
+<td>용감한 쿠키군</td>
+</tr>
+<tr>
+<td>2</td>
+<td>陽気なクッキーちゃん</td>
+<td>GingerBright</td>
+<td>명랑한 쿠키양</td>
+</tr>
+<tr>
+<td>3</td>
+<td>イチゴ味クッキー</td>
+<td>Strawberry Cookie</td>
+<td>딸기맛 쿠키</td>
+</tr>
+<tr>
+<td>4</td>
+<td>クッキー&amp;クリームクッキー</td>
+<td>Cream Cookie</td>
+<td>쿠키앤크림 쿠키</td>
+</tr>
+<tr>
+<td>5</td>
+<td>雲味クッキー</td>
+<td>Cloud Cookie</td>
+<td>구름맛 쿠키</td>
+</tr>
+<tr>
+<td>6</td>
+<td>バタークリームチョコクッキー</td>
+<td>Buttercream Choco Cookie</td>
+<td>버터크림 초코쿠키</td>
+</tr>
+<tr>
+<td>7</td>
+<td>サンタ味クッキー</td>
+<td>(該当なし)</td>
+<td>산타맛 쿠키</td>
+</tr>
+<tr>
+<td>8</td>
+<td>コーヒー味クッキー</td>
+<td>Coffee Cookie</td>
+<td>커피맛 쿠키</td>
+</tr>
+<tr>
+<td>9</td>
+<td>スケーター味クッキー</td>
+<td>Skater Cookie</td>
+<td>보더맛 쿠키</td>
+</tr>
+<tr>
+<td>10</td>
+<td>プリンセス味クッキー</td>
+<td>Princess Cookie</td>
+<td>공주맛 쿠키</td>
+</tr>
+<tr>
+<td>11</td>
+<td>勇者味クッキー</td>
+<td>Knight Cookie</td>
+<td>용사맛 쿠키</td>
+</tr>
+<tr>
+<td>12</td>
+<td>筋肉味クッキー</td>
+<td>Muscle Cookie</td>
+<td>근육맛 쿠키</td>
+</tr>
+<tr>
+<td>13</td>
+<td>ゾンビ味クッキー</td>
+<td>Zombie Cookie</td>
+<td>좀비맛 쿠키</td>
+</tr>
+<tr>
+<td>14</td>
+<td>エンジェル味クッキー</td>
+<td>Angel Cookie</td>
+<td>천사맛 쿠키</td>
+</tr>
+<tr>
+<td>15</td>
+<td>忍者味クッキー</td>
+<td>Ninja Cookie</td>
+<td>닌자맛 쿠키</td>
+</tr>
+<tr>
+<td>16</td>
+<td>海賊味クッキー</td>
+<td>Pirate Cookie</td>
+<td>해적맛 쿠키</td>
+</tr>
+<tr>
+<td>17</td>
+<td>フィギュア味クッキー</td>
+<td>Skating Queen Cookie</td>
+<td>피겨여왕맛 쿠키</td>
+</tr>
+<tr>
+<td>18</td>
+<td>ヒーロー味クッキー</td>
+<td>Hero Cookie</td>
+<td>히어로맛 쿠키</td>
+</tr>
+<tr>
+<td>19</td>
+<td>チアリーダー味クッキー</td>
+<td>Cheerleader Cookie</td>
+<td>치어리더맛 쿠키</td>
+</tr>
+<tr>
+<td>20</td>
+<td>特殊部隊味クッキー</td>
+<td>Special Force Cookie</td>
+<td>특전사맛 쿠키</td>
+</tr>
+<tr>
+<td>21</td>
+<td>義賊味クッキー</td>
+<td>Rebel Cookie</td>
+<td>의적맛 쿠키</td>
+</tr>
+<tr>
+<td>22</td>
+<td>妖狐味クッキー</td>
+<td>Kumiho Cookie</td>
+<td>구미호맛 쿠키</td>
+</tr>
+<tr>
+<td>23</td>
+<td>デビル味クッキー</td>
+<td>Devil Cookie</td>
+<td>악마맛 쿠키</td>
+</tr>
+<tr>
+<td>24</td>
+<td>魔導士味クッキー</td>
+<td>Wizard Cookie</td>
+<td>마법사맛 쿠키</td>
+</tr>
+<tr>
+<td>25</td>
+<td>妖精味クッキー</td>
+<td>Fairy Cookie</td>
+<td>요정맛 쿠키</td>
+</tr>
+<tr>
+<td>26</td>
+<td>ロックスター味クッキー</td>
+<td>Rockstar Cookie</td>
+<td>락스타맛 쿠키</td>
+</tr>
+<tr>
+<td>27</td>
+<td>チェリー味クッキー</td>
+<td>Cherry Cookie</td>
+<td>체리맛 쿠키</td>
+</tr>
+<tr>
+<td>28</td>
+<td>吟遊詩人味クッキー</td>
+<td>Carol Cookie</td>
+<td>음유시인맛 쿠키</td>
+</tr>
+<tr>
+<td>29</td>
+<td>粉雪味クッキー</td>
+<td>Snow Sugar Cookie</td>
+<td>눈설탕맛 쿠키</td>
+</tr>
+<tr>
+<td>30</td>
+<td>ピンクチョコクッキー</td>
+<td>Pink Choco Cookie</td>
+<td>핑크초코쿠키</td>
+</tr>
+<tr>
+<td>31</td>
+<td>予言者味クッキー</td>
+<td>Prophet Cookie</td>
+<td>예언자맛 쿠키</td>
+</tr>
+<tr>
+<td>32</td>
+<td>ピスタチオ味クッキー</td>
+<td>Pistachio Cookie</td>
+<td>피스타치오맛 쿠키</td>
+</tr>
+<tr>
+<td>33</td>
+<td>錬金術師味クッキー</td>
+<td>Alchemist Cookie</td>
+<td>연금술사맛 쿠키</td>
+</tr>
+<tr>
+<td>34</td>
+<td>ヴァンパイア味クッキー</td>
+<td>Vampire Cookie</td>
+<td>뱀파이어맛 쿠키</td>
+</tr>
+<tr>
+<td>35</td>
+<td>青リンゴ味クッキー</td>
+<td>Apple Cookie</td>
+<td>풋사과맛 쿠키</td>
+</tr>
+<tr>
+<td>36</td>
+<td>チーズケーキ味クッキー</td>
+<td>Cheesecake Cookie</td>
+<td>치즈케이크맛 쿠키</td>
+</tr>
+<tr>
+<td>37</td>
+<td>ソーダ味クッキー</td>
+<td>Soda Cookie</td>
+<td>소다맛 쿠키</td>
+</tr>
+<tr>
+<td>38</td>
+<td>探検家味クッキー</td>
+<td>Adventurer Cookie</td>
+<td>탐험가맛 쿠키</td>
+</tr>
+<tr>
+<td>39</td>
+<td>ジャングル戦士味クッキー</td>
+<td>Tiger Lily Cookie</td>
+<td>정글전사 쿠키</td>
+</tr>
+<tr>
+<td>40</td>
+<td>炎の精霊味クッキー</td>
+<td>Fire Spirit Cookie</td>
+<td>불꽃정령 쿠키</td>
+</tr>
+<tr>
+<td>41</td>
+<td>ブラックベリー味クッキー</td>
+<td>Blackberry Cookie</td>
+<td>블랙베리맛 쿠키</td>
+</tr>
+<tr>
+<td>42</td>
+<td>キウイ味クッキー</td>
+<td>Kiwi Cookie</td>
+<td>키위맛 쿠키</td>
+</tr>
+<tr>
+<td>43</td>
+<td>ウェアウルフ味クッキー</td>
+<td>Werewolf Cookie</td>
+<td>웨어울프맛 쿠키</td>
+</tr>
+<tr>
+<td>44</td>
+<td>ミントチョコクッキー</td>
+<td>Mint Choco Cookie</td>
+<td>민트초코쿠키</td>
+</tr>
+<tr>
+<td>45</td>
+<td>ココア味クッキー</td>
+<td>Cocoa Cookie</td>
+<td>코코아맛 쿠키</td>
+</tr>
+<tr>
+<td>46</td>
+<td>ムエタイ味クッキー</td>
+<td>Red Pepper Cookie</td>
+<td>홍고추맛 쿠키</td>
+</tr>
+<tr>
+<td>47</td>
+<td>シュークリーム味クッキー</td>
+<td>Cream Puff Cookie</td>
+<td>슈크림맛 쿠키</td>
+</tr>
+<tr>
+<td>48</td>
+<td>ムーンライト魔術師クッキー</td>
+<td>Moonlight Cookie</td>
+<td>달빛술사 쿠키</td>
+</tr>
+<tr>
+<td>49</td>
+<td>バブルガム味クッキー</td>
+<td>Gumball Cookie</td>
+<td>버블껌맛 쿠키</td>
+</tr>
+<tr>
+<td>50</td>
+<td>サクラ味クッキー</td>
+<td>Cherry Blossom Cookie</td>
+<td>벚꽃맛 쿠키</td>
+</tr>
+<tr>
+<td>51</td>
+<td>レモン味クッキー</td>
+<td>Lemon Cookie</td>
+<td>레몬맛 쿠키</td>
+</tr>
+<tr>
+<td>52</td>
+<td>オレンジ味クッキー</td>
+<td>Orange Cookie</td>
+<td>오렌지맛 쿠키</td>
+</tr>
+<tr>
+<td>53</td>
+<td>ライム味クッキー</td>
+<td>Lime Cookie</td>
+<td>라임맛 쿠키</td>
+</tr>
+<tr>
+<td>54</td>
+<td>ハッカ飴味クッキー</td>
+<td>Peppermint Cookie</td>
+<td>박하사탕맛 쿠키</td>
+</tr>
+<tr>
+<td>55</td>
+<td>ピーチ味クッキー</td>
+<td>Peach Cookie</td>
+<td>복숭아맛 쿠키</td>
+</tr>
+<tr>
+<td>56</td>
+<td>ナツメ味クッキー</td>
+<td>General Jujube Cookie</td>
+<td>대추맛 쿠키</td>
+</tr>
+<tr>
+<td>57</td>
+<td>オニオン味クッキー</td>
+<td>Onion Cookie</td>
+<td>양파맛 쿠키</td>
+</tr>
+<tr>
+<td>58</td>
+<td>シナモン味クッキー</td>
+<td>Cinnamon Cookie</td>
+<td>시나몬맛 쿠키</td>
+</tr>
+<tr>
+<td>59</td>
+<td>マカロン味クッキー</td>
+<td>Macaron Cookie</td>
+<td>마카롱맛 쿠키</td>
+</tr>
+<tr>
+<td>60</td>
+<td>あずき味クッキー</td>
+<td>Red Bean Cookie</td>
+<td>단팥맛 쿠키</td>
+</tr>
+<tr>
+<td>61</td>
+<td>ホワイトチョコクッキー</td>
+<td>White Choco Cookie</td>
+<td>화이트초코 쿠키</td>
+</tr>
+<tr>
+<td>62</td>
+<td>ハーブ味クッキー</td>
+<td>Herb Cookie</td>
+<td>허브맛 쿠키</td>
+</tr>
+<tr>
+<td>63</td>
+<td>ダイナサワークッキー</td>
+<td>Dino-Sour Cookie</td>
+<td>다이노사워 쿠키</td>
+</tr>
+<tr>
+<td>64</td>
+<td>海の妖精クッキー</td>
+<td>Sea Fairy Cookie</td>
+<td>바다요정 쿠키</td>
+</tr>
+<tr>
+<td>65</td>
+<td>わたあめ味クッキー</td>
+<td>Cotton Candy Cookie</td>
+<td>솜사탕맛 쿠키</td>
+</tr>
+<tr>
+<td>66</td>
+<td>ロールケーキ味クッキー</td>
+<td>Roll Cake Cookie</td>
+<td>롤케이크맛 쿠키</td>
+</tr>
+<tr>
+<td>67</td>
+<td>バナナ味クッキー</td>
+<td>Banana Cookie</td>
+<td>바나나맛 쿠키</td>
+</tr>
+<tr>
+<td>68</td>
+<td>パンケーキ味クッキー</td>
+<td>Pancake Cookie</td>
+<td>팬케이크맛 쿠키</td>
+</tr>
+<tr>
+<td>69</td>
+<td>ウィンドアーチャークッキー</td>
+<td>Wind Archer Cookie</td>
+<td>바람궁수 쿠키</td>
+</tr>
+<tr>
+<td>70</td>
+<td>月うさぎ味クッキー</td>
+<td>Moon Rabbit Cookie</td>
+<td>달토끼맛 쿠키</td>
+</tr>
+<tr>
+<td>71</td>
+<td>イチゴショートケーキ味クッキー</td>
+<td>Strawberry Shortcake Cookie</td>
+<td>딸기쇼트케이크맛 쿠키</td>
+</tr>
+<tr>
+<td>72</td>
+<td>グラブジャムン味クッキー</td>
+<td>Gulab Jamun Cookie</td>
+<td>굴랍자문맛 쿠키</td>
+</tr>
+<tr>
+<td>73</td>
+<td>カジュカトリ味クッキー</td>
+<td>Kaju Katli Cookie</td>
+<td>카주카틀리맛 쿠키</td>
+</tr>
+<tr>
+<td>74</td>
+<td>メロウバニークッキー</td>
+<td>Marshmallow Bunny Cookie</td>
+<td>멜로우버니 쿠키</td>
+</tr>
+<tr>
+<td>75</td>
+<td>キュウリ味クッキー</td>
+<td>Cucumber Cookie</td>
+<td>오이맛 쿠키</td>
+</tr>
+<tr>
+<td>76</td>
+<td>シッケ味クッキー</td>
+<td>Sikhye Cookie</td>
+<td>식혜맛 쿠키</td>
+</tr>
+<tr>
+<td>77</td>
+<td>スジョングァ味クッキー</td>
+<td>Sujeonggwa Cookie</td>
+<td>수정과맛 쿠키</td>
+</tr>
+<tr>
+<td>78</td>
+<td>大麦長寿味クッキー</td>
+<td>Barley Sentry Cookie</td>
+<td>보리장수맛 쿠키</td>
+</tr>
+<tr>
+<td>79</td>
+<td>バリ姫味クッキー</td>
+<td>Princess Bari Cookie</td>
+<td>바리공주맛 쿠키</td>
+</tr>
+<tr>
+<td>80</td>
+<td>ポテトサラダ味クッキー</td>
+<td>Potato Salad Cookie</td>
+<td>감자샐러드맛 쿠키</td>
+</tr>
+<tr>
+<td>81</td>
+<td>ネギキムチ味クッキー</td>
+<td>Scallion Kimchi Cookie</td>
+<td>파김치맛 쿠키</td>
+</tr>
+<tr>
+<td>82</td>
+<td>白キムチ味クッキー</td>
+<td>White Kimchi Cookie</td>
+<td>백김치맛 쿠키</td>
+</tr>
+<tr>
+<td>83</td>
+<td>チュンムキムパプ味クッキー</td>
+<td>Admiral Gimbap Cookie</td>
+<td>충무김밥맛 쿠키</td>
+</tr>
+<tr>
+<td>84</td>
+<td>かしわ餅味クッキー</td>
+<td>Manggaetteok Cookie</td>
+<td>망개떡맛 쿠키</td>
+</tr>
+<tr>
+<td>85</td>
+<td>梅花丹青クッキー</td>
+<td>Blooming Dancheong Cookie</td>
+<td>매화단청 쿠키</td>
+</tr>
+<tr>
+<td>86</td>
+<td>カレトック味クッキー</td>
+<td>Garaetteok Cookie</td>
+<td>가래떡맛 쿠키</td>
+</tr>
+<tr>
+<td>87</td>
+<td>ドバイモチモチクッキー</td>
+<td>Choco Pistachio Cookie</td>
+<td>두바이 쫀쫀 쿠키</td>
+</tr>
+<tr>
+<td>88</td>
+<td>タンポポ妖精味クッキー</td>
+<td>Dandelion Fairy Cookie</td>
+<td>민들레요정맛 쿠키</td>
+</tr>
+<tr>
+<td>89</td>
+<td>カイマク味クッキー</td>
+<td>Kaymak Cookie</td>
+<td>카이막맛 쿠키</td>
+</tr>
+<tr>
+<td>90</td>
+<td>金剛法師味クッキー</td>
+<td>Pine Monk Cookie</td>
+<td>금강법사맛 쿠키</td>
+</tr>
+<tr>
+<td>91</td>
+<td>レンコン妖怪味クッキー</td>
+<td>Lotus Root Phantom Cookie</td>
+<td>연근요괴맛 쿠키</td>
+</tr>
+<tr>
+<td>92</td>
+<td>大学芋味クッキー</td>
+<td>Candied Yam Cookie</td>
+<td>고구마맛탕 쿠키</td>
+</tr>
+<tr>
+<td>93</td>
+<td>トンポーロー味クッキー</td>
+<td>Braised Pork Cookie</td>
+<td>동파육맛 쿠키</td>
+</tr>
+<tr>
+<td>94</td>
+<td>マンゴースティッキーライス味クッキー</td>
+<td>Mango Sticky Rice Cookie</td>
+<td>망고스티키라이스맛 쿠키</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="section-5">ペット名称対応表</h2>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>No.</th>
+<th>日本語名</th>
+<th>英語名</th>
+<th>韓国語名</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>まんまるお豆ちゃん</td>
+<td>Bean Drop Duo</td>
+<td>방울방울 콩콩이</td>
+</tr>
+<tr>
+<td>2</td>
+<td>ナイスの手</td>
+<td>Hand of Liker</td>
+<td>좋은손</td>
+</tr>
+<tr>
+<td>3</td>
+<td>チョコドロップ</td>
+<td>Choco Drop</td>
+<td>초코방울</td>
+</tr>
+<tr>
+<td>4</td>
+<td>雲のキャンディ</td>
+<td>Rainbow's End</td>
+<td>구름사탕</td>
+</tr>
+<tr>
+<td>5</td>
+<td>ひょうたんゼリー</td>
+<td>Double Bubble</td>
+<td>조랭이젤리</td>
+</tr>
+<tr>
+<td>6</td>
+<td>チーズドロップ</td>
+<td>Cheese Drop</td>
+<td>치즈방울</td>
+</tr>
+<tr>
+<td>7</td>
+<td>サンタの靴下</td>
+<td>Holiday Stocking</td>
+<td>산타양말</td>
+</tr>
+<tr>
+<td>8</td>
+<td>双子ダンベル</td>
+<td>Dumbbell Twins</td>
+<td>쌍둥이 덤벨</td>
+</tr>
+<tr>
+<td>9</td>
+<td>生クリームモカコーヒー</td>
+<td>Mocha Delight</td>
+<td>생크림 모카커피</td>
+</tr>
+<tr>
+<td>10</td>
+<td>ふかふか毛糸玉</td>
+<td>Cozy Yarn</td>
+<td>포근실타래</td>
+</tr>
+<tr>
+<td>11</td>
+<td>皮つきニンニク</td>
+<td>Rare Garlic</td>
+<td>안깐 마늘</td>
+</tr>
+<tr>
+<td>12</td>
+<td>テクノボール</td>
+<td>Electric Beat</td>
+<td>테크노볼</td>
+</tr>
+<tr>
+<td>13</td>
+<td>サンタの帽子</td>
+<td>Merry Hat</td>
+<td>산타모자</td>
+</tr>
+<tr>
+<td>14</td>
+<td>毛玉ユニコーン</td>
+<td>Dust Unicorn</td>
+<td>뭉치유니콘</td>
+</tr>
+<tr>
+<td>15</td>
+<td>フラワーコプター</td>
+<td>Flowercopter</td>
+<td>플라워콥터</td>
+</tr>
+<tr>
+<td>16</td>
+<td>エンジェルの星</td>
+<td>Wishing Star</td>
+<td>천사의 별</td>
+</tr>
+<tr>
+<td>17</td>
+<td>ブレインガム</td>
+<td>Brain Gum</td>
+<td>브레인껌</td>
+</tr>
+<tr>
+<td>18</td>
+<td>竜のしっぽ</td>
+<td>Dragon's Tail</td>
+<td>용의 꼬리</td>
+</tr>
+<tr>
+<td>19</td>
+<td>ラッキーサイコロ兄弟</td>
+<td>Lucky Dice Bros</td>
+<td>럭키다이스 형제</td>
+</tr>
+<tr>
+<td>20</td>
+<td>キラキララッキーパンプキン</td>
+<td>Luck-o'-lantern</td>
+<td>빛나는 럭키 호박</td>
+</tr>
+<tr>
+<td>21</td>
+<td>プリンセスのアクセサリー</td>
+<td>Princess's Locket</td>
+<td>공주의 장신구</td>
+</tr>
+<tr>
+<td>22</td>
+<td>海賊の爆弾</td>
+<td>Giggle Bomb</td>
+<td>해적의 폭탄</td>
+</tr>
+<tr>
+<td>23</td>
+<td>チビ幽霊</td>
+<td>Little Ghost</td>
+<td>꼬마유령</td>
+</tr>
+<tr>
+<td>24</td>
+<td>雪の結晶</td>
+<td>Snow Blossom</td>
+<td>눈꽃송이</td>
+</tr>
+<tr>
+<td>25</td>
+<td>ゼリーキューブ</td>
+<td>Jellyco Cube</td>
+<td>젤리코 큐브</td>
+</tr>
+<tr>
+<td>26</td>
+<td>キラキラボール</td>
+<td>Glitter Ball</td>
+<td>반짝이볼</td>
+</tr>
+<tr>
+<td>27</td>
+<td>乾パン補給兵</td>
+<td>AWOL Cracker</td>
+<td>건빵 보급병</td>
+</tr>
+<tr>
+<td>28</td>
+<td>炎のコウモリ</td>
+<td>Flame Bat</td>
+<td>불꽃박쥐</td>
+</tr>
+<tr>
+<td>29</td>
+<td>黄金ドロップ</td>
+<td>Golden Drop</td>
+<td>황금방울</td>
+</tr>
+<tr>
+<td>30</td>
+<td>風ちゃん</td>
+<td>Windy</td>
+<td>바람이</td>
+</tr>
+<tr>
+<td>31</td>
+<td>キツネビー玉</td>
+<td>Fox Bead</td>
+<td>여우구슬</td>
+</tr>
+<tr>
+<td>32</td>
+<td>魔法辞書</td>
+<td>Book of Wizdom</td>
+<td>마법사전</td>
+</tr>
+<tr>
+<td>33</td>
+<td>つぼみ</td>
+<td>Flower Pod</td>
+<td>꽃봉오리</td>
+</tr>
+<tr>
+<td>34</td>
+<td>スポットライト</td>
+<td>Spotlight Fan</td>
+<td>스포트라이트</td>
+</tr>
+<tr>
+<td>35</td>
+<td>ロケット花火</td>
+<td>Rocket Firecracker</td>
+<td>로켓폭죽</td>
+</tr>
+<tr>
+<td>36</td>
+<td>ブッシュドノエル</td>
+<td>Yule Log Cake</td>
+<td>통나무케이크</td>
+</tr>
+<tr>
+<td>37</td>
+<td>スノーグローブ</td>
+<td>Snow Globe</td>
+<td>스노우 글로브</td>
+</tr>
+<tr>
+<td>38</td>
+<td>福袋</td>
+<td>Lucky Pouch</td>
+<td>복주머니</td>
+</tr>
+<tr>
+<td>39</td>
+<td>ピンクキャンディ</td>
+<td>Pink Candy</td>
+<td>핑크캔디</td>
+</tr>
+<tr>
+<td>40</td>
+<td>紫キャンドル</td>
+<td>Purple Candle</td>
+<td>보라보라 향초</td>
+</tr>
+<tr>
+<td>41</td>
+<td>ホタル</td>
+<td>Pistachio Firefly</td>
+<td>반딧불이</td>
+</tr>
+<tr>
+<td>42</td>
+<td>ゼリー天秤</td>
+<td>Jelly Scale</td>
+<td>젤리저울</td>
+</tr>
+<tr>
+<td>43</td>
+<td>コイン天秤</td>
+<td>Coin Scale</td>
+<td>코인저울</td>
+</tr>
+<tr>
+<td>44</td>
+<td>クヌギのジュース樽</td>
+<td>Oak Barrel</td>
+<td>참나무 주스통</td>
+</tr>
+<tr>
+<td>45</td>
+<td>リンゴうさぎ</td>
+<td>Apple Rabbit</td>
+<td>토끼사과</td>
+</tr>
+<tr>
+<td>46</td>
+<td>ふわふわチーズ猫</td>
+<td>Fluffy Cheese Cat</td>
+<td>치즈뭉치 고양이</td>
+</tr>
+<tr>
+<td>47</td>
+<td>輪切りレモン</td>
+<td>Lemon Slice</td>
+<td>조각레몬</td>
+</tr>
+<tr>
+<td>48</td>
+<td>リュックサックちゃん</td>
+<td>Backpacky</td>
+<td>배낭이</td>
+</tr>
+<tr>
+<td>49</td>
+<td>執事幽霊</td>
+<td>Ghost Butler</td>
+<td>집사 유령</td>
+</tr>
+<tr>
+<td>50</td>
+<td>キウイ鳥</td>
+<td>Kiwi Bird</td>
+<td>키위새</td>
+</tr>
+<tr>
+<td>51</td>
+<td>ワンワン毛玉</td>
+<td>Furball Pup</td>
+<td>털뭉치 멍뭉이</td>
+</tr>
+<tr>
+<td>52</td>
+<td>ミスターファソラシ</td>
+<td>Mr. Fa-Sol-La-Si</td>
+<td>미스터 파솔라시</td>
+</tr>
+<tr>
+<td>53</td>
+<td>ミスドレミ</td>
+<td>Ms. Do-Re-Mi</td>
+<td>미스 도레미</td>
+</tr>
+<tr>
+<td>54</td>
+<td>マシュマロハムちゃん</td>
+<td>Marshmallow Hamster</td>
+<td>마시멜로 햄찌</td>
+</tr>
+<tr>
+<td>55</td>
+<td>パプリカサンドバッグ</td>
+<td>Paprika Punching Bag</td>
+<td>파프리카 샌드백</td>
+</tr>
+<tr>
+<td>56</td>
+<td>ドングリフクロウ</td>
+<td>Owlcorn</td>
+<td>도토리 부엉이</td>
+</tr>
+<tr>
+<td>57</td>
+<td>ミニジャクソン2号</td>
+<td>Mini Jackson No.2</td>
+<td>미니 잭슨 2호</td>
+</tr>
+<tr>
+<td>58</td>
+<td>ティーカップ</td>
+<td>Tea Cup</td>
+<td>홍차 찻잔</td>
+</tr>
+<tr>
+<td>59</td>
+<td>レモン電池</td>
+<td>Electro Lemon</td>
+<td>레몬 전지</td>
+</tr>
+<tr>
+<td>60</td>
+<td>チビマウス</td>
+<td>Mini Orange Mouse</td>
+<td>어린쥐</td>
+</tr>
+<tr>
+<td>61</td>
+<td>プラチナドロップ</td>
+<td>Platinum Drop</td>
+<td>백금방울</td>
+</tr>
+<tr>
+<td>62</td>
+<td>ミスターライムガード</td>
+<td>Mr. Limeguard</td>
+<td>미스터 벡</td>
+</tr>
+<tr>
+<td>63</td>
+<td>折り紙お船の船乗り</td>
+<td>Paper Boat Sailor</td>
+<td>종이배 선원</td>
+</tr>
+<tr>
+<td>64</td>
+<td>パンダまんじゅう</td>
+<td>Panda Dumpling</td>
+<td>판다 만두</td>
+</tr>
+<tr>
+<td>65</td>
+<td>冷めない茶碗</td>
+<td>Uncooling Teacup</td>
+<td>식지 않는 찻잔</td>
+</tr>
+<tr>
+<td>66</td>
+<td>オニオンフィッシュ</td>
+<td>Onion Fish</td>
+<td>양파 물고기</td>
+</tr>
+<tr>
+<td>67</td>
+<td>シナモンロールウサギ</td>
+<td>Cinnamon Bunny</td>
+<td>시나몬롤 토끼</td>
+</tr>
+<tr>
+<td>68</td>
+<td>カスタネット</td>
+<td>Castanets</td>
+<td>캐스터네츠</td>
+</tr>
+<tr>
+<td>69</td>
+<td>ウェーブドロップ</td>
+<td>Wave Drop</td>
+<td>파도방울</td>
+</tr>
+<tr>
+<td>70</td>
+<td>モチモチアザラシ</td>
+<td>Sweet Rice Seal</td>
+<td>찹쌀 하프물범</td>
+</tr>
+<tr>
+<td>71</td>
+<td>懐中時計審判</td>
+<td>Pocket Watch Referee</td>
+<td>회중시계 심판</td>
+</tr>
+<tr>
+<td>72</td>
+<td>ハーブティーポット</td>
+<td>Herb Teapot</td>
+<td>허브티팟</td>
+</tr>
+<tr>
+<td>73</td>
+<td>ポッピングドラゴンのタマゴ</td>
+<td>Dino Egg</td>
+<td>팝핑 용알</td>
+</tr>
+<tr>
+<td>74</td>
+<td>わたあめハト</td>
+<td>Cotton Candy Bird</td>
+<td>솜사탕 비둘기</td>
+</tr>
+<tr>
+<td>75</td>
+<td>ライト兄弟</td>
+<td>Light Bros</td>
+<td>라이트 형제</td>
+</tr>
+<tr>
+<td>76</td>
+<td>サバナナライオン</td>
+<td>Banana Lion</td>
+<td>사바나나 사자</td>
+</tr>
+<tr>
+<td>77</td>
+<td>パンケーキフライングディスク</td>
+<td>Pancake Frisbee</td>
+<td>팬케이크 원반</td>
+</tr>
+<tr>
+<td>78</td>
+<td>餅つきうす</td>
+<td>Moon Mortar</td>
+<td>달절구</td>
+</tr>
+<tr>
+<td>79</td>
+<td>ころころわんケーキ</td>
+<td>Tiny Cake Hound</td>
+<td>작은 케이크들개</td>
+</tr>
+<tr>
+<td>80</td>
+<td>チビブック</td>
+<td>Tiny Tabla</td>
+<td>꼬마북</td>
+</tr>
+<tr>
+<td>81</td>
+<td>オウムじいさん</td>
+<td>Parrot Dada</td>
+<td>앵무할아범</td>
+</tr>
+<tr>
+<td>82</td>
+<td>ふわふわエッグバニー</td>
+<td>Soft Egg Bunny</td>
+<td>말랑 에그버니</td>
+</tr>
+<tr>
+<td>83</td>
+<td>キュウリプリンカエル</td>
+<td>Cucu-dding</td>
+<td>오이푸딩 개구리</td>
+</tr>
+<tr>
+<td>84</td>
+<td>黒石の黒米先生</td>
+<td>Elder Black Rice</td>
+<td>흑돌 흑미 선생</td>
+</tr>
+<tr>
+<td>85</td>
+<td>白石の白米先生</td>
+<td>Elder White Rice</td>
+<td>백돌 백미 선생</td>
+</tr>
+<tr>
+<td>86</td>
+<td>ドラゴンホースのぬいぐるみ</td>
+<td>Pegaplush</td>
+<td>용마 인형</td>
+</tr>
+<tr>
+<td>87</td>
+<td>クルトック霊魂</td>
+<td>Ghoul Cake</td>
+<td>꿀떡 영혼</td>
+</tr>
+<tr>
+<td>88</td>
+<td>ダサラパン</td>
+<td>Tater Trader</td>
+<td>다사라 빵</td>
+</tr>
+<tr>
+<td>89</td>
+<td>テントウムシ</td>
+<td>Lady Mudang</td>
+<td>벌레무당</td>
+</tr>
+<tr>
+<td>90</td>
+<td>サイコロ鈴</td>
+<td>Kimchi Bell</td>
+<td>깍둑방울</td>
+</tr>
+<tr>
+<td>91</td>
+<td>ラン中日記</td>
+<td>Chronicles of Run</td>
+<td>런중일기</td>
+</tr>
+<tr>
+<td>92</td>
+<td>かしわの葉カタツムリ</td>
+<td>Manggae Snail</td>
+<td>망개잎 달팽이</td>
+</tr>
+<tr>
+<td>93</td>
+<td>ソッテ家族</td>
+<td>Sotdae Flock</td>
+<td>솟대 가족</td>
+</tr>
+<tr>
+<td>94</td>
+<td>もちもちチョコハリネズミ</td>
+<td>Choco Hedgehog</td>
+<td>쫀쫀 초코도치</td>
+</tr>
+<tr>
+<td>95</td>
+<td>赤ちゃんわたげ</td>
+<td>Baby Spore</td>
+<td>아기홀씨</td>
+</tr>
+<tr>
+<td>96</td>
+<td>ハチミツひょうたん</td>
+<td>Honey Gourd</td>
+<td>꿀 호리병</td>
+</tr>
+<tr>
+<td>97</td>
+<td>白龍</td>
+<td>White Dragon Horsie</td>
+<td>백용</td>
+</tr>
+<tr>
+<td>98</td>
+<td>ハスの実乳母</td>
+<td>Lotus Sitter</td>
+<td>연밥 유모</td>
+</tr>
+<tr>
+<td>99</td>
+<td>チンゲン菜座布団</td>
+<td>Bok Choy Cushion</td>
+<td>청경채 방석</td>
+</tr>
+<tr>
+<td>100</td>
+<td>マンゴーロール</td>
+<td>Mango Roll</td>
+<td>망고롤</td>
+</tr>
+<tr>
+<td>101</td>
+<td>巨大チョコドロップ</td>
+<td>King Choco Drop</td>
+<td>초코 왕방울</td>
+</tr>
+</tbody>
+</table></div>
 <hr />
 <p><strong>関連ページ</strong>：ほぼ全カテゴリ</p>
 

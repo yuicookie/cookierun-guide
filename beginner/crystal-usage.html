@@ -9,6 +9,22 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/style.css">
+<script>
+/* バージョン切り替えの初期値を、CSS適用・body描画より前に確定させる。
+   ボタンの選択色もCSS側でhtml[data-version]を基準に決めているため
+   （script.js参照）、ここでdata-version属性さえ早期に設定すれば、
+   ヘッダーのボタンが一瞬「両バージョン」に見えるちらつきを防げる。 */
+(function () {
+  try {
+    var v = localStorage.getItem("cr_version_pref");
+    if (v === "kakao" || v === "classic" || v === "both") {
+      document.documentElement.setAttribute("data-version", v);
+    }
+  } catch (e) {
+    /* プライベートブラウジング等でlocalStorageが使えない場合は既定値(both)のまま */
+  }
+})();
+</script>
 <link rel="icon" type="image/png" href="../assets/img/favicon.svg">
 <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9890627047838156" crossorigin="anonymous"></script>
@@ -72,7 +88,7 @@
 
         <li><a href="invite-event.html">招待イベントの進め方</a></li>
 
-        <li><a href="payment-kakao.html">課金方法（カカオ版）</a></li>
+        <li><a href="payment.html">課金方法</a></li>
 
         <li><a href="kakao-troubleshooting.html">カカオ版のよくあるトラブル対応</a></li>
 
@@ -112,7 +128,7 @@
 
         <li><a href="../modes/party-run.html">パーティーラン（オンライン対戦）</a></li>
 
-        <li><a href="../modes/episodes.html">エピソード別攻略（EP1〜EP7）</a></li>
+        <li><a href="../modes/episodes.html">エピソード別攻略（Ep1〜Ep7）</a></li>
 
         <li><a href="../modes/others.html">その他のモード</a></li>
 
@@ -191,31 +207,33 @@
 
 
       <h2 id="section-1">クリスタルを貯める方法</h2>
-<div class="section-meta"><span class="meta-chip v-mixed">対象バージョン：混在</span><span class="meta-chip">情報の性質：確定情報</span></div>
+<div class="section-meta"><span class="meta-chip">情報の性質：確定情報</span></div>
 
+<ol>
+<li>ログイン報酬</li>
+<li>レベルアップ報酬</li>
+<li>フローズンウェーブの塔</li>
+<li>デイリーミッション</li>
+<li>イベントタスク</li>
+<li>パーティーラン</li>
+<li>パーティーランパス</li>
+<li>エピソード業績</li>
+<li>クッキーランキング</li>
+</ol>
+<p>基本方針は「クリスタル所持効果付き宝物」を増やしてログインボーナスを積み上げることです。フローズン攻略が初心者に推奨されます。レベルアップ報酬は50レベル以降が本命ですが、50レベルまでにも「サプライズギフト」があります。</p>
+<p>デイリーミッションからは確定でクリスタル2個が入手できます。</p>
+<p>パーティーランは毎月開催され、ランクに応じて最大クリスタル200個獲得可能です。</p>
 <div class="v-block v-kakao">
 <p class="v-label">カカオ版</p>
-<p class="lead">①ログイン報酬 ②レベルアップ報酬 ③フローズンウェーブの塔 ④クッキーランキング。基本方針は「クリスタル所持効果付き宝物」を増やしてログインボーナスを積み上げることです。フローズン攻略が初心者に推奨されます。レベルアップ報酬は50レベル以降が本命ですが、50レベルまでにも「サプライズギフト」があります。記念日（クリスマス・旧正月・秋夕等）にクリスタル500個前後の配布が多いです。</p>
+<p>記念日（クリスマス・旧正月・秋夕等）にクリスタル500個前後の配布が多いです。</p>
 </div>
-<div class="v-block v-classic">
-<p class="v-label">クラシック版</p>
-<p>クリスタルの優先的な使い道は「ペットガチャ」（目当てのペットが出るまで）と「宝物ボックス拡張」（いっぱいになったら適宜）です。宝物ガチャはフローズンウェーブの塔クリアでガチャチケットが大量にもらえるためクリスタル消費は非推奨です。攻略サイトによれば「クリスタル119個貯めてポテトサラダ味クッキーを購入し、その後ペットを揃える」流れが推奨されます。</p>
-</div>
-<p><strong>共通方針</strong>：「ペットガチャ」「宝物ボックス拡張」優先、「宝物ガチャ」後回し、という方針は両版共通です。</p>
 <h2 id="section-2">クリスタルの優先的な使い道（詳細）</h2>
-<div class="section-meta"><span class="meta-chip v-mixed">対象バージョン：混在</span><span class="meta-chip">情報の性質：経験則（プレイスタイル次第という前提つき）</span></div>
+<div class="section-meta"><span class="meta-chip">情報の性質：経験則（プレイスタイル次第という前提つき）</span></div>
 
-<div class="v-block v-kakao">
-<p class="v-label">カカオ版</p>
-<p>コイン天秤ペットを引けるまで最高級ペットガチャ→最高級宝物ガチャが埋まるまで→300クリスタルは限定クッキー用に温存、という方針が共有されています。ペット未コンプなら宝物ガチャよりペットガチャ優先。ビタビタドリンクの祝福か宝物ガチャの二択という個別事例もあります。</p>
-</div>
-<div class="v-block v-classic">
-<p class="v-label">クラシック版</p>
-<p>ペットガチャ（ダサラパン狙い）優先→宝物ボックス拡張→宝物ガチャは基本非推奨、という方針が共有されています。119個貯めてポテトサラダ味クッキー購入という具体的な数字もあります。</p>
-</div>
-<p>共通の方針（ペットガチャ・ボックス拡張優先、宝物ガチャ後回し）は両版一致しています。個別の細かい優先順位（限定クッキー用の温存など）はカカオ版固有の言及です。</p>
+<p>クリスタルの優先的な使い道は「ペットガチャ」（目当てのペットが出るまで）と「宝物ボックス拡張」（いっぱいになったら適宜）です。宝物ガチャはフローズンウェーブの塔クリアでガチャチケットが大量にもらえるため、序盤でのクリスタル消費は非推奨です。</p>
+<p>また、最大レベル（Lv8）になったペットは排出対象から除外されるため、ペットガチャを引く前にA～Sランクのペットを最大レベルまで強化しておくことを推奨しています。</p>
 <hr />
-<p><strong>関連ページ</strong>：<a href="../faq/faq-list.html#q2">FAQ Q2</a>、<a href="../treasures/useful-treasures.html">有用宝物</a>、<a href="../pets/useful-pets.html">有用ペット</a></p>
+<p><strong>関連ページ</strong>：<a href="../system/basics.html">基本システム・仕様まとめ</a>、<a href="../faq/faq-list.html#q2">FAQ Q2</a>、<a href="../treasures/useful-treasures.html">有用宝物</a>、<a href="../pets/useful-pets.html">有用ペット</a></p>
 
     </div>
   </main>

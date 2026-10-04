@@ -9,6 +9,22 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/style.css">
+<script>
+/* バージョン切り替えの初期値を、CSS適用・body描画より前に確定させる。
+   ボタンの選択色もCSS側でhtml[data-version]を基準に決めているため
+   （script.js参照）、ここでdata-version属性さえ早期に設定すれば、
+   ヘッダーのボタンが一瞬「両バージョン」に見えるちらつきを防げる。 */
+(function () {
+  try {
+    var v = localStorage.getItem("cr_version_pref");
+    if (v === "kakao" || v === "classic" || v === "both") {
+      document.documentElement.setAttribute("data-version", v);
+    }
+  } catch (e) {
+    /* プライベートブラウジング等でlocalStorageが使えない場合は既定値(both)のまま */
+  }
+})();
+</script>
 <link rel="icon" type="image/png" href="../assets/img/favicon.svg">
 <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9890627047838156" crossorigin="anonymous"></script>
@@ -72,7 +88,7 @@
 
         <li><a href="../beginner/invite-event.html">招待イベントの進め方</a></li>
 
-        <li><a href="../beginner/payment-kakao.html">課金方法（カカオ版）</a></li>
+        <li><a href="../beginner/payment.html">課金方法</a></li>
 
         <li><a href="../beginner/kakao-troubleshooting.html">カカオ版のよくあるトラブル対応</a></li>
 
@@ -112,7 +128,7 @@
 
         <li><a href="../modes/party-run.html">パーティーラン（オンライン対戦）</a></li>
 
-        <li><a href="../modes/episodes.html">エピソード別攻略（EP1〜EP7）</a></li>
+        <li><a href="../modes/episodes.html">エピソード別攻略（Ep1〜Ep7）</a></li>
 
         <li><a href="../modes/others.html">その他のモード</a></li>
 
@@ -206,7 +222,7 @@
       <p class="lead">コイン稼ぎ・スコアタ・特定ステージ攻略などで実際に役立つクッキーをまとめています（クッキー全種類を網羅する図鑑ではなく、個別ページも持たない一覧ページです）。</p>
 <h2 id="section-1">コイン稼ぎ系</h2>
 <h3 id="banana-cookie">バナナ味クッキー</h3>
-<div class="section-meta"><span class="meta-chip v-common">対象バージョン：両方確認</span><span class="meta-chip">情報の性質：確定情報（実測データ・アップデート内容）＋経験則（環境評価）</span></div>
+<div class="section-meta"><span class="meta-chip">情報の性質：確定情報（実測データ・アップデート内容）＋経験則（環境評価）</span></div>
 
 <p>長期間「コイン稼ぎ最強格」として言及される定番クッキーです。所持ペット「サバナナライオン」を持っているとコインで購入可能になります。</p>
 <div class="v-block v-kakao">
@@ -221,19 +237,19 @@
 <p>注意点：コインロック（短時間の大量コイン獲得による制限・誤BANリスク）に注意してください（クラシック版固有のリスクとして報告されています。詳細は<a href="../system/basics.html">基本システム・仕様まとめ</a>を参照）。2025年8月頃実装のコンビペット系クッキー登場以降、長年の「バナナ一強」状況に変化があったとの言及もあります。</p>
 <p><strong>現状の評価</strong>：バナナ味クッキーは1回のプレイで稼げる量は多いですが、現在の主流はポテトサラダ味クッキーによるコイン稼ぎ（時間対効果で優位）という評価に両版とも収束しています。</p>
 <h3 id="potato-salad-cookie">ポテトサラダ味クッキー</h3>
-<div class="section-meta"><span class="meta-chip v-common">対象バージョン：両方確認</span><span class="meta-chip">情報の性質：確定情報</span></div>
+<div class="section-meta"><span class="meta-chip">情報の性質：確定情報</span></div>
 
 <p>ペット「ダサラパン（Tater Trader、20クリスタルガチャで入手）」を入手すると、コインで購入可能になります。</p>
 <p>スコアキャラだと誤解されがちですが、実際は強力なコイン生産キャラです。現在の主流コイン稼ぎクッキーとして両版で評価が収束しています。財布・ベストコンビペットが揃っている場合はバナナより推奨との意見もあります（カカオ版）。</p>
-<p>育成：巨大化時に銀貨→金貨変換する宝物のうち1つがポテサラペット（ダサラパン）のレベルマックス報酬であるため、比較的揃えやすいです。攻略サイトによれば「クリスタル119個貯めて購入」も選択肢です。</p>
-<p>使用場面：コイン稼ぎ全般。「時間効率」が良いです。外部Wiki記載では「効率はエピソード2」との情報があり、これはEP2のクッキー移動速度が速いことによる時間効率の良さと整合します。</p>
+<p>育成：巨大化時に銀貨→金貨変換する宝物のうち1つがポテトサラダペット（ダサラパン）のレベルマックス報酬であるため、比較的揃えやすいです。攻略サイトによれば「クリスタル119個貯めて購入」も選択肢です。</p>
+<p>使用場面：コイン稼ぎ全般。「時間効率」が良いです。外部Wiki記載では「効率はエピソード2」との情報があり、これはEp2のクッキー移動速度が速いことによる時間効率の良さと整合します。</p>
 <div class="v-block v-kakao">
 <p class="v-label">カカオ版</p>
 <p>走り方のアドバイス：なるべくマヨネーズを踏む形で走ります。基本は1段ジャンプです。高速ダッシュ取得時は飛び越しすぎるためジャンプせず突進が安定します。</p>
 </div>
 <h2 id="section-4">放置ラン系</h2>
 <h3 id="flame-spirit-cookie">炎の精霊クッキー</h3>
-<div class="section-meta"><span class="meta-chip v-common">対象バージョン：両方確認</span><span class="meta-chip">情報の性質：確定情報</span></div>
+<div class="section-meta"><span class="meta-chip">情報の性質：確定情報</span></div>
 
 <p>主に放置ランで使用されるクッキーで、ステージ上に浮かぶミステリーボックスの回収のために使われることが多いです。ミステリーボックスからは宝物合成用の素材や宝石のかけらなどがランダムで入手できます。両版共通・高効率性が確定しています。</p>
 <div class="v-block v-kakao">
@@ -245,9 +261,14 @@
 <p>エピソード3の周回でも、長く走れる編成であれば基本的にどのクッキーでも良いですが、炎の精霊狙いの文脈で言及されます。エピソード1・2はコイン稼ぎと周回を兼ねられますが、エピソード3は周回メリットが薄いため放置向き編成が推奨されます。</p>
 </div>
 <p>注意点：韓国コミュニティ（dcinside）由来の攻略情報として紹介された内容が、後日クラシック版でも実際に取得報告があり再現性が確認されています。</p>
+<div class="v-block v-classic">
+<p class="v-label">クラシック版</p>
+<p><strong>スコアタでのバトン適性</strong>：スコアタ用のバトン候補に迷った場合、炎の精霊クッキーをバトンにしておけば無難とされています。能力が復活時にしか発動しないため、道中で衝突しても影響が小さいのが理由です。</p>
+<p><strong>箱周回の相性ペット（2026/09時点）</strong>：箱周回では炎の精霊クッキー＋ダサラパン（Tater Trader）／ミニ幽霊／ロケット花火といったペットの組み合わせが主流とされています。復活時に巨大化ダッシュする「キノコランプ」宝物とも相性が良く、復活能力持ちの炎の精霊と組み合わせることでボックス回収がしやすくなります。</p>
+</div>
 <h2 id="section-6">その他のクッキー</h2>
 <h3 id="section-7">ダイナサワー（ダイナサワー味）</h3>
-<div class="section-meta"><span class="meta-chip v-common">対象バージョン：両方確認</span><span class="meta-chip">情報の性質：確定情報</span></div>
+<div class="section-meta"><span class="meta-chip">情報の性質：確定情報</span></div>
 
 <p>新クッキーです。フレンド（友達）人数が一定数に達すると解放されるという条件が両版に存在します。</p>
 <div class="v-block v-kakao">
@@ -260,7 +281,7 @@
 </div>
 <p>性能・特徴：「巨大化」時、時間延長効果があってもなくても（1秒でも）巨大化時間の長さが変わらない仕様があります（時間延長効果に依存しません）。そのため回復ポーションによる「1秒だけの巨大化」効果でも、通常の長めの巨大化＋非落下状態と同等の恩恵を受けられます。</p>
 <p>育成：レベル1の状態でも、少し距離を伸ばせる宝物をつけていれば機能します。</p>
-<p>使用場面：序盤のEP6箱周回に有用です。ダイナサワー味・レベル1＋距離が伸びる宝物（ベーキングパウダーとの相性が良い）＋HP系ブーストアイテムを併用すると、箱を取った瞬間にやられて時間短縮できるテクニックがあります。</p>
+<p>使用場面：序盤のEp6箱周回に有用です。ダイナサワー味・レベル1＋距離が伸びる宝物（ベーキングパウダーとの相性が良い）＋HP系ブーストアイテムを併用すると、箱を取った瞬間にやられて時間短縮できるテクニックがあります。</p>
 <h3 id="section-8">カイマク味クッキー</h3>
 <div class="section-meta"><span class="meta-chip v-mixed">対象バージョン：両方確認（新クッキーとしての告知はカカオ版が先行、解放難易度の評価はクラシック版）</span><span class="meta-chip">情報の性質：確定情報（新クッキー告知・難易度評価）</span></div>
 
@@ -292,7 +313,7 @@
 
 <p>上方修正されましたが、実際に走ってみると銀貨コインばかり生成し、コイン稼ぎには向いていないとの検証結果があります。</p>
 <h3 id="section-12">ウィンドアーチャークッキー／海の妖精クッキー／ムーンライト魔術師クッキー</h3>
-<div class="section-meta"><span class="meta-chip v-common">対象バージョン：両方確認</span><span class="meta-chip">情報の性質：確定情報</span></div>
+<div class="section-meta"><span class="meta-chip">情報の性質：確定情報</span></div>
 
 <p>2024/11/14のアップデートで対応ゼリーのスコアが変更されました。海の妖精クッキー：海結晶ゼリースコア増加。ムーンライト魔術師クッキー：星屑ゼリースコアの増加。ウィンドアーチャークッキー：羽ゼリースコアの増加（羽以外にも「羽ゼリー」まで対象拡大）。</p>
 <p>クラシック版でも「海の妖精クッキー」への言及があり、性能はカカオ版と同一（海結晶ゼリースコア増加）と考えてよいとされています。</p>
@@ -300,6 +321,7 @@
 <div class="section-meta"><span class="meta-chip v-kakao-only">対象バージョン：カカオ版のみ確認</span><span class="meta-chip">情報の性質：経験則（初期印象レベル）</span></div>
 
 <p>「なんだか強そう」という第一印象です。羽を引き寄せない仕様の違いに違和感があるとの声ですが、それでも強いとの評価です。オレンジボトル（宝物）との相性が良いです。</p>
+<p>スコアタでの活用例として、障害物破壊時のスコア上昇系の宝物との組み合わせが挙げられています。障害物破壊系のコンビは、エピソード1だと障害物が少ないため、エピソード2・3の方が良いです。</p>
 <h3 id="section-14">かしわ餅味クッキー（サルトリイバラ餅味）</h3>
 <div class="section-meta"><span class="meta-chip v-kakao-only">対象バージョン：カカオ版のみ確認</span><span class="meta-chip">情報の性質：確定情報（新クッキー告知）＋一般知識（豆知識部分）</span></div>
 
@@ -324,7 +346,28 @@
 <div class="section-meta"><span class="meta-chip v-classic-only">対象バージョン：クラシック版のみ確認</span><span class="meta-chip">情報の性質：確定情報</span></div>
 
 <p>フローズンウェーブ97階の攻略における推奨クッキーです。宝物「救出」「ジャンプ追加」との組み合わせが推奨されます。詳細は<a href="../modes/frozen-wave.html">フローズンウェーブの塔（97階）</a>を参照してください。</p>
-<hr />
+<h3 id="section-20">探検家味クッキー</h3>
+<div class="section-meta"><span class="meta-chip v-classic-only">対象バージョン：クラシック版のみ確認</span><span class="meta-chip">情報の性質：確定情報</span></div>
+
+<p>ミステリーボックスの出現数を増やす能力を持つことが確認されています。ミステリーボックス狙いの周回における基本クッキーとして使われます。</p>
+<h3 id="section-21">妖精味クッキー</h3>
+<div class="section-meta"><span class="meta-chip v-classic-only">対象バージョン：クラシック版のみ確認</span><span class="meta-chip">情報の性質：確定情報</span></div>
+
+<p>経験値稼ぎの定番コンビ（妖精のコンビ＋陽気なクッキーをバトンにする編成）で使われるクッキーです。詳細は<a href="../guide/xp-farming.html">経験値稼ぎ攻略</a>を参照してください。</p>
+<p>POWER+（所持効果）の効果は「シールド付与」です（コンビボーナスと混同されがちですが別物です）。発動率が他の所持効果と比べて低く、体感で3回に1回程度しか発動しないため、強化の優先度は低めで良いとされています。</p>
+<p>かつてはペンダントの所持数を条件に解放するクッキーでした（現在の解放条件は変更されている可能性があります）。</p>
+<h3 id="section-22">レンコン妖怪味クッキー</h3>
+<div class="section-meta"><span class="meta-chip v-classic-only">対象バージョン：クラシック版のみ確認</span><span class="meta-chip">情報の性質：経験則</span></div>
+
+<p>炎の精霊クッキー・バナナ味クッキー・ポテトサラダ味クッキーのコンビと並んで、箱周回（ミステリーボックス狙いの周回）に使えるクッキーの一つとして挙げられています。</p>
+<h3 id="section-23">義賊味クッキー</h3>
+<div class="section-meta"><span class="meta-chip v-classic-only">対象バージョン：クラシック版のみ確認</span><span class="meta-chip">情報の性質：経験則（旧LINE版との比較）</span></div>
+
+<p>LINE版クッキーランでは義賊味クッキーはガチャから排出されていた（プレイヤーの記憶ベース）とされますが、クラシック版では購入でのみ入手可能で、ガチャからは排出されません（限定クッキー扱い）。</p>
+<h3 id="section-24">マカロン味クッキー</h3>
+<div class="section-meta"><span class="meta-chip v-classic-only">対象バージョン：クラシック版のみ確認</span><span class="meta-chip">情報の性質：経験則</span></div>
+
+<h2>かつてスコアラーとしての代表格でしたが、その時代は8年ほど前のこととされ、現在では半数以上のクッキーがマカロンより高いスコアを出せるという評価です。一方で、解放条件が緩く、ロールケーキ味クッキーあたりまでの初期に入手できるクッキーの中では依然として最強格という限定的な評価もあります。スコアを追求する場合は<a href="https://www.cookierunhub.com/en/episodes?purpose=score&amp;sortBy=score&amp;page=1&amp;episode=ep1" target="_blank" rel="noopener noreferrer">Cookie Run Hub（スコア順ソート）</a>で最新の評価を確認するのがおすすめです。未所持のクッキーもお試しで走ることができるため、実際に試してから購入するかどうか判断するのも一つの方法です。</h2>
 <p><strong>関連ページ</strong>：<a href="../guide/coin-farming.html">コイン稼ぎ攻略</a>、<a href="../modes/frozen-wave.html">フローズンウェーブの塔</a>（48-3・64-3攻略）、<a href="../pets/useful-pets.html">有用ペット</a>、<a href="../events/coupons.html">クーポンコード一覧</a></p>
 
     </div>

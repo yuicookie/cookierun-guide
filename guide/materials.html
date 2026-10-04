@@ -9,6 +9,22 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/style.css">
+<script>
+/* バージョン切り替えの初期値を、CSS適用・body描画より前に確定させる。
+   ボタンの選択色もCSS側でhtml[data-version]を基準に決めているため
+   （script.js参照）、ここでdata-version属性さえ早期に設定すれば、
+   ヘッダーのボタンが一瞬「両バージョン」に見えるちらつきを防げる。 */
+(function () {
+  try {
+    var v = localStorage.getItem("cr_version_pref");
+    if (v === "kakao" || v === "classic" || v === "both") {
+      document.documentElement.setAttribute("data-version", v);
+    }
+  } catch (e) {
+    /* プライベートブラウジング等でlocalStorageが使えない場合は既定値(both)のまま */
+  }
+})();
+</script>
 <link rel="icon" type="image/png" href="../assets/img/favicon.svg">
 <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9890627047838156" crossorigin="anonymous"></script>
@@ -72,7 +88,7 @@
 
         <li><a href="../beginner/invite-event.html">招待イベントの進め方</a></li>
 
-        <li><a href="../beginner/payment-kakao.html">課金方法（カカオ版）</a></li>
+        <li><a href="../beginner/payment.html">課金方法</a></li>
 
         <li><a href="../beginner/kakao-troubleshooting.html">カカオ版のよくあるトラブル対応</a></li>
 
@@ -112,7 +128,7 @@
 
         <li><a href="../modes/party-run.html">パーティーラン（オンライン対戦）</a></li>
 
-        <li><a href="../modes/episodes.html">エピソード別攻略（EP1〜EP7）</a></li>
+        <li><a href="../modes/episodes.html">エピソード別攻略（Ep1〜Ep7）</a></li>
 
         <li><a href="../modes/others.html">その他のモード</a></li>
 
@@ -190,7 +206,7 @@
 
 
       <details class="page-toc" open>
-        <summary>このページの目次（全5項目）</summary>
+        <summary>このページの目次（全7項目）</summary>
         <ol>
 
           <li><a href="#section-1">SS素材／SSランク（S+ランク）素材の入手</a></li>
@@ -203,30 +219,42 @@
 
           <li><a href="#section-5">メダル</a></li>
 
+          <li><a href="#section-6">宝物ボックス枠の拡張上限（クリスタル分）</a></li>
+
+          <li><a href="#section-7">キャラクター専用宝物の再購入コスト</a></li>
+
         </ol>
       </details>
 
 
       <h2 id="section-1">SS素材／SSランク（S+ランク）素材の入手</h2>
-<div class="section-meta"><span class="meta-chip v-common">対象バージョン：共通（表記の違いはあるが同じ仕組み）</span><span class="meta-chip">情報の性質：経験則</span></div>
+<div class="section-meta"><span class="meta-chip">情報の性質：経験則</span></div>
 
-<p class="lead">SS素材（クラシック版ではS＋表記）はミステリーボックスから稀にしか出現しないため、材料が足りない場合は不要アイテムを分解（抽出）して交換するのが基本という意見です。不要アイテムを粉にして、不足しているランクの素材を生成するのがおすすめです。</p>
+<p>SS素材（クラシック版ではS＋表記）はミステリーボックスから稀にしか出現しないため、材料が足りない場合は不要アイテムを抽出して交換するのが基本です。不要アイテムを粉にして、不足しているランクの素材を生成するのがおすすめです。</p>
 <h2 id="section-2">素材の取得判断（生成 vs 直接取得）</h2>
-<div class="section-meta"><span class="meta-chip v-kakao-only">対象バージョン：カカオ版のみ確認</span><span class="meta-chip">情報の性質：経験則</span></div>
+<div class="section-meta"><span class="meta-chip">情報の性質：経験則</span></div>
 
 <p>エピソードによって「素材を生成する」か「マップ上で拾いに行く」かの判断が分かれます。コイン島の素材は拾いに行く方が良いです。S素材は生成コストが高く感じられるため、コイン稼ぎがてら拾いに行く方が効率が良いことが多いです（フローズンウェーブは除く）。</p>
 <h2 id="section-3">ブーストアイテム（体力強化／アイテム時間延長／クイックブースト／経験値2倍）</h2>
-<div class="section-meta"><span class="meta-chip v-mixed">対象バージョン：クラシック版のみ確認（同種のアイテムはカカオ版にも存在すると考えられるが、この具体的な仕様への言及はクラシック版トーク内のみ）</span><span class="meta-chip">情報の性質：確定情報</span></div>
+<div class="section-meta"><span class="meta-chip">情報の性質：確定情報</span></div>
 
-<p>放置周回や2端末同時プレイの調整に使用します。リザルト処理時に「所持数が足りない」とエラーになることがあるため、体力強化などを使う場合は事前に2個以上購入しておく必要があります。所持数を「0」にして処理することも可能です（エラーになりません）。イベント報酬でブーストアイテムを受け取る場合、所持数のエラーが起きやすいので注意してください。まとめ買い機能が現状ないという要望も出ています。</p>
+<p>放置周回や2端末同時プレイの調整に使用します。リザルト処理時に「所持数が足りない」とエラーになることがあるため、体力強化などを使う場合は事前に2個以上購入しておく必要があります。所持数を「0」にして処理することも可能です（エラーになりません）。</p>
 <h2 id="section-4">魔法の粉（マジックパウダー）</h2>
-<div class="section-meta"><span class="meta-chip v-mixed">対象バージョン：共通（呼称は版により異なる）</span><span class="meta-chip">情報の性質：経験則</span></div>
+<div class="section-meta"><span class="meta-chip">情報の性質：経験則</span></div>
 
-<p>不要になった宝物（最高レアリティ含む）を分解して得られる素材です。S級でも不要なもの（スコアアップ系など）は抽出して良いという意見があります。カカオ版では「魔法の粉」、クラシック版では「マジックパウダー」という呼称も併用されます。</p>
+<p>不要になった宝物（最高レアリティ含む）を抽出して得られる素材です。S級でも不要なもの（スコアアップ系など）は抽出して問題ありません。カカオ版では「魔法の粉」、クラシック版では「マジックパウダー」という呼称も併用されます。</p>
 <h2 id="section-5">メダル</h2>
-<div class="section-meta"><span class="meta-chip v-common">対象バージョン：共通</span><span class="meta-chip">情報の性質：確定情報</span></div>
+<div class="section-meta"><span class="meta-chip">情報の性質：確定情報</span></div>
 
 <p>メダルショップ（リーグ/クッキーランキング画面右下の黄色ボタン）で、宝物ボックス拡張券や神秘のかけらを購入できます。シルバーのメダルと混同しないよう注意してください。</p>
+<h2 id="section-6">宝物ボックス枠の拡張上限（クリスタル分）</h2>
+<div class="section-meta"><span class="meta-chip v-kakao-only">対象バージョン：カカオ版のみ確認</span><span class="meta-chip">情報の性質：確定情報（上限が解放されたこと）＋経験則（新しい上限値）</span></div>
+
+<p>宝物ボックス（保有枠）のクリスタルによる拡張には上限があり、以前は2500枠までクリスタルで拡張可能で、それ以降はメダルショップの拡張チケットが必要でした。その後上限は解放されましたが、新しい上限値は不明です。</p>
+<h2 id="section-7">キャラクター専用宝物の再購入コスト</h2>
+<div class="section-meta"><span class="meta-chip">情報の性質：経験則</span></div>
+
+<p>クッキー/ペットの宝物は、合成することで別宝物扱いとなりクッキー/ペットの画面からクリスタルで再購入（複製）できます。目安として35クリスタル程度ですが、必要なクリスタル量は宝物のレアリティによって変動します。</p>
 <hr />
 <p><strong>関連ページ</strong>：<a href="../system/basics.html">基本システム・仕様まとめ</a>、<a href="../treasures/useful-treasures.html">有用宝物</a>、<a href="xp-farming.html">経験値稼ぎ攻略</a></p>
 

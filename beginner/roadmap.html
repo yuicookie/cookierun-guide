@@ -9,6 +9,22 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/style.css">
+<script>
+/* バージョン切り替えの初期値を、CSS適用・body描画より前に確定させる。
+   ボタンの選択色もCSS側でhtml[data-version]を基準に決めているため
+   （script.js参照）、ここでdata-version属性さえ早期に設定すれば、
+   ヘッダーのボタンが一瞬「両バージョン」に見えるちらつきを防げる。 */
+(function () {
+  try {
+    var v = localStorage.getItem("cr_version_pref");
+    if (v === "kakao" || v === "classic" || v === "both") {
+      document.documentElement.setAttribute("data-version", v);
+    }
+  } catch (e) {
+    /* プライベートブラウジング等でlocalStorageが使えない場合は既定値(both)のまま */
+  }
+})();
+</script>
 <link rel="icon" type="image/png" href="../assets/img/favicon.svg">
 <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9890627047838156" crossorigin="anonymous"></script>
@@ -72,7 +88,7 @@
 
         <li><a href="invite-event.html">招待イベントの進め方</a></li>
 
-        <li><a href="payment-kakao.html">課金方法（カカオ版）</a></li>
+        <li><a href="payment.html">課金方法</a></li>
 
         <li><a href="kakao-troubleshooting.html">カカオ版のよくあるトラブル対応</a></li>
 
@@ -112,7 +128,7 @@
 
         <li><a href="../modes/party-run.html">パーティーラン（オンライン対戦）</a></li>
 
-        <li><a href="../modes/episodes.html">エピソード別攻略（EP1〜EP7）</a></li>
+        <li><a href="../modes/episodes.html">エピソード別攻略（Ep1〜Ep7）</a></li>
 
         <li><a href="../modes/others.html">その他のモード</a></li>
 
@@ -194,7 +210,7 @@
 <ol>
 <li><strong><a href="reroll.html">リセマラの基準</a></strong>：本格的にプレイを始める前に、最初のガチャで狙うべき当たりを確認しましょう。</li>
 <li><strong><a href="friend-heart.html">フレンド・ハートの集め方</a></strong> → <strong><a href="crystal-usage.html">序盤のクリスタルの使い道</a></strong>：ペットガチャ・宝物ボックス拡張を優先すべきという方針を理解し、「何を育てればいいか」を把握します。</li>
-<li><strong><a href="invite-event.html">招待イベントの進め方</a></strong> → <strong><a href="payment-kakao.html">課金方法（カカオ版）</a></strong>：必要に応じて進行を加速させる手段を知ります。</li>
+<li><strong><a href="invite-event.html">招待イベントの進め方</a></strong> → <strong><a href="payment.html">課金方法</a></strong>：必要に応じて進行を加速させる手段を知ります。</li>
 <li><strong><a href="../modes/frozen-wave.html">フローズンウェーブの塔</a></strong>：初心者が最優先で取り組むべき周回コンテンツです。</li>
 <li><strong><a href="../system/basics.html">基本システム・仕様まとめ</a></strong>・<strong><a href="../system/blessing.html">宝物の祝福システム</a></strong>：乗算計算や祝福など、誤解しやすい仕組みを理解します。</li>
 <li><strong><a href="../guide/coin-farming.html">コイン稼ぎ攻略</a></strong>：実際の編成の組み方を学び、必要に応じて<a href="../cookies/useful-cookies.html">有用クッキー</a>・<a href="../pets/useful-pets.html">有用ペット</a>・<a href="../treasures/useful-treasures.html">有用宝物</a>・<a href="../system/glossary.html">用語集</a>・<a href="../faq/faq-list.html">FAQ</a>へ進んでください。</li>

@@ -9,6 +9,22 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/style.css">
+<script>
+/* バージョン切り替えの初期値を、CSS適用・body描画より前に確定させる。
+   ボタンの選択色もCSS側でhtml[data-version]を基準に決めているため
+   （script.js参照）、ここでdata-version属性さえ早期に設定すれば、
+   ヘッダーのボタンが一瞬「両バージョン」に見えるちらつきを防げる。 */
+(function () {
+  try {
+    var v = localStorage.getItem("cr_version_pref");
+    if (v === "kakao" || v === "classic" || v === "both") {
+      document.documentElement.setAttribute("data-version", v);
+    }
+  } catch (e) {
+    /* プライベートブラウジング等でlocalStorageが使えない場合は既定値(both)のまま */
+  }
+})();
+</script>
 <link rel="icon" type="image/png" href="../assets/img/favicon.svg">
 <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9890627047838156" crossorigin="anonymous"></script>
@@ -72,7 +88,7 @@
 
         <li><a href="invite-event.html">招待イベントの進め方</a></li>
 
-        <li><a href="payment-kakao.html">課金方法（カカオ版）</a></li>
+        <li><a href="payment.html">課金方法</a></li>
 
         <li><a href="kakao-troubleshooting.html">カカオ版のよくあるトラブル対応</a></li>
 
@@ -112,7 +128,7 @@
 
         <li><a href="../modes/party-run.html">パーティーラン（オンライン対戦）</a></li>
 
-        <li><a href="../modes/episodes.html">エピソード別攻略（EP1〜EP7）</a></li>
+        <li><a href="../modes/episodes.html">エピソード別攻略（Ep1〜Ep7）</a></li>
 
         <li><a href="../modes/others.html">その他のモード</a></li>
 
@@ -193,15 +209,14 @@
       <p class="lead">フレンド（ハート交換相手）を増やし、ハートを送り合うことで消費アイテムを補充する仕組みは両版共通の目的ですが、実現方式がゲーム内システムの違いにより異なります。</p>
 <div class="v-block v-kakao">
 <p class="v-label">カカオ版</p>
-<p>ゲーム内に単独の友達追加機能がなく、カカオトークのオープンチャット（「쿠키런」等で検索）で「カカとも」になり、そこからゲーム内でフレンド登録します。ハート交換専用のオープンチャットに参加する人が多いです。ハートは基本的に時間経過で回復します。</p>
+<p>ゲーム内に友達追加機能がなく、カカオトークのオープンチャット（「쿠키런」等で検索）で「カカとも」になり、そこからゲーム内でフレンド登録します。ハート交換専用のオープンチャットに参加する人が多いです。</p>
 <p><strong>461エラー（ハート送受信不可）</strong>：カカともを短時間で追加しすぎると、ハートの送受信時に461エラーが出ます。1〜2日待てば自然に解消します。</p>
 </div>
 <div class="v-block v-classic">
 <p class="v-label">クラシック版</p>
-<p>フレンド募集・Player ID共有はLINEノート機能上で行うのがグループ内ルールです（雑談チャットでは行わない）。</p>
-<p><strong>ハート効率化のコツ</strong>：「Claim（受取可能）」表示中はハートがoffになっているか受取待ちの状態なので、目安として1時間後に送ると交互送信がうまくいきます。ハート設定画面で丸（○）がついた状態で押すと、以降✉️ボタンを押さなくても自動受取になります。</p>
+<p>ゲーム内に友達追加機能があり、「Find」からランダムなプレイヤーに友達申請を送信したり、Player IDから検索して友達申請を送信することができます。手っ取り早く友達を増やしたいならランダムに表示されるユーザーに友達申請するのがおすすめです。</p>
+<p><strong>ハート効率化のコツ</strong>：「Claim（受取可能）」表示中はハートがoffになっているか受取待ちの状態なので、目安として1時間後に送ると交互送信がうまくいきます。</p>
 </div>
-<p><strong>注意点</strong>：カカオ版はゲーム内で完結する友達機能が無い点が初心者のつまずきポイントとして繰り返し発生しています（フレンド・ハート関連の質問は全期間を通じて最も頻出です）。</p>
 <hr />
 <p><strong>関連ページ</strong>：<a href="invite-event.html">招待イベントの進め方</a>、<a href="kakao-troubleshooting.html">カカオ版のよくあるトラブル対応</a>、<a href="../faq/faq-list.html#q1">FAQ Q1</a></p>
 

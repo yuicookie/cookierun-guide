@@ -9,6 +9,22 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/style.css">
+<script>
+/* バージョン切り替えの初期値を、CSS適用・body描画より前に確定させる。
+   ボタンの選択色もCSS側でhtml[data-version]を基準に決めているため
+   （script.js参照）、ここでdata-version属性さえ早期に設定すれば、
+   ヘッダーのボタンが一瞬「両バージョン」に見えるちらつきを防げる。 */
+(function () {
+  try {
+    var v = localStorage.getItem("cr_version_pref");
+    if (v === "kakao" || v === "classic" || v === "both") {
+      document.documentElement.setAttribute("data-version", v);
+    }
+  } catch (e) {
+    /* プライベートブラウジング等でlocalStorageが使えない場合は既定値(both)のまま */
+  }
+})();
+</script>
 <link rel="icon" type="image/png" href="../assets/img/favicon.svg">
 <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9890627047838156" crossorigin="anonymous"></script>
@@ -72,7 +88,7 @@
 
         <li><a href="invite-event.html">招待イベントの進め方</a></li>
 
-        <li><a href="payment-kakao.html">課金方法（カカオ版）</a></li>
+        <li><a href="payment.html">課金方法</a></li>
 
         <li><a href="kakao-troubleshooting.html">カカオ版のよくあるトラブル対応</a></li>
 
@@ -112,7 +128,7 @@
 
         <li><a href="../modes/party-run.html">パーティーラン（オンライン対戦）</a></li>
 
-        <li><a href="../modes/episodes.html">エピソード別攻略（EP1〜EP7）</a></li>
+        <li><a href="../modes/episodes.html">エピソード別攻略（Ep1〜Ep7）</a></li>
 
         <li><a href="../modes/others.html">その他のモード</a></li>
 
@@ -190,19 +206,32 @@
 
 
 
-      <blockquote>
-<p class="lead"><strong>備考</strong>：この基準はクラシック版で確認されたものです。カカオ版での同種の情報は確認できていません。ただしガチャ・宝物・ペットのシステム自体はカカオ版と共通のため、同じ基準が当てはまると考えられます。</p>
-</blockquote>
-<p>初期の宝物ガチャ／ペットガチャで狙うべき当たりは以下のいずれかです。</p>
-<ul>
+      <p class="lead">初期の宝物ガチャ／ペットガチャで狙うべき当たりは以下のいずれかです。</p>
+<ol>
+<li>ダサラパン（Tater Trader）</li>
 <li>クリスタル所持効果付き宝物</li>
-<li>クラウン系（フェザー王冠等）</li>
-<li>ドリンク系宝物</li>
+<li>クラウン宝物</li>
+</ol>
+<p class="lead">ダサラパンが引ければ、リセマラを終了して先に進めて良いです。ダサラパンを入手できれば、ポテトサラダ味クッキーがコインで解放可能になります。ダサラパンはペットガチャ（20クリスタルの方）から入手できます。
+クラウンとクリスタル所持効果付き宝物を2個以上狙うのも良いです。</p>
+<p class="lead">ポテトサラダ味クッキーとダサラパンのコンビはかなり強力であるため、早めに入手しておくと序盤を進めやすくなります。</p>
+<h2 id="section-1">リセマラの方法</h2>
+<p>ロビー画面右上の<strong>設定</strong> → <strong>ゲーム設定</strong> → <strong>ゲーム情報（Game Info）</strong> → <strong>アカウント削除（Delete Account）</strong> → <strong>60秒待機</strong> → <strong>確定</strong></p>
+<p>60秒待機すると、それまで無効になっていた確定ボタンが有効になります。確定を押すとアカウントが削除され、最初からゲームをやり直せます。</p>
+<h2 id="section-2">リセマラのルート</h2>
+<p>リセマラは、以下の2つのルートがあります。</p>
+<ul>
+<li><strong>ダサラパンを狙う</strong>：ペットガチャを引いてダサラパンを入手します。ダサラパンを入手できたら、リセマラを終了してゲームを進めます。</li>
+<li><strong>宝物を狙う</strong>：欲しい宝物を入手したうえで、クリスタルを119個残します。残した119個のクリスタルは、ポテトサラダ味クッキーの購入に使用します。</li>
 </ul>
-<p>いずれかが引ければ十分として先に進めてよいとされています。もしくは、ポテトサラダ味クッキーの解放ペット（ダサラパン等）を優先して狙う方が基準として明確という意見もあります。</p>
-<p>確率的にはかなり厳しいと繰り返し言及されています。</p>
+<p>2つのルートのうち、<strong>ダサラパンを狙うルート</strong>をおすすめします。</p>
+<h3 id="section-3">ダサラパンを狙うメリット</h3>
+<p>ダサラパンはポテトサラダ味クッキーのベストコンビです。ベストコンビボーナスによって追加効果を得られるため、ポテトサラダ味クッキー単体よりもコインを稼ぎやすくなります。</p>
+<p>このベストコンビ効果は非常に強力で、序盤に宝物が揃っていなくても高いコイン効率を得られます。そのため、序盤からコインを効率よく集めてゲームを進めやすくなります。</p>
+<h3 id="section-4">宝物を狙うメリット</h3>
+<p>クリスタル所持効果付き宝物を入手すると、毎日クリスタルを安定して入手できます。長期的にプレイする場合はクリスタル不足になりにくく、クリスタルが枯渇してガチャなどに使えなくなる状況を避けやすくなります。</p>
 <hr />
-<p><strong>関連ページ</strong>：<a href="../treasures/useful-treasures.html">有用宝物（クラウン系）</a>、<a href="../pets/useful-pets.html">有用ペット（ダサラパン）</a>、<a href="crystal-usage.html">序盤のクリスタルの使い道</a></p>
+<p><strong>関連ページ</strong>：<a href="../treasures/useful-treasures.html">有用宝物（クラウン宝物）</a>、<a href="../pets/useful-pets.html">有用ペット（ダサラパン）</a>、<a href="crystal-usage.html">序盤のクリスタルの使い道</a></p>
 
     </div>
   </main>

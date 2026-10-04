@@ -9,6 +9,22 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/style.css">
+<script>
+/* バージョン切り替えの初期値を、CSS適用・body描画より前に確定させる。
+   ボタンの選択色もCSS側でhtml[data-version]を基準に決めているため
+   （script.js参照）、ここでdata-version属性さえ早期に設定すれば、
+   ヘッダーのボタンが一瞬「両バージョン」に見えるちらつきを防げる。 */
+(function () {
+  try {
+    var v = localStorage.getItem("cr_version_pref");
+    if (v === "kakao" || v === "classic" || v === "both") {
+      document.documentElement.setAttribute("data-version", v);
+    }
+  } catch (e) {
+    /* プライベートブラウジング等でlocalStorageが使えない場合は既定値(both)のまま */
+  }
+})();
+</script>
 <link rel="icon" type="image/png" href="../assets/img/favicon.svg">
 <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9890627047838156" crossorigin="anonymous"></script>
@@ -72,7 +88,7 @@
 
         <li><a href="../beginner/invite-event.html">招待イベントの進め方</a></li>
 
-        <li><a href="../beginner/payment-kakao.html">課金方法（カカオ版）</a></li>
+        <li><a href="../beginner/payment.html">課金方法</a></li>
 
         <li><a href="../beginner/kakao-troubleshooting.html">カカオ版のよくあるトラブル対応</a></li>
 
@@ -112,7 +128,7 @@
 
         <li><a href="party-run.html">パーティーラン（オンライン対戦）</a></li>
 
-        <li><a href="episodes.html">エピソード別攻略（EP1〜EP7）</a></li>
+        <li><a href="episodes.html">エピソード別攻略（Ep1〜Ep7）</a></li>
 
         <li><a href="others.html">その他のモード</a></li>
 
@@ -189,13 +205,35 @@
       <h1>コイン島</h1>
 
 
+      <details class="page-toc" open>
+        <summary>このページの目次（全3項目）</summary>
+        <ol>
 
-      <p class="lead">環境が変化しやすいステージです。かつては「花を咲かせる」戦略がありましたが、コイン生成力の強いクッキー／ペットの登場によって価値が薄れ、復活やコインボーナスを積む方が良いという意見に変化しました（カカオ版）。</p>
+          <li><a href="#section-1">環境変化の時期</a></li>
+
+          <li><a href="#section-2">バグ情報（修正済み）</a></li>
+
+          <li><a href="#section-3">リニューアル予告（2026/08）</a></li>
+
+        </ol>
+      </details>
+
+
+      <p class="lead">クッキー／ペットの能力が無効なため、復活やコインボーナスの宝物を積むと良いです。</p>
 <h2 id="section-1">環境変化の時期</h2>
-<p>宝物「バナナカップ」の登場によってコイン島の最適戦略（環境）が変わったと言われています。この「最適な宝物の組み合わせ」が発見されたのは、2024年時点から遡って約2年前です。なお、コイン島自体のステージ改修（マップ構成の変更）は別の出来事で、こちらは約8年前です。</p>
-<h2 id="section-2">バグ情報（クラシック版・修正済み）</h2>
-<p>「通信エラーからの無限ループ」が発生し起動できなくなる不具合が報告されました。Androidならデータ削除、iPhoneなら再インストールしてログインすれば復旧します（一時対応）。後日、公式に修正されたことが確認されています（2026/06/30発生確認、同日中に修正報告）。</p>
+<div class="section-meta"><span class="meta-chip">情報の性質：確定情報</span></div>
+
+<p>宝物「バナナカップ」の登場によってコイン島の最適戦略（環境）が変わりました。この「最適な宝物の組み合わせ」が発見されたのは2022年頃です。なお、コイン島自体のステージ改修（マップ構成の変更）は別の出来事で、こちらは2018年頃です。</p>
+<div class="v-block v-classic">
+<p class="v-label">クラシック版</p>
+<h2 id="section-2">バグ情報（修正済み）</h2>
+<div class="section-meta"><span class="meta-chip v-classic-only">対象バージョン：クラシック版</span><span class="meta-chip">情報の性質：確定情報</span></div>
+<p>「通信エラーからの無限ループ」が発生し起動できなくなる不具合がありました（2026/06/30発生、同日中に公式修正）。Androidならデータ削除、iPhoneなら再インストールしてログインすれば復旧します（一時対応）。</p>
+</div>
 <p>フローズンウェーブと同様に所持効果無効の仕様は両版共通です（詳細は<a href="../system/basics.html">基本システム・仕様まとめ</a>参照）。</p>
+<h2 id="section-3">リニューアル予告（2026/08）</h2>
+<p>情報の性質：確定情報（予告段階）</p>
+<p>2026/08/27時点で、コイン島がリニューアルされる予定です。</p>
 <hr />
 <p><strong>関連ページ</strong>：<a href="../guide/coin-farming.html">コイン稼ぎ攻略</a>、<a href="../system/basics.html">基本システム・仕様まとめ</a></p>
 

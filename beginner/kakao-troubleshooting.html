@@ -9,6 +9,22 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/style.css">
+<script>
+/* バージョン切り替えの初期値を、CSS適用・body描画より前に確定させる。
+   ボタンの選択色もCSS側でhtml[data-version]を基準に決めているため
+   （script.js参照）、ここでdata-version属性さえ早期に設定すれば、
+   ヘッダーのボタンが一瞬「両バージョン」に見えるちらつきを防げる。 */
+(function () {
+  try {
+    var v = localStorage.getItem("cr_version_pref");
+    if (v === "kakao" || v === "classic" || v === "both") {
+      document.documentElement.setAttribute("data-version", v);
+    }
+  } catch (e) {
+    /* プライベートブラウジング等でlocalStorageが使えない場合は既定値(both)のまま */
+  }
+})();
+</script>
 <link rel="icon" type="image/png" href="../assets/img/favicon.svg">
 <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9890627047838156" crossorigin="anonymous"></script>
@@ -72,7 +88,7 @@
 
         <li><a href="invite-event.html">招待イベントの進め方</a></li>
 
-        <li><a href="payment-kakao.html">課金方法（カカオ版）</a></li>
+        <li><a href="payment.html">課金方法</a></li>
 
         <li><a href="kakao-troubleshooting.html" class="is-current" aria-current="page">カカオ版のよくあるトラブル対応</a></li>
 
@@ -112,7 +128,7 @@
 
         <li><a href="../modes/party-run.html">パーティーラン（オンライン対戦）</a></li>
 
-        <li><a href="../modes/episodes.html">エピソード別攻略（EP1〜EP7）</a></li>
+        <li><a href="../modes/episodes.html">エピソード別攻略（Ep1〜Ep7）</a></li>
 
         <li><a href="../modes/others.html">その他のモード</a></li>
 
@@ -206,30 +222,25 @@
 
 
       <blockquote>
-<p class="lead"><strong>このページはカカオ版専用です。</strong> 以下の内容はいずれもクラシック版では「未確認」であり、断定はできません。</p>
+<p class="lead"><strong>このページはカカオ版専用です。</strong></p>
 </blockquote>
 <h2 id="section-1">アップデートできない場合の対処（Android限定）</h2>
-<blockquote>
-<p>情報の性質：確定情報（複数回同じ解決策で解決済み、テンプレ化）</p>
-</blockquote>
-<p>カカオ版は日本国内で正式配信されていないため、Google Playの通常アップデートが「お住まいの国ではご利用できません」等のエラーで失敗することがあります。この場合、apkpure等の非公式サイトからAPKファイルをダウンロードして更新する方法が繰り返し共有されています（ウイルススキャン済み・動作確認済みとのコメント付き）。Galaxy折り畳み端末等、Androidユーザーでの報告があります。</p>
-<p>補足：iOS版で韓国アカウントのログイン状態やAppleアカウントロックが原因となる別のトラブルも報告されていますが、これはAPK云々とは別の問題であり、いずれもカカオ版が日本非正規配信であることに起因します。</p>
+<div class="section-meta"><span class="meta-chip">情報の性質：確定情報（複数回同じ解決策で解決済み、テンプレ化）</span></div>
+
+<p>カカオ版は日本国内で正式配信されていないため、Google Playの通常アップデートが「お住まいの国ではご利用できません」等のエラーで失敗することがあります。この場合、apkpure等の非公式サイトからAPKファイルをダウンロードして更新する方法があります。非公式サイトからの入手になるため、利用は自己責任で判断してください。</p>
 <h2 id="section-2">461エラー（ハート送受信不可）</h2>
-<blockquote>
-<p>情報の性質：確定情報</p>
-</blockquote>
+<div class="section-meta"><span class="meta-chip">情報の性質：確定情報</span></div>
+
 <p>カカともを短時間で追加しすぎると、ハートの送受信時に461エラーが出ます。1〜2日待てば自然に解消します。</p>
 <h2 id="section-3">オープンチャットに参加できない場合</h2>
-<blockquote>
-<p>情報の性質：経験則</p>
-</blockquote>
-<p>「トーク安心パス」による利用制限が原因の可能性が高いです。数日待つか、登録電話番号を変更すると解決することがあります（海外番号や格安キャリア番号が原因の可能性）。</p>
+<div class="section-meta"><span class="meta-chip">情報の性質：経験則</span></div>
+
+<p>「トーク安心パス」による利用制限が原因の可能性が高いです。まずは数日待って解除されるか確認してください。改善しない場合は、登録電話番号の変更（海外番号や格安キャリア番号が原因になっている可能性）で解決することがあります。</p>
 <h2 id="section-4">アカウント（メール/パスワード）を忘れた場合</h2>
-<blockquote>
-<p>情報の性質：確定情報（実際に解決した事例）</p>
-</blockquote>
+<div class="section-meta"><span class="meta-chip">情報の性質：確定情報（実際に解決した事例）</span></div>
+
 <p>メールの受信ボックスから「カカオ」で検索し登録メールアドレスを確認、または <a href="https://accounts.kakao.com/login/" target="_blank" rel="noopener noreferrer">https://accounts.kakao.com/login/</a> からアカウント情報を検索してパスワード再発行できます。電話番号だけでも再発行できる場合があります。</p>
-<p>この手順はカカオトークアカウントとの連携に基づくものであり、カカオ版固有です。クラシック版はGoogleアカウント等での連携方式となるため、この手順は非該当です（構造的に異なるアカウント基盤のため）。</p>
+<p>この手順はカカオトークアカウントとの連携に基づくものであり、カカオ版固有です。クラシック版はGoogle・Apple・DevPlayのいずれかでのログイン方式となるため、この手順は非該当です（構造的に異なるアカウント基盤のため）。</p>
 <hr />
 <p><strong>関連ページ</strong>：<a href="friend-heart.html">フレンド・ハートの集め方</a>、<a href="../faq/faq-list.html#q8">FAQ Q8</a></p>
 

@@ -188,12 +188,20 @@ button { font: inherit; }
   cursor: pointer;
   white-space: nowrap;
 }
-.version-switch button[aria-pressed="true"] {
+/* 選択状態の見た目は aria-pressed ではなく、html[data-version] を基準に
+   CSSだけで決める。aria-pressed属性自体はJS側（script.js）が引き続き
+   更新し、スクリーンリーダー等への状態通知には使う（見た目には使わない）。
+   こうすることで、JSの初期化（DOMContentLoaded後）を待たずに、
+   headの早期スクリプトがhtmlのdata-versionを設定した瞬間に
+   ボタンの色も正しく決まり、「両バージョン」表示が一瞬見えるちらつきを防ぐ。 */
+html[data-version="kakao"]   .version-switch button[data-version-btn="kakao"],
+html[data-version="classic"] .version-switch button[data-version-btn="classic"],
+html[data-version="both"]    .version-switch button[data-version-btn="both"] {
   background: var(--accent);
   color: #fff;
 }
-.version-switch button[data-version-btn="kakao"][aria-pressed="true"]   { background: var(--kakao); }
-.version-switch button[data-version-btn="classic"][aria-pressed="true"] { background: var(--classic); }
+html[data-version="kakao"]   .version-switch button[data-version-btn="kakao"]   { background: var(--kakao); }
+html[data-version="classic"] .version-switch button[data-version-btn="classic"] { background: var(--classic); }
 
 /* ==========================================================================
    レイアウト（サイドメニュー + メイン）

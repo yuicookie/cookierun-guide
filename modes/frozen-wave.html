@@ -9,6 +9,22 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/style.css">
+<script>
+/* バージョン切り替えの初期値を、CSS適用・body描画より前に確定させる。
+   ボタンの選択色もCSS側でhtml[data-version]を基準に決めているため
+   （script.js参照）、ここでdata-version属性さえ早期に設定すれば、
+   ヘッダーのボタンが一瞬「両バージョン」に見えるちらつきを防げる。 */
+(function () {
+  try {
+    var v = localStorage.getItem("cr_version_pref");
+    if (v === "kakao" || v === "classic" || v === "both") {
+      document.documentElement.setAttribute("data-version", v);
+    }
+  } catch (e) {
+    /* プライベートブラウジング等でlocalStorageが使えない場合は既定値(both)のまま */
+  }
+})();
+</script>
 <link rel="icon" type="image/png" href="../assets/img/favicon.svg">
 <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9890627047838156" crossorigin="anonymous"></script>
@@ -72,7 +88,7 @@
 
         <li><a href="../beginner/invite-event.html">招待イベントの進め方</a></li>
 
-        <li><a href="../beginner/payment-kakao.html">課金方法（カカオ版）</a></li>
+        <li><a href="../beginner/payment.html">課金方法</a></li>
 
         <li><a href="../beginner/kakao-troubleshooting.html">カカオ版のよくあるトラブル対応</a></li>
 
@@ -112,7 +128,7 @@
 
         <li><a href="party-run.html">パーティーラン（オンライン対戦）</a></li>
 
-        <li><a href="episodes.html">エピソード別攻略（EP1〜EP7）</a></li>
+        <li><a href="episodes.html">エピソード別攻略（Ep1〜Ep7）</a></li>
 
         <li><a href="others.html">その他のモード</a></li>
 
@@ -190,7 +206,7 @@
 
 
       <details class="page-toc" open>
-        <summary>このページの目次（全6項目）</summary>
+        <summary>このページの目次（全8項目）</summary>
         <ol>
 
           <li><a href="#section-1">基本情報</a></li>
@@ -199,78 +215,69 @@
 
           <li><a href="#section-3">個別階の攻略メモ</a></li>
 
-          <li><a href="#section-9">48-3の攻略</a></li>
+          <li><a href="#section-8">48-3階の攻略</a></li>
 
-          <li><a href="#section-10">64-3の攻略</a></li>
+          <li><a href="#section-9">64-3階の攻略</a></li>
 
-          <li><a href="#section-11">外部攻略サイト</a></li>
+          <li><a href="#section-10">外部攻略サイト</a></li>
+
+          <li><a href="#section-11">フローズン攻略完了まで温存すべき宝物</a></li>
+
+          <li><a href="#section-12">外部攻略サイトでの階層別検索方法</a></li>
 
         </ol>
       </details>
 
 
-      <p class="lead">初心者に最優先で推奨される周回コンテンツです。48-3・64-3の攻略情報もこのページに統合しています。</p>
-<h2 id="section-1">基本情報</h2>
-<div class="section-meta"><span class="meta-chip v-common">対象バージョン：共通</span><span class="meta-chip">情報の性質：確定情報</span></div>
+      <h2 id="section-1">基本情報</h2>
+<div class="section-meta"><span class="meta-chip">情報の性質：確定情報</span></div>
 
-<p>ダイヤ（クリスタル）・宝物入手の主要な繰り返しコンテンツです。<strong>全100階、1回の挑戦につきアイススターを最大3つまで獲得可能です。</strong> 各階1つずつ集めながら最速で100階を目指すルートが推奨されます。</p>
+<p>クリスタル・宝物入手の主要な繰り返しコンテンツです。<strong>全100階、1階につきアイススターを最大3つまで獲得可能です。</strong> 各階1つずつアイススターを集めながら最速で100階を目指すルートが推奨されます。</p>
 <h2 id="section-2">攻略の基本方針</h2>
-<p>フローズンウェーブでは所持効果が一切発動しない仕様です（詳細は<a href="../system/basics.html">基本システム・仕様まとめ</a>参照）。「バトンタッチ」ができないため関連宝物は無意味です。100階（アイススター100個）を最速で目指すべきとの強い推奨があります（後半の階は報酬が非常に良く、S級宝物が30個以上入手可能とされます）。フローズンクリアするまでは宝物を無理に整理しなくてもよいです。</p>
+<p>フローズンウェーブでは所持効果が一切発動しない仕様です（詳細は<a href="../system/basics.html">基本システム・仕様まとめ</a>参照）。バトンタッチができないためバトンに効果がある宝物は無意味です。100階を最速で目指すべきとの強い推奨があります（後半の階は報酬が非常に良く、S級宝物が30個以上入手可能）。フローズンクリアするまでは宝物を無理に整理しなくてもよいです。</p>
 <h2 id="section-3">個別階の攻略メモ</h2>
-<h3 id="section-4">54階</h3>
-<div class="section-meta"><span class="meta-chip v-classic-only">対象バージョン：クラシック版のみ確認</span><span class="meta-chip">情報の性質：経験則</span></div>
+<h3 id="section-4">38階</h3>
+<div class="section-meta"><span class="meta-chip">情報の性質：経験則</span></div>
 
-<p>緑色のわさびスティック、🍫の本という宝物が欲しいとの言及があります。</p>
-<h3 id="section-5">64階</h3>
-<div class="section-meta"><span class="meta-chip v-mixed">対象バージョン：混在</span><span class="meta-chip">情報の性質：確定情報／経験則</span></div>
+<p>完全放置でミステリーボックスが取得可能です。</p>
+<h3 id="section-5">54階</h3>
+<div class="section-meta"><span class="meta-chip">情報の性質：経験則</span></div>
 
-<div class="v-block v-kakao">
-<p class="v-label">カカオ版</p>
-<p>能力なしで復活2回で取得可能です。</p>
-</div>
-<div class="v-block v-classic">
-<p class="v-label">クラシック版</p>
-<p>ヌンチャク系が無くてもクリア可能です。コインの花生成か巨大化での金貨変換で対応可能との情報があります。</p>
-</div>
-<h3 id="section-6">66階</h3>
-<div class="section-meta"><span class="meta-chip v-kakao-only">対象バージョン：カカオ版のみ確認</span><span class="meta-chip">情報の性質：経験則</span></div>
+<p>一番多くボーナスに入ることができるステージ。宝石集め（Relic）の宝物と合わせることで経験値稼ぎができる。</p>
+<h3 id="section-6">73階</h3>
+<div class="section-meta"><span class="meta-chip">情報の性質：経験則</span></div>
 
-<p>完全放置でミステリーボックス取得可能です（能力全部有効、キツネビーでも可）。</p>
-<h3 id="section-7">73階</h3>
-<div class="section-meta"><span class="meta-chip v-mixed">対象バージョン：混在</span><span class="meta-chip">情報の性質：経験則</span></div>
+<p>救急車（宝物）を2つ装備すると、完全放置でミステリーボックスが取得可能です。</p>
+<h3 id="section-7">97階</h3>
+<div class="section-meta"><span class="meta-chip">情報の性質：確定情報</span></div>
 
-<div class="v-block v-kakao">
-<p class="v-label">カカオ版</p>
-<p>完全放置でミステリーボックス取得可能です。</p>
-</div>
-<div class="v-block v-classic">
-<p class="v-label">クラシック版</p>
-<p>救急車（宝物）が3つ欲しいとの言及があります。</p>
-</div>
-<h3 id="section-8">97階</h3>
-<div class="section-meta"><span class="meta-chip v-classic-only">対象バージョン：クラシック版のみ確認</span><span class="meta-chip">情報の性質：確定情報</span></div>
+<p>救出系の宝物を装備することでクリア可能です。おすすめはジャンプ追加＋救出（クッキー：忍者味／バナナ味）です。</p>
+<h2 id="section-8">48-3階の攻略</h2>
+<div class="section-meta"><span class="meta-chip">情報の性質：経験則</span></div>
 
-<p>穴に落ちてクリスタルを使わずにクリア可能です。おすすめはジャンプ追加＋救出（クッキー：忍者味／バナナ味）です。</p>
-<h2 id="section-9">48-3の攻略</h2>
-<div class="section-meta"><span class="meta-chip v-classic-only">対象バージョン：クラシック版のみ確認</span><span class="meta-chip">情報の性質：経験則</span></div>
-
-<p>適正クッキーはピーチ味/ナツメ味（解放条件が厳しい）です。代替は破壊系クッキー（ロールケーキ味・バナナ味）や破壊系宝物、ライム味クッキー、または魔導士＋ジェリコキューブLv8宝物の組み合わせです。ホワイトチョコレート味が唯一クッキー単独でクリア可能との情報がありますが、確信度は低いです。</p>
+<p>適正クッキーはバナナ味／魔導士味／ライム味です。代替は破壊系クッキー（ロールケーキ味・バナナ味）や破壊系宝物、ライム味クッキー、または魔導士＋ジェリコキューブLv8宝物の組み合わせです。ホワイトチョコレート味が唯一クッキー単独でクリア可能との情報があります。</p>
 <ul>
-<li><strong>ピーチ味／ナツメ味クッキー</strong>：48-3攻略における適正クッキー（障害物を増やす能力）。ただし解放条件が厳しいです。</li>
-<li><strong>ロールケーキ味／バナナ味クッキー</strong>：破壊系の宝物と組み合わせることで、ピーチ味/ナツメ味の代替になり得ます（障害物破壊能力）。</li>
-<li><strong>ホワイトチョコレート味クッキー</strong>：「クッキー単独（宝物なし）」ではクリア不可。宝物と組み合わせればクリア可能ですが、難易度は高いです。</li>
-<li><strong>ライム味クッキー</strong>：任意のタイミングで障害物を破壊できる能力（強力）。ある環境ではコイン購入できるクッキーがライムだけだったとの報告もあります。衝突してでも能力を使う必要があるため、破壊系宝物なしでプレイする場合は「復活」宝物が必須です。</li>
-<li><strong>魔導士＋ジェリコキューブのLv8報酬宝物</strong>：Day4ミッション報酬「魔導士」＋Day5ミッション報酬「ジェリコキューブ」のLv8報酬宝物の組み合わせ。ただしどちらもレベルマックスでギリギリのクリア難度で、運が絡みます。</li>
+<li><strong>バナナ味クッキー</strong>：衝突時破壊の宝物と組み合わせることでクリア可能。</li>
+<li><strong>ライム味クッキー</strong>：任意のタイミングで障害物を破壊できる能力。衝突してでも能力を使う必要があるため、破壊系宝物なしでプレイする場合は「復活」宝物が必須です。</li>
+<li><strong>魔導士味クッキー＋ジェリコキューブのLv8報酬宝物</strong>：Day4ミッション報酬「魔導士味」＋Day5ミッション報酬「ジェリコキューブ」のLv8報酬宝物の組み合わせ。ただしどちらもレベルマックスでギリギリのクリア難度で、運が絡みます。</li>
+<li><strong>ホワイトチョコレート味クッキー</strong>：クッキー単独（宝物なし）でクリア可能。</li>
 </ul>
-<h2 id="section-10">64-3の攻略</h2>
-<div class="section-meta"><span class="meta-chip v-classic-only">対象バージョン：クラシック版のみ確認</span><span class="meta-chip">情報の性質：経験則</span></div>
+<h2 id="section-9">64-3階の攻略</h2>
+<div class="section-meta"><span class="meta-chip">情報の性質：経験則</span></div>
 
 <p>ヌンチャク系の宝物がなくても、コインの花生成か巨大化での金貨変換で対応可能です。</p>
-<h2 id="section-11">外部攻略サイト</h2>
+<h2 id="section-10">外部攻略サイト</h2>
 <ul>
 <li>フローズンウェーブ ミッション報酬まとめ：<a href="https://kakaocookie.cloudfree.jp/frozen-waves/" target="_blank" rel="noopener noreferrer">https://kakaocookie.cloudfree.jp/frozen-waves/</a></li>
 </ul>
-<p>（両版共通で利用可能）</p>
+<h2 id="section-11">フローズン攻略完了まで温存すべき宝物</h2>
+<div class="section-meta"><span class="meta-chip">情報の性質：経験則</span></div>
+
+<p>ジェリコ・ピンクの帽子・サクラのスプーンといった宝物は、フローズンウェーブ塔の攻略が完了するまで手放さずに取っておいた方がよいという意見があります。抽出（売却）してしまう前に、まずは塔の攻略を優先することが推奨されます。</p>
+<h2 id="section-12">外部攻略サイトでの階層別検索方法</h2>
+<div class="section-meta"><span class="meta-chip">情報の性質：確定情報</span></div>
+
+<p><a href="https://www.cookierunhub.com/" target="_blank" rel="noopener noreferrer">Cookie Run Hub</a></p>
 <hr />
 <p><strong>関連ページ</strong>：<a href="../system/basics.html">基本システム・仕様まとめ</a>、<a href="../beginner/roadmap.html">初心者ガイド：最初にやること</a>、<a href="../cookies/useful-cookies.html">有用クッキー</a>、<a href="../treasures/useful-treasures.html">有用宝物</a>、<a href="../faq/faq-list.html#q9">FAQ Q9</a></p>
 

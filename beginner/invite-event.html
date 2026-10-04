@@ -9,6 +9,22 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/style.css">
+<script>
+/* バージョン切り替えの初期値を、CSS適用・body描画より前に確定させる。
+   ボタンの選択色もCSS側でhtml[data-version]を基準に決めているため
+   （script.js参照）、ここでdata-version属性さえ早期に設定すれば、
+   ヘッダーのボタンが一瞬「両バージョン」に見えるちらつきを防げる。 */
+(function () {
+  try {
+    var v = localStorage.getItem("cr_version_pref");
+    if (v === "kakao" || v === "classic" || v === "both") {
+      document.documentElement.setAttribute("data-version", v);
+    }
+  } catch (e) {
+    /* プライベートブラウジング等でlocalStorageが使えない場合は既定値(both)のまま */
+  }
+})();
+</script>
 <link rel="icon" type="image/png" href="../assets/img/favicon.svg">
 <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9890627047838156" crossorigin="anonymous"></script>
@@ -72,7 +88,7 @@
 
         <li><a href="invite-event.html" class="is-current" aria-current="page">招待イベントの進め方</a></li>
 
-        <li><a href="payment-kakao.html">課金方法（カカオ版）</a></li>
+        <li><a href="payment.html">課金方法</a></li>
 
         <li><a href="kakao-troubleshooting.html">カカオ版のよくあるトラブル対応</a></li>
 
@@ -112,7 +128,7 @@
 
         <li><a href="../modes/party-run.html">パーティーラン（オンライン対戦）</a></li>
 
-        <li><a href="../modes/episodes.html">エピソード別攻略（EP1〜EP7）</a></li>
+        <li><a href="../modes/episodes.html">エピソード別攻略（Ep1〜Ep7）</a></li>
 
         <li><a href="../modes/others.html">その他のモード</a></li>
 
@@ -190,21 +206,20 @@
 
 
 
-      <p class="lead">ゲーム未プレイの相手を招待してアイテムを得るイベントという目的自体は両版共通です。ただし実行方式は構造的に異なるため統合できません。</p>
+      <p class="lead">ゲーム未プレイの相手を招待してアイテムを得るイベントという目的自体は両版共通ですが、実現方式がゲーム内システムの違いにより異なります。</p>
 <div class="v-block v-kakao">
 <p class="v-label">カカオ版</p>
-<p>現行の方式：オープンチャットで見つけたカカともの中に未プレイの人がいれば招待します。一度招待した相手は1ヶ月後に再度招待可能です。</p>
+<p>オープンチャットで見つけたカカともの中に未プレイの人がいれば招待します。一度招待した相手は1ヶ月後に再度招待可能です。</p>
 </div>
 <div class="v-block v-classic">
 <p class="v-label">クラシック版</p>
 <p>ゲストアカウントを作成し、招待リンク経由でレベル5に到達させてからアカウント削除、を繰り返します。</p>
 <p><strong>仕様変更</strong>：以前は新規プレイヤーが「レベル1」に到達した時点でカウントされていましたが、現在は「レベル5」到達が必須に変更されています（確定・アップデートによる仕様変更、2026/07/04時点で確認）。</p>
 <p>サブ端末でもメイン端末でも実行可能です。メイン端末1台の場合でも、アカウント連携済みならログアウト→ゲストログインでゲストアカウントを作れます。レベル上げは「経験値ステージ」を周回するのが効率的です。</p>
-<p>具体的な繰り返し手順（実践報告）：
-- パターンA：ログアウト→ゲストログイン→チュートリアルスキップ→招待リンクを踏む→元アカウントに再ログイン→ログアウト、を繰り返す（「垢消しにかかる60秒」を省略できる）。
-- パターンB（iPhone向け）：ログアウト→新規作成→PLAY→チュートリアルスキップ→経験値ステージ3回→招待リンクから入る→invitingplayer→DevPlayログイン→元アカウントに戻る。</p>
-<p>OS差は無いことが確認されています（iPhoneでの反映実績も確認済み。「iPhoneで反映されずAndroidで反映された」という体験談が一時期ありましたが、個別事例でありOS差自体は存在しないことが確認されました）。</p>
-<p>DevPlay Account登録済みなら、アプリを消さなくても元のアカウントは保持されます。</p>
+<p>具体的な繰り返し手順：</p>
+<ul>
+<li>パターンA：ログアウト→ゲストログイン→チュートリアルスキップ→経験値ステージ3回→招待リンクを踏む→元アカウントに再ログイン→ログアウト、を繰り返す（「垢消しにかかる60秒」を省略できる）。</li>
+</ul>
 </div>
 <hr />
 <p><strong>関連ページ</strong>：<a href="../guide/xp-farming.html">経験値稼ぎ攻略</a>、<a href="../faq/faq-list.html#q5">FAQ Q5</a></p>

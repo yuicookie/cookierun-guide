@@ -9,6 +9,22 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/style.css">
+<script>
+/* バージョン切り替えの初期値を、CSS適用・body描画より前に確定させる。
+   ボタンの選択色もCSS側でhtml[data-version]を基準に決めているため
+   （script.js参照）、ここでdata-version属性さえ早期に設定すれば、
+   ヘッダーのボタンが一瞬「両バージョン」に見えるちらつきを防げる。 */
+(function () {
+  try {
+    var v = localStorage.getItem("cr_version_pref");
+    if (v === "kakao" || v === "classic" || v === "both") {
+      document.documentElement.setAttribute("data-version", v);
+    }
+  } catch (e) {
+    /* プライベートブラウジング等でlocalStorageが使えない場合は既定値(both)のまま */
+  }
+})();
+</script>
 <link rel="icon" type="image/png" href="../assets/img/favicon.svg">
 <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9890627047838156" crossorigin="anonymous"></script>
@@ -72,7 +88,7 @@
 
         <li><a href="../beginner/invite-event.html">招待イベントの進め方</a></li>
 
-        <li><a href="../beginner/payment-kakao.html">課金方法（カカオ版）</a></li>
+        <li><a href="../beginner/payment.html">課金方法</a></li>
 
         <li><a href="../beginner/kakao-troubleshooting.html">カカオ版のよくあるトラブル対応</a></li>
 
@@ -112,7 +128,7 @@
 
         <li><a href="../modes/party-run.html">パーティーラン（オンライン対戦）</a></li>
 
-        <li><a href="../modes/episodes.html">エピソード別攻略（EP1〜EP7）</a></li>
+        <li><a href="../modes/episodes.html">エピソード別攻略（Ep1〜Ep7）</a></li>
 
         <li><a href="../modes/others.html">その他のモード</a></li>
 
@@ -207,9 +223,8 @@
 
       <p class="lead">本サイトの各ページに載せきれない詳細情報や、コミュニティとの接点を提供します。</p>
 <h2 id="section-1">コミュニティ・攻略サイト</h2>
-<blockquote>
-<p>情報の性質：確定情報（外部リンク集約。定期的にメンテナンスされているため利用上の問題は無い）</p>
-</blockquote>
+<div class="section-meta"><span class="meta-chip">情報の性質：確定情報（外部リンク集約。定期的にメンテナンスされているため利用上の問題は無い）</span></div>
+
 <ul>
 <li>カカオクッキーラン攻略サイト（ゆい氏運営）：<a href="https://kakaocookie.cloudfree.jp/" target="_blank" rel="noopener noreferrer">https://kakaocookie.cloudfree.jp/</a></li>
 <li>経験値計算ツール（ゆい氏作成）：<a href="https://yuicookie.github.io/xp/" target="_blank" rel="noopener noreferrer">https://yuicookie.github.io/xp/</a></li>
@@ -221,7 +236,7 @@
 <li>コミックスタジオ（スキンの動き確認用、公式関連）：<a href="https://cookierun.comic.studio/" target="_blank" rel="noopener noreferrer">https://cookierun.comic.studio/</a></li>
 <li>Cookie Run Hub（海外の攻略サイト、英語対応）：<a href="https://www.cookierunhub.com/" target="_blank" rel="noopener noreferrer">https://www.cookierunhub.com/</a></li>
 <li>ナムウィキ日本語対応ページ：<a href="https://ja.namu.wiki/w/%EC%BF%A0%ED%82%A4%EB%9F%B0" target="_blank" rel="noopener noreferrer">https://ja.namu.wiki/w/%EC%BF%A0%ED%82%A4%EB%9F%B0</a></li>
-<li>dcinside（韓国掲示板）：バグ情報・攻略情報の引用元として複数回参照</li>
+<li>dcinside（韓国掲示板）：バグ情報・攻略情報の引用元として複数回参照。<a href="https://m.dcinside.com/board/cookierun/1339806?headid=240" target="_blank" rel="noopener noreferrer">スコア/経験値表の投稿例</a>のように高スコア報告が多く上がる掲示板もあります。</li>
 <li>Discordコミュニティ（カカオ版・クラシック版双方対応、過疎気味）</li>
 <li>Facebook上のタイ語コミュニティ（CookieRun Classic、参加者約10〜20万人規模との情報）</li>
 <li>公式X（Twitter）アカウント：@cookierun4kakao（カカオ版）、@CRClassicKR、@CRClassic_UPD（クラシック版関連）</li>
@@ -230,9 +245,8 @@
 <hr />
 <p>以下の情報は、攻略情報というよりは情報源であるコミュニティの内輪的な話題・周辺情報であり、参考情報として掲載します。</p>
 <h2 id="section-2">タイ市場での人気</h2>
-<blockquote>
-<p>情報の性質：経験則（外部コミュニティでの言及に基づく）</p>
-</blockquote>
+<div class="section-meta"><span class="meta-chip">情報の性質：経験則（外部コミュニティでの言及に基づく）</span></div>
+
 <p>クラシック版はタイのストアでセールスランキング1位になったとの言及が複数回あります（両版のトークで共通の話題として言及）。Facebook上のタイ語コミュニティも大規模です。</p>
 <h2 id="section-3">グループ運営方針</h2>
 <ul>

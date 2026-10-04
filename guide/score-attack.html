@@ -9,6 +9,22 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/style.css">
+<script>
+/* バージョン切り替えの初期値を、CSS適用・body描画より前に確定させる。
+   ボタンの選択色もCSS側でhtml[data-version]を基準に決めているため
+   （script.js参照）、ここでdata-version属性さえ早期に設定すれば、
+   ヘッダーのボタンが一瞬「両バージョン」に見えるちらつきを防げる。 */
+(function () {
+  try {
+    var v = localStorage.getItem("cr_version_pref");
+    if (v === "kakao" || v === "classic" || v === "both") {
+      document.documentElement.setAttribute("data-version", v);
+    }
+  } catch (e) {
+    /* プライベートブラウジング等でlocalStorageが使えない場合は既定値(both)のまま */
+  }
+})();
+</script>
 <link rel="icon" type="image/png" href="../assets/img/favicon.svg">
 <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9890627047838156" crossorigin="anonymous"></script>
@@ -72,7 +88,7 @@
 
         <li><a href="../beginner/invite-event.html">招待イベントの進め方</a></li>
 
-        <li><a href="../beginner/payment-kakao.html">課金方法（カカオ版）</a></li>
+        <li><a href="../beginner/payment.html">課金方法</a></li>
 
         <li><a href="../beginner/kakao-troubleshooting.html">カカオ版のよくあるトラブル対応</a></li>
 
@@ -112,7 +128,7 @@
 
         <li><a href="../modes/party-run.html">パーティーラン（オンライン対戦）</a></li>
 
-        <li><a href="../modes/episodes.html">エピソード別攻略（EP1〜EP7）</a></li>
+        <li><a href="../modes/episodes.html">エピソード別攻略（Ep1〜Ep7）</a></li>
 
         <li><a href="../modes/others.html">その他のモード</a></li>
 
@@ -189,17 +205,48 @@
       <h1>スコアタ攻略</h1>
 
 
+      <details class="page-toc" open>
+        <summary>このページの目次（全5項目）</summary>
+        <ol>
+
+          <li><a href="#section-1">スコアタ用ランダムブーストの選び方</a></li>
+
+          <li><a href="#section-2">スコアタ考察（上級テクニック）</a></li>
+
+          <li><a href="#section-3">カイマク味×ピーチ味のバトン合わせ（サイクル調整の上級テクニック）</a></li>
+
+          <li><a href="#section-4">具体的なスコア編成例</a></li>
+
+          <li><a href="#section-5">障害物破壊系コンビとエピソードの相性</a></li>
+
+        </ol>
+      </details>
+
 
       <h2 id="section-1">スコアタ用ランダムブーストの選び方</h2>
 <div class="section-meta"><span class="meta-chip v-kakao-only">対象バージョン：カカオ版のみ確認</span><span class="meta-chip">情報の性質：経験則</span></div>
 
-<p class="lead">大概は「体力減少速度低下」を選ぶのが良いとされますが、破壊系コンビでは「速度増加」の方が有効な場合があります。傾向として、破壊クッキー→速度増加、回復能力持ち→体力減少低下、が多いという整理です。</p>
+<p>大概は「体力減少速度低下」を選ぶのが良いとされますが、破壊系コンビでは「速度増加」の方が有効な場合があります。傾向として、破壊クッキー→速度増加、回復能力持ち→体力減少低下、が多いという整理です。</p>
 <h2 id="section-2">スコアタ考察（上級テクニック）</h2>
 <div class="section-meta"><span class="meta-chip v-kakao-only">対象バージョン：カカオ版のみ確認</span><span class="meta-chip">情報の性質：経験則（上級者向け）</span></div>
 
 <p>復活体力40以下の宝物でまとめておくと、復活後も「赤点滅」状態を維持しやすく、ボーナスタイム管理がしやすいという上級者向けの考察があります。</p>
 <p>スコアタ向けの具体的な宝物（ビタビタドリンク、エナジードリンク等）については<a href="../treasures/useful-treasures.html">有用宝物</a>ページを、用語（ベストコンビボーナス等）は<a href="../system/glossary.html">用語集</a>を参照してください。</p>
-<hr />
+<h2 id="section-3">カイマク味×ピーチ味のバトン合わせ（サイクル調整の上級テクニック）</h2>
+<div class="section-meta"><span class="meta-chip v-kakao-only">対象バージョン：カカオ版のみ確認</span><span class="meta-chip">情報の性質：経験則（動画解説あり・上級者向け）</span></div>
+
+<p>カイマク味クッキーとピーチ味クッキーを組み合わせたビルドでは、ペットの落下（ドロップ）タイミングを調整することで、ピーチのサイクルにバトン位置を合わせる、という考え方が紹介されています（<a href="https://youtu.be/YeFtW4KgFfQ?si=Gsu5RdulDliyVVMY" target="_blank" rel="noopener noreferrer">参考動画</a>）。動画内の特定の落下ポイントのうち、序盤（4分50秒付近）の調整の方が終盤（7分49秒付近、1〜2秒程度）よりも重要度が高いとされます。</p>
+<p><strong>注意点</strong>：グローブ（ペット）に祝福が付いていない場合、そもそもバトン位置を揃えられないため、同じビルドは通用しないとされています。</p>
+<p>理想の位置合わせを突き詰めるにはクリスタルを多く消費した検証が必要ですが、何度か走り込むことで、感覚的に落とす位置と秒数が大体わかるようになるとの声もあります。バトン合わせの難易度は編成によって差があり、ピーチへのダッシュ合わせ程度なら簡単ですが、複雑なビルドを一人で組み立てるには限度があり、動画や攻略サイト（hub等）での情報交換が重要とされています。</p>
+<h2 id="section-4">具体的なスコア編成例</h2>
+<div class="section-meta"><span class="meta-chip v-classic-only">対象バージョン：クラシック版のみ確認</span><span class="meta-chip">情報の性質：経験則（個人の提案・実践報告あり）</span></div>
+
+<p>「魔導士味クッキー＋ジャクソン（ペット）＋炎の精霊クッキー（バトン）」に、クラウン宝物×2とホットドッグ味クッキーの専用宝物を組み合わせる編成が提案され、実践した人が自己ベスト更新を報告しています。レベル上げの優先度はホットドッグ味クッキー本体よりも、その専用宝物とクラウンを優先すべきとされています（ホットドッグ味クッキー自体は汎用性が低いため進化は不要）。</p>
+<p>バトンに迷った場合や専用のバトンクッキーを持っていない場合は、炎の精霊クッキーをバトンにしておけば無難とされています。炎の精霊の能力は復活時にのみ発動するため、道中で衝突しても影響が小さいのが理由です。</p>
+<h2 id="section-5">障害物破壊系コンビとエピソードの相性</h2>
+<div class="section-meta"><span class="meta-chip v-classic-only">対象バージョン：クラシック版のみ確認</span><span class="meta-chip">情報の性質：経験則</span></div>
+
+<h2>レモン味クッキー等の「障害物破壊時に得点が上がる」タイプの宝物・コンビは、エピソード1の前半は障害物が少ないため得点を稼ぎにくく、エピソード2・3の方が使いやすいとされています。詳しくは<a href="../cookies/useful-cookies.html">有用クッキー（レモン味）</a>を参照してください。</h2>
 <p><strong>関連ページ</strong>：<a href="../treasures/useful-treasures.html">有用宝物</a>、<a href="../system/glossary.html">用語集</a></p>
 
     </div>

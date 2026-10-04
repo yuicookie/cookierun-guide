@@ -9,6 +9,22 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/style.css">
+<script>
+/* バージョン切り替えの初期値を、CSS適用・body描画より前に確定させる。
+   ボタンの選択色もCSS側でhtml[data-version]を基準に決めているため
+   （script.js参照）、ここでdata-version属性さえ早期に設定すれば、
+   ヘッダーのボタンが一瞬「両バージョン」に見えるちらつきを防げる。 */
+(function () {
+  try {
+    var v = localStorage.getItem("cr_version_pref");
+    if (v === "kakao" || v === "classic" || v === "both") {
+      document.documentElement.setAttribute("data-version", v);
+    }
+  } catch (e) {
+    /* プライベートブラウジング等でlocalStorageが使えない場合は既定値(both)のまま */
+  }
+})();
+</script>
 <link rel="icon" type="image/png" href="../assets/img/favicon.svg">
 <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9890627047838156" crossorigin="anonymous"></script>
@@ -72,7 +88,7 @@
 
         <li><a href="../beginner/invite-event.html">招待イベントの進め方</a></li>
 
-        <li><a href="../beginner/payment-kakao.html">課金方法（カカオ版）</a></li>
+        <li><a href="../beginner/payment.html">課金方法</a></li>
 
         <li><a href="../beginner/kakao-troubleshooting.html">カカオ版のよくあるトラブル対応</a></li>
 
@@ -112,7 +128,7 @@
 
         <li><a href="../modes/party-run.html">パーティーラン（オンライン対戦）</a></li>
 
-        <li><a href="../modes/episodes.html">エピソード別攻略（EP1〜EP7）</a></li>
+        <li><a href="../modes/episodes.html">エピソード別攻略（Ep1〜Ep7）</a></li>
 
         <li><a href="../modes/others.html">その他のモード</a></li>
 
@@ -190,7 +206,7 @@
 
 
       <details class="page-toc" open>
-        <summary>このページの目次（全9項目）</summary>
+        <summary>このページの目次（全10項目）</summary>
         <ol>
 
           <li><a href="#q1">Q1. フレンド・ハートを増やすには？</a></li>
@@ -211,6 +227,8 @@
 
           <li><a href="#q9">Q9. フローズンウェーブはなぜ優先攻略すべきか？</a></li>
 
+          <li><a href="#q10">Q10. 期間限定ガチャ「リスショップ」はクリスタルを割ってでも引く価値がある？</a></li>
+
         </ol>
       </details>
 
@@ -230,7 +248,7 @@
 <p>両版共通で「ペットガチャ」「宝物ボックス拡張」優先、「宝物ガチャ」は後回しが基本方針です。詳しくは<a href="../beginner/crystal-usage.html">序盤のクリスタルの使い道</a>を参照してください。</p>
 <h2 id="q3">Q3. コイン稼ぎに最適な編成は？</h2>
 <p>現在の主流はポテトサラダ味クッキーです。バナナ味クッキーも強化されており、ハート効率重視ならバナナ、時間効率重視ならポテトサラダです。環境変化が速いため最新情報の確認が必要です。</p>
-<p>周回エピソードは、時間効率重視ならEP2（クッキー移動速度が速い）、一度に多く稼ぎたいならEP1（回復用の小ポーションが多い）という使い分けが推奨されます。</p>
+<p>周回エピソードは、時間効率重視ならEp2（クッキー移動速度が速い）、一度に多く稼ぎたいならEp1（回復用の小ポーションが多い）という使い分けが推奨されます。</p>
 <p>詳しくは<a href="../guide/coin-farming.html">コイン稼ぎ攻略</a>を参照してください。</p>
 <h2 id="q4">Q4. どの宝物を残し、どれを捨てるべきか？</h2>
 <p>クラシック版での判断基準：コイン/経験値/復活/磁力系のガチャ宝物は上位版があるため基本捨てて良いです（バナナ哺乳瓶を除く）。クッキー専用宝物はそのクッキーを使わないなら捨てます。この基準は時期・環境によって変わりうるため、最新の環境情報と合わせて判断するのが望ましいです。カカオ版の一般論は未確認です。詳しくは<a href="../guide/treasure-management.html">宝物の取捨選択・育成優先度</a>を参照してください。</p>
@@ -253,6 +271,8 @@
 <p>詳しくは<a href="../beginner/kakao-troubleshooting.html">カカオ版のよくあるトラブル対応</a>を参照してください。</p>
 <h2 id="q9">Q9. フローズンウェーブはなぜ優先攻略すべきか？</h2>
 <p>全100階・1回最大3個のアイススターがあり、ダイヤ・宝物入手の主要コンテンツです。後半の階はS級宝物が30個以上入手可能とされます。100階を最速で目指すことが推奨されます。詳しくは<a href="../modes/frozen-wave.html">フローズンウェーブの塔</a>を参照してください。</p>
+<h2 id="q10">Q10. 期間限定ガチャ「リスショップ」はクリスタルを割ってでも引く価値がある？</h2>
+<p>基本的には割ってまで引く価値は低いという意見が多いです。ただし、無料分は1日1回引けるので必ず引くべきです。入手手段が少ない「魔法の粉」の宝物を狙う場合は、クリスタルを消費して引きまくるのもアリとされています。詳しくは<a href="../modes/others.html">その他のモード（リスショップ）</a>を参照してください。</p>
 <hr />
 <p><strong>関連ページ</strong>：ほぼ全カテゴリ</p>
 

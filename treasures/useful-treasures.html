@@ -9,6 +9,22 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/style.css">
+<script>
+/* バージョン切り替えの初期値を、CSS適用・body描画より前に確定させる。
+   ボタンの選択色もCSS側でhtml[data-version]を基準に決めているため
+   （script.js参照）、ここでdata-version属性さえ早期に設定すれば、
+   ヘッダーのボタンが一瞬「両バージョン」に見えるちらつきを防げる。 */
+(function () {
+  try {
+    var v = localStorage.getItem("cr_version_pref");
+    if (v === "kakao" || v === "classic" || v === "both") {
+      document.documentElement.setAttribute("data-version", v);
+    }
+  } catch (e) {
+    /* プライベートブラウジング等でlocalStorageが使えない場合は既定値(both)のまま */
+  }
+})();
+</script>
 <link rel="icon" type="image/png" href="../assets/img/favicon.svg">
 <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9890627047838156" crossorigin="anonymous"></script>
@@ -72,7 +88,7 @@
 
         <li><a href="../beginner/invite-event.html">招待イベントの進め方</a></li>
 
-        <li><a href="../beginner/payment-kakao.html">課金方法（カカオ版）</a></li>
+        <li><a href="../beginner/payment.html">課金方法</a></li>
 
         <li><a href="../beginner/kakao-troubleshooting.html">カカオ版のよくあるトラブル対応</a></li>
 
@@ -112,7 +128,7 @@
 
         <li><a href="../modes/party-run.html">パーティーラン（オンライン対戦）</a></li>
 
-        <li><a href="../modes/episodes.html">エピソード別攻略（EP1〜EP7）</a></li>
+        <li><a href="../modes/episodes.html">エピソード別攻略（Ep1〜Ep7）</a></li>
 
         <li><a href="../modes/others.html">その他のモード</a></li>
 
@@ -245,11 +261,11 @@
 
 <p>魔法の粉200個がもらえる宝物との言及があります。</p>
 <h3 id="section-12">神秘のかけら</h3>
-<div class="section-meta"><span class="meta-chip v-common">対象バージョン：両方確認</span><span class="meta-chip">情報の性質：確定情報</span></div>
+<div class="section-meta"><span class="meta-chip">情報の性質：確定情報</span></div>
 
 <p>通常合成された宝物に祝福を付与できる効果を持つアイテムです（神秘のかけら1,000個＋クリスタル100個消費）。入手方法は「進化した宝物を抽出する」または「メダルショップで購入」です。両版共通の名称・機能です。詳細は<a href="../system/blessing.html">宝物の祝福システム</a>を参照してください。</p>
 <h3 id="section-13">クリスタル所持効果付き宝物</h3>
-<div class="section-meta"><span class="meta-chip v-common">対象バージョン：両方確認</span><span class="meta-chip">情報の性質：確定情報</span></div>
+<div class="section-meta"><span class="meta-chip">情報の性質：確定情報</span></div>
 
 <p>所持しているだけでログイン時にクリスタルがもらえる宝物群です。ガチャの他、特定クッキー・ペットのレベルマックス報酬でも入手できます。優先して育成すると後々のクリスタル収集効率が上がります。お気に入り（⭐）設定を推奨します。</p>
 <h3 id="section-14">限定宝物（エピソード解放記念など）</h3>
@@ -263,7 +279,7 @@
 <h3 id="section-16">キノコランプ</h3>
 <div class="section-meta"><span class="meta-chip v-classic-only">対象バージョン：クラシック版のみ確認</span><span class="meta-chip">情報の性質：経験則</span></div>
 
-<p>「強い」というより「便利」な宝物という評価です。復活する宝物やクッキーペットと組み合わせると、数秒間「巨大化」と「高速ダッシュ」を発動できます。使用場面：箱周回（EP6など）。BOX入手後すぐ終了できるため相性が良いです。</p>
+<p>「強い」というより「便利」な宝物という評価です。復活する宝物やクッキーペットと組み合わせると、数秒間「巨大化」と「高速ダッシュ」を発動できます。使用場面：箱周回（Ep6など）。BOX入手後すぐ終了できるため相性が良いです。</p>
 <h3 id="section-17">花生成の宝物（コインの花生成）</h3>
 <div class="section-meta"><span class="meta-chip v-mixed">対象バージョン：両方確認（クラシック版で言及されているが、検証はカカオ版で行われたと明記されている）</span><span class="meta-chip">情報の性質：経験則</span></div>
 
@@ -288,6 +304,26 @@
 <div class="section-meta"><span class="meta-chip v-classic-only">対象バージョン：クラシック版のみ確認</span><span class="meta-chip">情報の性質：確定情報（例外規定）</span></div>
 
 <p>宝物の取捨選択の判断基準における唯一の例外扱いです（コイン/経験値/復活/磁力系は基本捨てて良いですが、バナナ哺乳瓶は除きます）。</p>
+<h3 id="section-23">オルゴール</h3>
+<div class="section-meta"><span class="meta-chip v-classic-only">対象バージョン：クラシック版のみ確認</span><span class="meta-chip">情報の性質：経験則</span></div>
+
+<p>コイン150枚獲得ごとに経験値1が加算される効果を持つとされる宝物です。ポテトサラダ味クッキーやバナナ味クッキーといった主力コイン稼ぎクッキーと組み合わせて使うことができ、コイン稼ぎをしながら経験値も稼げる点で有能とされています。祝福すべき宝物の一つとしても挙げられています（詳細は<a href="../system/blessing.html">宝物の祝福システム</a>参照）。</p>
+<h3 id="section-24">紫リュック</h3>
+<div class="section-meta"><span class="meta-chip v-classic-only">対象バージョン：クラシック版のみ確認</span><span class="meta-chip">情報の性質：経験則（個人の評価）</span></div>
+
+<p>キノコランプ・コイン財布と合わせて「三種の神器」と評されるほど重要度が高いとされる宝物です。詳細な効果は未確認ですが、優先して入手・強化する価値があるとの意見があります。</p>
+<h3 id="section-25">HP（体力）増加系の宝物</h3>
+<div class="section-meta"><span class="meta-chip v-classic-only">対象バージョン：クラシック版のみ確認</span><span class="meta-chip">情報の性質：経験則</span></div>
+
+<p>体力を底上げする宝物を探す場合、<a href="https://yuicookie.github.io/treasure-book/" target="_blank" rel="noopener noreferrer">宝物図鑑サイト</a>で「体力が 増加」と検索すると一覧できます。その中で最も効果が高いとされるのはキツネビー玉の宝物で、バトンに回した場合でも効果が適用される点が評価されています。エンジェル味クッキーのペットの能力でも体力を底上げできます。</p>
+<h3 id="section-26">レモンギター（リスショップ限定ガチャ）</h3>
+<div class="section-meta"><span class="meta-chip">情報の性質：経験則</span></div>
+
+<p>期間限定の「リスショップ」ガチャで入手できる宝物です。ミニ磁力に加えて別のボーナス効果も同時に付与される点が高評価です。以前は同種の効果を持つ「リスの応援棒」が唯一の選択肢でしたが、レモンギターはその上位互換にあたります。詳細は<a href="../modes/others.html">その他のモード（リスショップ）</a>を参照してください。</p>
+<h3 id="section-27">クラウンの磁力効果に代替はない</h3>
+<div class="section-meta"><span class="meta-chip v-classic-only">対象バージョン：クラシック版のみ確認</span><span class="meta-chip">情報の性質：経験則</span></div>
+
+<p>クラウン系宝物が持つ磁力効果には、2026年9月時点で代替となる宝物が存在しないとされています。</p>
 <hr />
 <p><strong>関連ページ</strong>：<a href="../system/blessing.html">宝物の祝福システム</a>、<a href="../guide/coin-farming.html">コイン稼ぎ攻略</a>、<a href="../guide/score-attack.html">スコアタ攻略</a>、<a href="../system/basics.html">基本システム・仕様まとめ</a>、<a href="../guide/materials.html">育成素材・アイテムガイド</a></p>
 

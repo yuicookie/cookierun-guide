@@ -9,6 +9,22 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/style.css">
+<script>
+/* バージョン切り替えの初期値を、CSS適用・body描画より前に確定させる。
+   ボタンの選択色もCSS側でhtml[data-version]を基準に決めているため
+   （script.js参照）、ここでdata-version属性さえ早期に設定すれば、
+   ヘッダーのボタンが一瞬「両バージョン」に見えるちらつきを防げる。 */
+(function () {
+  try {
+    var v = localStorage.getItem("cr_version_pref");
+    if (v === "kakao" || v === "classic" || v === "both") {
+      document.documentElement.setAttribute("data-version", v);
+    }
+  } catch (e) {
+    /* プライベートブラウジング等でlocalStorageが使えない場合は既定値(both)のまま */
+  }
+})();
+</script>
 <link rel="icon" type="image/png" href="../assets/img/favicon.svg">
 <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9890627047838156" crossorigin="anonymous"></script>
@@ -72,7 +88,7 @@
 
         <li><a href="../beginner/invite-event.html">招待イベントの進め方</a></li>
 
-        <li><a href="../beginner/payment-kakao.html">課金方法（カカオ版）</a></li>
+        <li><a href="../beginner/payment.html">課金方法</a></li>
 
         <li><a href="../beginner/kakao-troubleshooting.html">カカオ版のよくあるトラブル対応</a></li>
 
@@ -112,7 +128,7 @@
 
         <li><a href="party-run.html">パーティーラン（オンライン対戦）</a></li>
 
-        <li><a href="episodes.html">エピソード別攻略（EP1〜EP7）</a></li>
+        <li><a href="episodes.html">エピソード別攻略（Ep1〜Ep7）</a></li>
 
         <li><a href="others.html" class="is-current" aria-current="page">その他のモード</a></li>
 
@@ -205,11 +221,17 @@
 
       <p class="lead">単独ページ化するほどの情報量はないが、独立して説明すべきモードをまとめています。</p>
 <h2 id="section-1">リスショップ</h2>
-<div class="section-meta"><span class="meta-chip v-mixed">対象バージョン：カカオ版で確認（クラシック版はおそらく同様に存在すると考えられるが、該当イベント自体がまだ実施されていないため未確認）</span><span class="meta-chip">情報の性質：経験則（否定的な評価が多数）</span></div>
+<div class="section-meta"><span class="meta-chip">情報の性質：経験則（否定的な評価と好意的な評価が混在）</span></div>
 
-<p>期間限定のクリスタル消費型ガチャイベントです。クリスタルを大量消費する割に成果が薄いとされ「非推奨」との意見が複数回出ています（「召喚獣宝物3つ出すのに7000クリスタル使った」等）。</p>
+<p>期間限定のクリスタル消費型ガチャイベントです。クリスタルを大量消費する割に成果が薄く「非推奨」との声が多いです（「召喚獣宝物3つ出すのに7000クリスタル使った」等）。</p>
+<div class="v-block v-classic">
+<p class="v-label">クラシック版</p>
+<p>2026/09/18〜19にかけて実施されました。景品の一つ「レモンギター」はミニ磁力と別のボーナスが同時に付与される優秀な宝物で、旧来の「リスの応援棒」の上位互換です（詳細は<a href="../treasures/useful-treasures.html">有用宝物（レモンギター）</a>参照）。</p>
+<p>クリスタルを消費して割って引く価値は基本的に低いですが、無料分は1日1回引けるため毎日引くのがおすすめです。クリスタル所持効果付き宝物の排出率は、14回引いて10%程度です。入手手段が少ない「魔法の粉」の宝物を狙う場合は、クリスタルを消費して引きまくる価値があります。</p>
+<p>イベントのミッション実施日が不規則（特定の日にはミッションが無い）で、7日で終了したと誤解されるケースがありましたが、実際のイベント期間は30日間です。</p>
+</div>
 <h2 id="section-2">経験値ステージ</h2>
-<div class="section-meta"><span class="meta-chip v-mixed">対象バージョン：両方確認（機能自体は共通の可能性が高いが、カカオ版の追加時期・詳細な経験値量とクラシック版での言及内容が完全に対応するかは未確認）</span><span class="meta-chip">情報の性質：経験則（体験ベース）</span></div>
+<div class="section-meta"><span class="meta-chip">情報の性質：経験則（体験ベース）</span></div>
 
 <div class="v-block v-kakao">
 <p class="v-label">カカオ版</p>
@@ -217,15 +239,13 @@
 </div>
 <div class="v-block v-classic">
 <p class="v-label">クラシック版</p>
-<p>招待イベント達成のためのレベル上げ手段として「経験値ステージ」を周回するのが良いとされています。経験値ステージ内の特定エリアで、障害物に当たらず進む「一つ飛ばし」テクニックが紹介されています（リスクあり）。</p>
+<p>招待イベント達成のためのレベル上げ手段として「経験値ステージ」を周回するのが良いです。経験値ステージ内の特定エリアで、障害物に当たらず進む「一つ飛ばし」テクニックがあります（リスクあり）。</p>
 </div>
 <h2 id="section-3">スペシャルエピソード1「復活13回」実績</h2>
-<div class="section-meta"><span class="meta-chip v-kakao-only">対象バージョン：実績システム自体＝共通／この個別実績の内容＝カカオ版で確認（体験ベース、運営の公式コメントではない）</span><span class="meta-chip">情報の性質：確定情報（体験ベース、実績システムが共通であること）</span></div>
+<div class="section-meta"><span class="meta-chip">情報の性質：確定情報（体験ベース、実績システムが共通であること）</span></div>
 
-<p>仕様上クリア不可能な実績とされています（復活可能回数の上限による）。救出条件は13回まで可能です（クリスタル使用時）。</p>
-<p>実績（アチーブメント）システム自体は両版共通の仕様です。ただし「スペシャルエピソード1・復活13回」という個別の実績内容がクラシック版にも全く同じ形で存在するかどうかは、クラシック版トーク内に直接の言及がなく未確認です。</p>
+<p>仕様上クリア不可能な実績です（復活可能回数の上限による）。救出条件は13回まで可能です（クリスタル使用時）。</p>
 <hr />
-<p>竜の渓谷はエピソード別攻略（EP3）ページに統合したため、ここには含めていません。</p>
 <p><strong>関連ページ</strong>：<a href="../system/glossary.html">用語集</a>、<a href="../guide/xp-farming.html">経験値稼ぎ攻略</a></p>
 
     </div>
